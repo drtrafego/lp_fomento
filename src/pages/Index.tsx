@@ -666,17 +666,29 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── MOBILE FLOATING CTA ─── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-3 bg-[#0a1628]/95 backdrop-blur-md border-t border-[#d4a853]/20 sm:hidden">
-        <a
-          href={CHECKOUT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center bg-[#d4a853] text-[#0a1628] font-bold py-4 rounded-xl shimmer-btn active:scale-[0.97] transition-transform"
-        >
-          GARANTIR MINHA VAGA
-        </a>
+      {/* ─── FIXED BOTTOM BAR — GLASSMORPHISM ─── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+          <div className="hidden sm:flex flex-col text-sm">
+            <span className="text-white/70 font-semibold flex items-center gap-2">
+              <Clock size={14} className="text-[#d4a853]" />
+              Quinta-feira às 20h · Online ao vivo
+            </span>
+            <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
+          </div>
+          <a
+            href={CHECKOUT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform"
+          >
+            QUERO MEU INGRESSO
+          </a>
+        </div>
       </div>
+
+      {/* Bottom spacer for fixed bar */}
+      <div className="h-16" />
     </div>
   );
 }
