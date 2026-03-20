@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import {
   Accordion,
@@ -23,6 +24,20 @@ import logoFapema from "@/assets/logos/fapema.png";
 
 const CHECKOUT_URL =
   "https://payfast.greenn.com.br/124770/offer/HZeJnK?ch_id=23349&b_id_1=130170&b_offer_1=tJv2Nz&b_id_2=149317&b_offer_2=R1ELtR&cart_token=1200637589.1771014523";
+function useUserState() {
+  const [estado, setEstado] = useState<string | null>(null);
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then(r => r.json())
+      .then(data => {
+        if (data.country_code === "BR" && data.region) {
+          setEstado(data.region);
+        }
+      })
+      .catch(() => {});
+  }, []);
+  return estado;
+}
 
 function getNextThursday8pm() {
   const now = new Date();
@@ -506,6 +521,7 @@ export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
+  const userEstado = useUserState();
   
 
   return (
@@ -750,8 +766,10 @@ export default function Index() {
               </span>
             ))}
           </div>
-          <p className="text-[#d4a853] font-bold text-lg sm:text-xl pt-2">
-            Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil
+          <p className="text-[#d4a853] font-bold text-lg sm:text-xl pt-2 transition-opacity duration-700">
+            {userEstado
+              ? <>Sua empresa <span className="underline decoration-[#d4a853]/60">no {userEstado}</span> pode estar a um passo de captar de R$ 39 mil a R$ 400 mil</>
+              : "Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil"}
           </p>
           <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
