@@ -11,7 +11,7 @@ import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
-import pinLocation from "@/assets/pin-location.png";
+
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
 import caseBiofluid from "@/assets/cases/biofluid.jpeg";
