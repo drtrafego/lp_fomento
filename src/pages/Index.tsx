@@ -407,6 +407,99 @@ function WorkshopLearningSection() {
     </div>
   );
 }
+function BonusSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const bonuses = [
+    {
+      icon: Gift,
+      title: "Lista TOP 10",
+      desc: "Os programas de incentivo disponíveis AGORA! A lista mais atualizada do mercado com os editais abertos para você aplicar imediatamente.",
+      price: "R$ 97,00",
+    },
+    {
+      icon: MessageCircle,
+      title: "Grupo de Alerta",
+      desc: "WhatsApp fechado com oportunidades de programas de incentivo imperdíveis. Receba alertas em primeira mão quando novos editais abrirem.",
+      price: "R$ 97,00",
+    },
+  ];
+
+  return (
+    <div ref={ref} className="max-w-5xl mx-auto relative z-10">
+      <div className="text-center space-y-3 mb-14">
+        <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">E mais — bônus exclusivos</p>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Quem garantir a vaga hoje leva também:</h2>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        {bonuses.map((b, i) => {
+          const Icon = b.icon;
+          return (
+            <div
+              key={b.title}
+              className="relative bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl p-8 card-glow-hover transition-all duration-700 group"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
+                transitionDelay: `${i * 250}ms`,
+              }}
+            >
+              {/* Shine sweep on hover */}
+              <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4a853]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+
+              <div className="relative space-y-4 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-[#d4a853]/10 flex items-center justify-center mx-auto border border-[#d4a853]/20">
+                  <Icon className="text-[#d4a853]" size={30} />
+                </div>
+                <h3 className="text-xl font-bold text-white">{b.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">{b.desc}</p>
+
+                {/* Price: crossed out → FREE */}
+                <div className="pt-3 border-t border-white/10 space-y-1">
+                  <p className="text-white/40 text-sm line-through">{b.price}</p>
+                  <p className="text-[#d4a853] font-extrabold text-2xl">R$ 0,00</p>
+                  <p className="text-[#d4a853]/60 text-xs font-semibold uppercase tracking-wider">Grátis para você</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Total savings */}
+      <div
+        className="text-center mt-10 transition-all duration-700"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(20px)",
+          transitionDelay: "600ms",
+        }}
+      >
+        <div className="inline-flex items-center gap-3 bg-[#d4a853]/10 border border-[#d4a853]/25 rounded-full px-6 py-3">
+          <span className="text-white/60 text-sm">Total em bônus:</span>
+          <span className="text-white/40 line-through text-sm">R$ 194,00</span>
+          <span className="text-[#d4a853] font-extrabold text-lg">GRÁTIS</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
