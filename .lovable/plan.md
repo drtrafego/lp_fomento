@@ -1,42 +1,29 @@
 
 
-## Redesign da Seção "O que você vai aprender" — Cards com Numeração, Setas e Bullet Points
+## Melhorar Visualmente a Primeira Dobra (Hero) no Celular
 
-### Objetivo
-Transformar a seção 5 em um layout com numeração grande (01, 02, 03), bullet points detalhados em cada card, setas animadas entre os cards e efeitos scroll-reveal surpreendentes.
+Baseado na referência enviada e no viewport atual (390x844), vou ajustar o hero para ficar mais impactante no mobile.
 
-### Layout proposto
+### Mudanças em `src/pages/Index.tsx`
 
-```text
-       O que você vai aprender neste Workshop
+1. **Layout mobile-first**: No mobile, empilhar com imagem ABAIXO do texto (já está assim), mas reduzir padding e espaçamentos para aproveitar melhor a tela
+2. **Título mais impactante**: Aumentar peso visual do título no mobile — `text-[1.75rem]` com `leading-[1.15]` para ocupar menos linhas e ter mais punch
+3. **Badge "AO VIVO" mais destacado**: Aumentar ligeiramente e adicionar borda dourada sutil
+4. **Barra de countdown do dia**: Tornar mais compacta no mobile, reduzir padding
+5. **Bullets mais compactos**: Reduzir gap entre itens para ganhar espaço vertical
+6. **Imagem do header**: Adicionar `rounded-xl` com borda dourada mais visível e um leve glow animado no mobile
+7. **CTA mais proeminente**: Botão com `w-full` no mobile para ocupar toda a largura
+8. **Linha "Através de Programas..."**: Mover para antes do botão com destaque sutil
+9. **Espaçamento geral**: Reduzir `pt-24 pb-16` para `pt-20 pb-10` no mobile, `space-y-5` em vez de `space-y-6`
 
-  ┌─ 01 ──────────┐    →    ┌─ 02 ──────────┐    →    ┌─ 03 ──────────┐
-  │  ⚡ Estar Apto │  seta   │  → Passo a    │  seta   │  👥 Onde      │
-  │               │ animada │    Passo       │ animada │    Encontrar  │
-  │ • Bullet 1    │         │ • Bullet 1     │         │ • Bullet 1    │
-  │ • Bullet 2    │         │ • Bullet 2     │         │ • Bullet 2    │
-  │ • Bullet 3    │         │ • Bullet 3     │         │ • Bullet 3    │
-  └───────────────┘         └────────────────┘         └───────────────┘
-```
+### Mudanças em `src/index.css`
 
-Mobile: cards empilham verticalmente, setas apontam para baixo entre eles.
-
-### Dados dos cards
-
-Cada card ganha 3 bullet points detalhados conforme o conteúdo fornecido pelo usuário (elegibilidade, método prático, acesso a editais).
-
-### Efeitos visuais
-
-1. **Numeração grande**: "01", "02", "03" em tamanho enorme (`text-6xl`), semi-transparente dourado, posicionada no canto superior esquerdo de cada card
-2. **Staggered scroll-reveal**: Cada card aparece com delay (0ms, 200ms, 400ms) usando IntersectionObserver — fade-in + slide-up
-3. **Setas animadas entre cards**: SVG inline com `stroke-dasharray` + `stroke-dashoffset` animado ao aparecer. Desktop: setas horizontais. Mobile: setas verticais
-4. **Glow pulse no hover**: Cards ganham `box-shadow` dourado pulsante ao hover
-5. **Bullet points com check dourado**: Cada bullet usa ícone `CheckCircle` dourado
+10. Adicionar um `@keyframes glow-pulse` sutil para a imagem do hero no mobile
 
 ### Arquivos
 
 | Arquivo | Mudança |
 |---------|---------|
-| `src/pages/Index.tsx` | Redesign seção 5: numeração, bullets detalhados, setas animadas, IntersectionObserver |
-| `src/index.css` | Adicionar `@keyframes draw-arrow` para animação stroke das setas |
+| `src/pages/Index.tsx` | Ajustes de responsividade na seção Hero para mobile |
+| `src/index.css` | Keyframe de glow para imagem hero |
 
