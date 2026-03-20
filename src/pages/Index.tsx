@@ -565,6 +565,8 @@ export default function Index() {
             Toda e qualquer empresa — <strong className="text-white">micro, pequena ou média</strong> — pode submeter seu projeto a um destes programas.
             Veja os órgãos que disponibilizam esses recursos:
           </p>
+
+          {/* Map with geolocation pin */}
           <div className="relative mx-auto max-w-2xl">
             <div className="absolute inset-0 rounded-2xl bg-[#d4a853]/5 blur-2xl" />
             <img
@@ -572,7 +574,47 @@ export default function Index() {
               alt="Mapa dos órgãos de fomento no Brasil"
               className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl"
             />
+            {/* Animated pin on user's state */}
+            {location.sigla && location.top && location.left && (
+              <div
+                className="absolute z-10 flex flex-col items-center"
+                style={{ top: location.top, left: location.left, transform: "translate(-50%, -100%)" }}
+              >
+                <img
+                  src={pinLocation}
+                  alt="Você está aqui"
+                  className="w-10 h-10 sm:w-14 sm:h-14 drop-shadow-[0_0_12px_rgba(212,168,83,0.6)]"
+                  style={{ animation: "bounce-pin 1s ease-out, pulse-glow-pin 2s ease-in-out infinite 1s" }}
+                />
+                <span className="mt-1 bg-[#d4a853] text-[#0a1628] text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap shadow-lg">
+                  📍 Você está aqui
+                </span>
+              </div>
+            )}
           </div>
+
+          {/* Personalized state message */}
+          {!location.loading && location.name && (
+            <div className="animate-fade-in bg-gradient-to-r from-[#d4a853]/10 via-[#d4a853]/5 to-[#d4a853]/10 border border-[#d4a853]/25 rounded-2xl p-6 max-w-2xl mx-auto space-y-2">
+              <p className="text-xl sm:text-2xl font-bold text-white">
+                Você está no <span className="text-[#d4a853]">{location.name}</span> e pode ter{" "}
+                <span className="text-[#d4a853] uppercase">verba liberada</span> para sua ideia ou negócio!
+              </p>
+              {location.fap && (
+                <p className="text-white/60 text-sm">
+                  O(a) <strong className="text-[#d4a853]">{location.fap}</strong> disponibiliza programas de incentivo para empresas da sua região.
+                </p>
+              )}
+            </div>
+          )}
+          {!location.loading && !location.name && (
+            <div className="animate-fade-in bg-[#d4a853]/5 border border-[#d4a853]/15 rounded-2xl p-6 max-w-2xl mx-auto">
+              <p className="text-lg font-bold text-white">
+                Existem programas disponíveis para <span className="text-[#d4a853]">todo o Brasil</span>
+              </p>
+            </div>
+          )}
+
           <div className="flex flex-wrap justify-center gap-3 pt-4">
             {orgaos.map((o) => (
               <span key={o} className="bg-[#d4a853]/10 border border-[#d4a853]/25 text-[#d4a853] text-xs sm:text-sm font-semibold px-4 py-2 rounded-full">
