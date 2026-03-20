@@ -10,6 +10,11 @@ import {
 import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
+import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
+import caseRoys from "@/assets/cases/roysbrasil.jpeg";
+import caseBiofluid from "@/assets/cases/biofluid.jpeg";
+import caseQuery from "@/assets/cases/querysistemas.jpeg";
+import caseInstabov from "@/assets/cases/instabovreal.jpeg";
 
 const CHECKOUT_URL =
   "https://payfast.greenn.com.br/124770/offer/HZeJnK?ch_id=23349&b_id_1=130170&b_offer_1=tJv2Nz&b_id_2=149317&b_offer_2=R1ELtR&cart_token=1200637589.1771014523";
@@ -135,8 +140,12 @@ const testimonials = [
   { handle: "@depoimento6", value: "R$ 400.000" },
 ];
 
-const marqueeCases = [
-  { handle: "@bulldogburguer", value: "R$ 400.000", color: "#d4a853" },
+const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
+  { handle: "@bulldogburguer", value: "R$ 420.000", color: "#d4a853", image: caseBulldog },
+  { handle: "@roysbrasil", value: "R$ 79.000", color: "#5b8fb9", image: caseRoys },
+  { handle: "@biofluid_", value: "R$ 194.410", color: "#7cb87c", image: caseBiofluid },
+  { handle: "@querysistemas", value: "R$ 70.000", color: "#c97e6c", image: caseQuery },
+  { handle: "@instabovreal", value: "R$ 739.000", color: "#6ec9a8", image: caseInstabov },
   { handle: "@padarianova", value: "R$ 95.000", color: "#5b8fb9" },
   { handle: "@techsolucoes", value: "R$ 250.000", color: "#7cb87c" },
   { handle: "@modafitbr", value: "R$ 180.000", color: "#c97e6c" },
@@ -298,12 +307,16 @@ export default function Index() {
         <div className="marquee-track flex items-center gap-8 py-3 whitespace-nowrap">
           {[...marqueeCases, ...marqueeCases].map((c, i) => (
             <div key={i} className="flex items-center gap-2 shrink-0 px-2">
-              <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-                style={{ backgroundColor: c.color }}
-              >
-                {c.handle.slice(1, 3).toUpperCase()}
-              </div>
+              {c.image ? (
+                <img src={c.image} alt={c.handle} className="w-7 h-7 rounded-full object-cover shrink-0" />
+              ) : (
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                  style={{ backgroundColor: c.color }}
+                >
+                  {c.handle.slice(1, 3).toUpperCase()}
+                </div>
+              )}
               <span className="text-white/60 text-xs">{c.handle}</span>
               <span className="text-[#d4a853] text-xs font-bold">{c.value}</span>
             </div>
