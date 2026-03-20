@@ -1,29 +1,44 @@
 
 
-## Melhorar Visualmente a Primeira Dobra (Hero) no Celular
+## Melhorar Visualmente a Seção "Não é Empréstimo"
 
-Baseado na referência enviada e no viewport atual (390x844), vou ajustar o hero para ficar mais impactante no mobile.
+### Problemas identificados
+- A imagem do homem parece "voando" — sem base/ancoragem visual
+- Badge "Não é empréstimo" não está centralizado no mobile
+- Layout 3 colunas no desktop com imagem no centro fragmenta a leitura
 
-### Mudanças em `src/pages/Index.tsx`
+### Novo layout (inspirado na referência)
 
-1. **Layout mobile-first**: No mobile, empilhar com imagem ABAIXO do texto (já está assim), mas reduzir padding e espaçamentos para aproveitar melhor a tela
-2. **Título mais impactante**: Aumentar peso visual do título no mobile — `text-[1.75rem]` com `leading-[1.15]` para ocupar menos linhas e ter mais punch
-3. **Badge "AO VIVO" mais destacado**: Aumentar ligeiramente e adicionar borda dourada sutil
-4. **Barra de countdown do dia**: Tornar mais compacta no mobile, reduzir padding
-5. **Bullets mais compactos**: Reduzir gap entre itens para ganhar espaço vertical
-6. **Imagem do header**: Adicionar `rounded-xl` com borda dourada mais visível e um leve glow animado no mobile
-7. **CTA mais proeminente**: Botão com `w-full` no mobile para ocupar toda a largura
-8. **Linha "Através de Programas..."**: Mover para antes do botão com destaque sutil
-9. **Espaçamento geral**: Reduzir `pt-24 pb-16` para `pt-20 pb-10` no mobile, `space-y-5` em vez de `space-y-6`
+```text
+Mobile:
+┌─────────────────────────────┐
+│      [IMAGEM do homem]      │  ← com gradiente na base
+│      fundido no fundo       │     para não parecer voando
+│                             │
+│     NÃO É EMPRÉSTIMO        │  ← badge centralizado
+│                             │
+│  NÃO É EMPRÉSTIMO.          │
+│  NÃO É FAVOR.               │
+│  É SEU DIREITO POR LEI.     │
+│                             │
+│  Copy de apoio...           │
+│                             │
+│  [QUERO MEU INGRESSO]       │
+└─────────────────────────────┘
+```
 
-### Mudanças em `src/index.css`
+### Mudanças
 
-10. Adicionar um `@keyframes glow-pulse` sutil para a imagem do hero no mobile
+1. **Imagem**: Colocar na parte superior com gradiente `from-transparent to-[#0a1628]` na base para fundir com o fundo (eliminar efeito "voando")
+2. **Badge vermelho**: Centralizar com `text-center` no mobile
+3. **Layout**: Empilhar verticalmente — imagem no topo, headline + copy abaixo centralizado
+4. **Desktop**: Manter 2 colunas (imagem à esquerda com gradiente, texto à direita) em vez de 3 colunas
+5. **Copy completa**: Manter os 3 parágrafos conforme o usuário aprovou + adicionar CTA "QUERO MEU INGRESSO"
+6. **Anéis dourados**: Posicionar atrás da imagem (não no centro da seção) para dar contexto à pessoa
 
 ### Arquivos
 
 | Arquivo | Mudança |
 |---------|---------|
-| `src/pages/Index.tsx` | Ajustes de responsividade na seção Hero para mobile |
-| `src/index.css` | Keyframe de glow para imagem hero |
+| `src/pages/Index.tsx` | Refatorar seção 3: layout, gradiente na imagem, centralizar badge, CTA |
 
