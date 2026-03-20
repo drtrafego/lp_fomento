@@ -10,6 +10,11 @@ import {
 import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
+import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
+import caseRoys from "@/assets/cases/roysbrasil.jpeg";
+import caseBiofluid from "@/assets/cases/biofluid.jpeg";
+import caseQuery from "@/assets/cases/querysistemas.jpeg";
+import caseInstabov from "@/assets/cases/instabovreal.jpeg";
 
 const CHECKOUT_URL =
   "https://payfast.greenn.com.br/124770/offer/HZeJnK?ch_id=23349&b_id_1=130170&b_offer_1=tJv2Nz&b_id_2=149317&b_offer_2=R1ELtR&cart_token=1200637589.1771014523";
