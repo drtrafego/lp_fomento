@@ -11,6 +11,8 @@ import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
+import reuniaoFomento from "@/assets/reuniao-fomento.webp";
+import leiDecreto from "@/assets/lei-decreto.png";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
@@ -684,6 +686,16 @@ export default function Index() {
               <p className="text-white/50 text-sm italic">
                 Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
               </p>
+
+              {/* Lei + Reunião de Fomento */}
+              <div className="space-y-3 mt-3">
+                <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 bg-white">
+                  <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" />
+                </div>
+                <div className="rounded-lg overflow-hidden border border-[#d4a853]/20">
+                  <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" />
+                </div>
+              </div>
 
               <a
                 href={CHECKOUT_URL}
