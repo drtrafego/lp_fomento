@@ -1,26 +1,55 @@
 
 
-## Adicionar 5 Cases Reais ao Marquee
+## Redesign do Card de Preço + Barra Fixa com Efeito Vidro Jateado
 
-### Cases a implementar
+### 1. Card de Preço — Layout Split (2 colunas)
 
-| # | Handle | Valor | Imagem |
-|---|--------|-------|--------|
-| 1 | @bulldogburguer | R$ 420.000 | WhatsApp_Image_2026-03-20_at_19.03.09.jpeg |
-| 2 | @roysbrasil | R$ 79.000 | WhatsApp_Image_2026-03-20_at_19.04.29.jpeg |
-| 3 | @biofluid_ | R$ 194.410 | WhatsApp_Image_2026-03-20_at_19.05.38.jpeg |
-| 4 | @querysistemas | R$ 70.000 | WhatsApp_Image_2026-03-20_at_19.07.32.jpeg |
-| 5 | @instabovreal | R$ 739.000 | WhatsApp_Image_2026-03-20_at_19.08.12.jpeg |
+Inspirado nas referências enviadas (IsolaDay, Laboratório do SIM):
 
-### Implementação
+```text
+┌──────────────────────────────────────────────────────────┐
+│               WORKSHOP DO ZERO AO MILHÃO                 │
+├────────────────────────┬─────────────────────────────────┤
+│                        │       VAGAS LIMITADAS           │
+│  ✓ Workshop 1h Zoom    │                                 │
+│  ✓ Masterclass         │    De R$ 97,00  (riscado)       │
+│  ✓ Lista TOP 10        │    POR                          │
+│  ✓ Grupo WhatsApp      │    R$ 47,00  (grande, dourado)  │
+│  ✓ Garantia 30 dias    │                                 │
+│                        │  [GARANTIR MINHA VAGA AGORA]    │
+│ (selo garantia 30d)    │  Visa Mastercard Elo Amex       │
+│                        │                                 │
+└────────────────────────┴─────────────────────────────────┘
+```
 
-**1. Copiar 5 imagens** para `src/assets/cases/`
+- Lado esquerdo: lista de itens + selo de garantia de 30 dias (imagem já no projeto)
+- Lado direito: preço "De R$ 97" riscado → "R$ 47,00" destaque + botão CTA + ícones de bandeiras de cartão (SVG inline)
+- Título "Workshop Do Zero ao Milhão" no topo do card
+- Mobile: empilha verticalmente
 
-**2. Editar `src/pages/Index.tsx`**:
-- Importar as 5 imagens
-- Adicionar campo opcional `image` à estrutura do array `marqueeCases`
-- Substituir os 5 primeiros itens placeholder pelos dados reais com fotos
-- Atualizar o render do marquee: se `c.image` existir, exibir `<img>` circular com `object-cover`; senão, manter placeholder colorido
+### 2. Barra Fixa Inferior — Efeito Vidro Jateado
 
-Os 25 itens restantes continuam como placeholder até mais dados reais.
+Substituir o mobile-only floating CTA por uma barra fixa **para todos os tamanhos** com efeito frosted glass:
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  ⏰ Quinta às 20h · Online ao vivo    [QUERO MEU INGRESSO]  │
+│            100% online e ao vivo                            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- `backdrop-blur-xl` + `bg-[#0a1628]/60` para efeito vidro jateado/areia
+- Borda superior sutil dourada
+- Botão dourado com shimmer
+- Fixa no bottom da tela (`fixed bottom-0`)
+
+### Arquivos
+
+| Arquivo | Mudança |
+|---------|---------|
+| `src/pages/Index.tsx` | Redesign seção pricing (split layout), substituir floating CTA mobile por barra fixa desktop+mobile com glassmorphism |
+
+### Bandeiras de Cartão
+
+Ícones inline SVG simplificados para Visa, Mastercard, Elo e American Express em tons cinza/branco abaixo do botão.
 
