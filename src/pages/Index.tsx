@@ -99,8 +99,40 @@ function useScrollReveal() {
   }, []);
   return { ref, visible };
 }
+function ScrollRevealBadges() {
+  const badges = ["Sem favores", 'Sem "indicações"', "Seu direito por lei"];
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+      {badges.map((t, i) => (
+        <div
+          key={t}
+          className="bg-[#0a1628] border border-[#d4a853]/20 rounded-xl py-4 px-6 transition-all duration-700"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0) scale(1)" : "translateY(30px) scale(0.9)",
+            transitionDelay: `${i * 300}ms`,
+          }}
+        >
+          <p className="text-[#d4a853] font-bold">{t}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
-const Section = ({ children, className = "", dark = false }: { children: React.ReactNode; className?: string; dark?: boolean }) => {
+
   const { ref, visible } = useScrollReveal();
   return (
     <section
