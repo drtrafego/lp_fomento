@@ -1,55 +1,56 @@
 
 
-## Redesign do Card de Preço + Barra Fixa com Efeito Vidro Jateado
+## Geolocalização + Pin no Mapa + Copy Personalizada por Estado
 
-### 1. Card de Preço — Layout Split (2 colunas)
+### Objetivo
 
-Inspirado nas referências enviadas (IsolaDay, Laboratório do SIM):
+Detectar a localização do visitante via API de geolocalização do navegador, colocar um **pino animado** no mapa do Brasil na posição do estado detectado, e exibir uma mensagem personalizada tipo:
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│               WORKSHOP DO ZERO AO MILHÃO                 │
-├────────────────────────┬─────────────────────────────────┤
-│                        │       VAGAS LIMITADAS           │
-│  ✓ Workshop 1h Zoom    │                                 │
-│  ✓ Masterclass         │    De R$ 97,00  (riscado)       │
-│  ✓ Lista TOP 10        │    POR                          │
-│  ✓ Grupo WhatsApp      │    R$ 47,00  (grande, dourado)  │
-│  ✓ Garantia 30 dias    │                                 │
-│                        │  [GARANTIR MINHA VAGA AGORA]    │
-│ (selo garantia 30d)    │  Visa Mastercard Elo Amex       │
-│                        │                                 │
-└────────────────────────┴─────────────────────────────────┘
-```
+> "Você está no **Maranhão** e pode ter **VERBA LIBERADA** para sua ideia ou negócio!"
 
-- Lado esquerdo: lista de itens + selo de garantia de 30 dias (imagem já no projeto)
-- Lado direito: preço "De R$ 97" riscado → "R$ 47,00" destaque + botão CTA + ícones de bandeiras de cartão (SVG inline)
-- Título "Workshop Do Zero ao Milhão" no topo do card
-- Mobile: empilha verticalmente
+Se o estado tiver uma fundação de amparo (FAP) conhecida, mencionar também (ex: FAPEMA no Maranhão).
 
-### 2. Barra Fixa Inferior — Efeito Vidro Jateado
+### Implementação
 
-Substituir o mobile-only floating CTA por uma barra fixa **para todos os tamanhos** com efeito frosted glass:
+**1. Copiar logo FAPEMA**
+- `user-uploads://fapema.png` → `src/assets/logos/fapema.png`
+- Adicionar "FAPEMA" ao array `orgaos`
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  ⏰ Quinta às 20h · Online ao vivo    [QUERO MEU INGRESSO]  │
-│            100% online e ao vivo                            │
-└─────────────────────────────────────────────────────────────┘
-```
+**2. Hook `useUserLocation` (inline em Index.tsx)**
+- Usa `navigator.geolocation.getCurrentPosition()` para obter lat/lng
+- Mapeia coordenadas para estado brasileiro usando ranges simples de lat/lng (tabela de bounding boxes dos 27 estados)
+- Retorna: `{ estado: string | null, sigla: string | null, loading: boolean }`
+- Fallback: se o usuário negar permissão, usa API gratuita de IP (ex: `https://ipapi.co/json/`) para estimar o estado
 
-- `backdrop-blur-xl` + `bg-[#0a1628]/60` para efeito vidro jateado/areia
-- Borda superior sutil dourada
-- Botão dourado com shimmer
-- Fixa no bottom da tela (`fixed bottom-0`)
+**3. Mapeamento estado → posição no mapa**
+- Tabela com coordenadas relativas (%) de cada estado no mapa SVG/imagem do Brasil
+- Ex: Maranhão → `{ top: "25%", left: "55%" }`, São Paulo → `{ top: "68%", left: "48%" }`
+
+**4. Pin animado sobre o mapa**
+- Div posicionada absolutamente sobre a imagem do mapa, na posição do estado detectado
+- Ícone de pin dourado (SVG inline) com animação `bounce` + `pulse-glow`
+- Tooltip/label: "📍 Você está aqui"
+
+**5. Copy personalizada abaixo do mapa**
+- Mensagem dinâmica: "Você está no **{Estado}** e pode ter **VERBA LIBERADA** para sua ideia ou negócio!"
+- Se estado tem FAP conhecida, adiciona: "O(a) **{FAP}** disponibiliza programas para empresas da sua região."
+- Animação fade-in quando a localização é detectada
+- Se não conseguir detectar: fallback genérico "Existem programas disponíveis para **todo o Brasil**"
+
+**6. Tabela estado → FAP**
+- MA → FAPEMA, SP → FAPESP, RJ → FAPERJ, MG → FAPEMIG, SC → FAPESC, etc.
 
 ### Arquivos
 
 | Arquivo | Mudança |
 |---------|---------|
-| `src/pages/Index.tsx` | Redesign seção pricing (split layout), substituir floating CTA mobile por barra fixa desktop+mobile com glassmorphism |
+| `src/pages/Index.tsx` | Hook de geolocalização, pin no mapa, copy dinâmica, import FAPEMA |
+| `src/assets/logos/fapema.png` | Logo copiado |
 
-### Bandeiras de Cartão
+### Fluxo do usuário
 
-Ícones inline SVG simplificados para Visa, Mastercard, Elo e American Express em tons cinza/branco abaixo do botão.
+1. Página carrega → pede permissão de localização (ou usa IP como fallback)
+2. Detecta estado → pin aparece no mapa com animação bounce
+3. Abaixo do mapa, copy personalizada surge com fade-in
+4. Se falhar tudo → mensagem genérica sem pin
 
