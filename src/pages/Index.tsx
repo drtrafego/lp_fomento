@@ -766,8 +766,10 @@ export default function Index() {
               </span>
             ))}
           </div>
-          <p className="text-[#d4a853] font-bold text-lg sm:text-xl pt-2">
-            Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil
+          <p className="text-[#d4a853] font-bold text-lg sm:text-xl pt-2 transition-opacity duration-700">
+            {userEstado
+              ? <>Sua empresa <span className="underline decoration-[#d4a853]/60">no {userEstado}</span> pode estar a um passo de captar de R$ 39 mil a R$ 400 mil</>
+              : "Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil"}
           </p>
           <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
