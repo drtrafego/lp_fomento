@@ -11,7 +11,7 @@ import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
-import pinLocation from "@/assets/pin-location.png";
+
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
 import caseBiofluid from "@/assets/cases/biofluid.jpeg";
@@ -218,130 +218,6 @@ const orgaos = [
   "BNDES", "EMBRAPII", "CAPES", "AEB", "MCTI", "FAPESC", "FAPEMA",
 ];
 
-// State → position on map (% from top-left), FAP name
-const stateData: Record<string, { name: string; fap: string; top: string; left: string }> = {
-  AC: { name: "Acre", fap: "FAPAC", top: "38%", left: "12%" },
-  AL: { name: "Alagoas", fap: "FAPEAL", top: "38%", left: "82%" },
-  AM: { name: "Amazonas", fap: "FAPEAM", top: "25%", left: "22%" },
-  AP: { name: "Amapá", fap: "FAPEAP", top: "12%", left: "48%" },
-  BA: { name: "Bahia", fap: "FAPESB", top: "42%", left: "72%" },
-  CE: { name: "Ceará", fap: "FUNCAP", top: "28%", left: "78%" },
-  DF: { name: "Distrito Federal", fap: "FAPDF", top: "52%", left: "58%" },
-  ES: { name: "Espírito Santo", fap: "FAPES", top: "58%", left: "72%" },
-  GO: { name: "Goiás", fap: "FAPEG", top: "52%", left: "52%" },
-  MA: { name: "Maranhão", fap: "FAPEMA", top: "25%", left: "62%" },
-  MG: { name: "Minas Gerais", fap: "FAPEMIG", top: "58%", left: "62%" },
-  MS: { name: "Mato Grosso do Sul", fap: "FUNDECT", top: "62%", left: "42%" },
-  MT: { name: "Mato Grosso", fap: "FAPEMAT", top: "42%", left: "38%" },
-  PA: { name: "Pará", fap: "FAPESPA", top: "22%", left: "45%" },
-  PB: { name: "Paraíba", fap: "FAPESQ", top: "32%", left: "82%" },
-  PE: { name: "Pernambuco", fap: "FACEPE", top: "35%", left: "80%" },
-  PI: { name: "Piauí", fap: "FAPEPI", top: "30%", left: "68%" },
-  PR: { name: "Paraná", fap: "Fundação Araucária", top: "72%", left: "48%" },
-  RJ: { name: "Rio de Janeiro", fap: "FAPERJ", top: "62%", left: "68%" },
-  RN: { name: "Rio Grande do Norte", fap: "FAPERN", top: "28%", left: "82%" },
-  RO: { name: "Rondônia", fap: "FAPERO", top: "40%", left: "22%" },
-  RR: { name: "Roraima", fap: "FAPER", top: "10%", left: "25%" },
-  RS: { name: "Rio Grande do Sul", fap: "FAPERGS", top: "82%", left: "45%" },
-  SC: { name: "Santa Catarina", fap: "FAPESC", top: "78%", left: "50%" },
-  SE: { name: "Sergipe", fap: "FAPITEC", top: "38%", left: "78%" },
-  SP: { name: "São Paulo", fap: "FAPESP", top: "65%", left: "55%" },
-  TO: { name: "Tocantins", fap: "FAPT", top: "35%", left: "55%" },
-};
-
-// Simple lat/lng → state mapping using center coordinates
-function latLngToState(lat: number, lng: number): string | null {
-  const states: { sigla: string; lat: number; lng: number }[] = [
-    { sigla: "AC", lat: -9.97, lng: -67.81 },
-    { sigla: "AL", lat: -9.57, lng: -36.78 },
-    { sigla: "AM", lat: -3.42, lng: -65.86 },
-    { sigla: "AP", lat: 1.41, lng: -51.77 },
-    { sigla: "BA", lat: -12.97, lng: -38.51 },
-    { sigla: "CE", lat: -3.72, lng: -38.53 },
-    { sigla: "DF", lat: -15.78, lng: -47.93 },
-    { sigla: "ES", lat: -20.32, lng: -40.34 },
-    { sigla: "GO", lat: -16.68, lng: -49.26 },
-    { sigla: "MA", lat: -2.53, lng: -44.28 },
-    { sigla: "MG", lat: -19.92, lng: -43.94 },
-    { sigla: "MS", lat: -20.44, lng: -54.65 },
-    { sigla: "MT", lat: -15.6, lng: -56.1 },
-    { sigla: "PA", lat: -1.46, lng: -48.5 },
-    { sigla: "PB", lat: -7.12, lng: -34.86 },
-    { sigla: "PE", lat: -8.05, lng: -34.87 },
-    { sigla: "PI", lat: -5.09, lng: -42.8 },
-    { sigla: "PR", lat: -25.43, lng: -49.27 },
-    { sigla: "RJ", lat: -22.91, lng: -43.17 },
-    { sigla: "RN", lat: -5.79, lng: -35.21 },
-    { sigla: "RO", lat: -8.76, lng: -63.9 },
-    { sigla: "RR", lat: 2.82, lng: -60.67 },
-    { sigla: "RS", lat: -30.03, lng: -51.23 },
-    { sigla: "SC", lat: -27.59, lng: -48.55 },
-    { sigla: "SE", lat: -10.91, lng: -37.07 },
-    { sigla: "SP", lat: -23.55, lng: -46.64 },
-    { sigla: "TO", lat: -10.18, lng: -48.33 },
-  ];
-  let closest = states[0];
-  let minDist = Infinity;
-  for (const s of states) {
-    const d = Math.pow(s.lat - lat, 2) + Math.pow(s.lng - lng, 2);
-    if (d < minDist) { minDist = d; closest = s; }
-  }
-  return closest.sigla;
-}
-
-function useUserLocation() {
-  const [sigla, setSigla] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    // Try browser geolocation first
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          if (cancelled) return;
-          const state = latLngToState(pos.coords.latitude, pos.coords.longitude);
-          setSigla(state);
-          setLoading(false);
-        },
-        () => {
-          // Fallback to IP-based
-          fetch("https://ipapi.co/json/")
-            .then((r) => r.json())
-            .then((data) => {
-              if (cancelled) return;
-              if (data.region_code && stateData[data.region_code]) {
-                setSigla(data.region_code);
-              } else if (data.latitude && data.longitude) {
-                setSigla(latLngToState(data.latitude, data.longitude));
-              }
-              setLoading(false);
-            })
-            .catch(() => { if (!cancelled) setLoading(false); });
-        },
-        { timeout: 5000 }
-      );
-    } else {
-      // No geolocation support, use IP
-      fetch("https://ipapi.co/json/")
-        .then((r) => r.json())
-        .then((data) => {
-          if (cancelled) return;
-          if (data.region_code && stateData[data.region_code]) {
-            setSigla(data.region_code);
-          }
-          setLoading(false);
-        })
-        .catch(() => { if (!cancelled) setLoading(false); });
-    }
-
-    return () => { cancelled = true; };
-  }, []);
-
-  const info = sigla ? stateData[sigla] : null;
-  return { sigla, name: info?.name ?? null, fap: info?.fap ?? null, top: info?.top ?? null, left: info?.left ?? null, loading };
-}
 
 const faqItems = [
   { q: "Para quem é o Workshop?", a: "Se você tem um CPF e uma ideia de negócio, você já pode participar dos Programas de Incentivo Federais. Este workshop é para você." },
@@ -365,7 +241,7 @@ export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
-  const location = useUserLocation();
+  
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
@@ -574,46 +450,7 @@ export default function Index() {
               alt="Mapa dos órgãos de fomento no Brasil"
               className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl"
             />
-            {/* Animated pin on user's state */}
-            {location.sigla && location.top && location.left && (
-              <div
-                className="absolute z-10 flex flex-col items-center"
-                style={{ top: location.top, left: location.left, transform: "translate(-50%, -100%)" }}
-              >
-                <img
-                  src={pinLocation}
-                  alt="Você está aqui"
-                  className="w-10 h-10 sm:w-14 sm:h-14 drop-shadow-[0_0_12px_rgba(212,168,83,0.6)]"
-                  style={{ animation: "bounce-pin 1s ease-out, pulse-glow-pin 2s ease-in-out infinite 1s" }}
-                />
-                <span className="mt-1 bg-[#d4a853] text-[#0a1628] text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap shadow-lg">
-                  📍 Você está aqui
-                </span>
-              </div>
-            )}
           </div>
-
-          {/* Personalized state message */}
-          {!location.loading && location.name && (
-            <div className="animate-fade-in bg-gradient-to-r from-[#d4a853]/10 via-[#d4a853]/5 to-[#d4a853]/10 border border-[#d4a853]/25 rounded-2xl p-6 max-w-2xl mx-auto space-y-2">
-              <p className="text-xl sm:text-2xl font-bold text-white">
-                Você está no <span className="text-[#d4a853]">{location.name}</span> e pode ter{" "}
-                <span className="text-[#d4a853] uppercase">verba liberada</span> para sua ideia ou negócio!
-              </p>
-              {location.fap && (
-                <p className="text-white/60 text-sm">
-                  O(a) <strong className="text-[#d4a853]">{location.fap}</strong> disponibiliza programas de incentivo para empresas da sua região.
-                </p>
-              )}
-            </div>
-          )}
-          {!location.loading && !location.name && (
-            <div className="animate-fade-in bg-[#d4a853]/5 border border-[#d4a853]/15 rounded-2xl p-6 max-w-2xl mx-auto">
-              <p className="text-lg font-bold text-white">
-                Existem programas disponíveis para <span className="text-[#d4a853]">todo o Brasil</span>
-              </p>
-            </div>
-          )}
 
           <div className="flex flex-wrap justify-center gap-3 pt-4">
             {orgaos.map((o) => (
