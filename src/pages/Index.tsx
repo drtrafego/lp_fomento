@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import {
   Accordion,
