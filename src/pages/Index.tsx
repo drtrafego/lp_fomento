@@ -646,27 +646,15 @@ export default function Index() {
       </section>
 
       {/* ─── 6. BÔNUS ─── */}
-      <Section dark>
-        <div className="text-center space-y-10">
-          <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">E mais — bônus exclusivos</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Quem garantir a vaga hoje leva também:</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { icon: Zap, title: "Masterclass", desc: "Encontro secreto no Zoom com as 3 etapas da captação, onde encontrar o programa ideal e prazos de recebimento." },
-              { icon: Gift, title: "Lista TOP 10", desc: "Os programas de incentivo disponíveis AGORA! A lista mais atualizada do mercado." },
-              { icon: MessageCircle, title: "Grupo de Alerta", desc: "WhatsApp fechado com oportunidades de programas de incentivo imperdíveis." },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl p-8 space-y-4 hover:border-[#d4a853]/40 transition-colors">
-                <div className="w-14 h-14 rounded-xl bg-[#d4a853]/10 flex items-center justify-center mx-auto">
-                  <Icon className="text-[#d4a853]" size={28} />
-                </div>
-                <h3 className="text-xl font-bold text-white">{title}</h3>
-                <p className="text-white/60 text-sm">{desc}</p>
-              </div>
-            ))}
-          </div>
+      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+        {/* Background effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#d4a853]/[0.04] blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
         </div>
-      </Section>
+        <BonusSection />
+      </section>
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
       <Section dark={false}>
