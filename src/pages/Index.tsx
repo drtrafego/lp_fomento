@@ -534,24 +534,24 @@ export default function Index() {
 
 
       {/* ─── 2. HERO ─── */}
-      <section className="relative bg-[#0a1628] pt-24 pb-16 md:pt-28 md:pb-24 px-4">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6 animate-fade-in">
+      <section className="relative bg-[#0a1628] pt-20 pb-10 md:pt-28 md:pb-24 px-4">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+          <div className="space-y-4 md:space-y-6 animate-fade-in">
             {/* Date/event bar */}
             <div className="flex items-center gap-3 text-sm">
-              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5">
+              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 AO VIVO
               </span>
-              <span className="text-white/50">Quinta-feira às 20h · Zoom</span>
+              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
             </div>
 
             {/* Day countdown bar - only Tue/Wed/Thu */}
             {dayCountdown.show && (
-              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-4 space-y-2">
+              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60">Workshop ao vivo</span>
-                  <span className={`font-bold ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
+                  <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
+                  <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
                     {dayCountdown.label}
                   </span>
                 </div>
@@ -574,21 +574,21 @@ export default function Index() {
               </div>
             )}
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
+            <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
               Em 1h ao vivo, eu vou te mostrar o passo a passo de como você vai captar de{" "}
               <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
               para sua empresa ou ideia de negócio
             </h1>
-            <ul className="space-y-3 text-base sm:text-lg text-white/80">
+            <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80">
               {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
-                <li key={t} className="flex items-center gap-3">
-                  <CheckCircle className="text-[#d4a853] shrink-0" size={20} />
+                <li key={t} className="flex items-center gap-2 md:gap-3">
+                  <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
                   {t}
                 </li>
               ))}
             </ul>
-            <p className="text-white/60 text-sm">Através de Programas de Incentivo Federais</p>
-            <GoldButton>
+            <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
+            <GoldButton className="w-full sm:w-auto">
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
@@ -597,7 +597,7 @@ export default function Index() {
             <img
               src={headerImg}
               alt="Pedro Diniz e Igor Abreu — Workshop Dunas Capital"
-              className="w-full max-w-md rounded-2xl shadow-2xl shadow-[#d4a853]/10 border border-[#d4a853]/10"
+              className="w-full max-w-md rounded-xl shadow-2xl shadow-[#d4a853]/15 border-2 border-[#d4a853]/20 hero-glow"
             />
           </div>
         </div>
