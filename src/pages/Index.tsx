@@ -135,6 +135,39 @@ const testimonials = [
   { handle: "@depoimento6", value: "R$ 400.000" },
 ];
 
+const marqueeCases = [
+  { handle: "@bulldogburguer", value: "R$ 400.000", color: "#d4a853" },
+  { handle: "@padarianova", value: "R$ 95.000", color: "#5b8fb9" },
+  { handle: "@techsolucoes", value: "R$ 250.000", color: "#7cb87c" },
+  { handle: "@modafitbr", value: "R$ 180.000", color: "#c97e6c" },
+  { handle: "@greenfarma", value: "R$ 150.000", color: "#6ec9a8" },
+  { handle: "@autoshopbr", value: "R$ 39.000", color: "#b8a55b" },
+  { handle: "@cafeorigens", value: "R$ 120.000", color: "#9b7cc4" },
+  { handle: "@studioarqbr", value: "R$ 300.000", color: "#c4867c" },
+  { handle: "@petvida", value: "R$ 85.000", color: "#6cb8b8" },
+  { handle: "@cosmebr", value: "R$ 200.000", color: "#c9a86e" },
+  { handle: "@fitboxgym", value: "R$ 78.000", color: "#7c9bc4" },
+  { handle: "@organicaeco", value: "R$ 350.000", color: "#8bc47c" },
+  { handle: "@construtiva", value: "R$ 400.000", color: "#c4a07c" },
+  { handle: "@digitalflowbr", value: "R$ 190.000", color: "#7cc4c4" },
+  { handle: "@saboresdobrasil", value: "R$ 55.000", color: "#c47c9b" },
+  { handle: "@moveisartbr", value: "R$ 280.000", color: "#a8c47c" },
+  { handle: "@clinicaviva", value: "R$ 160.000", color: "#7c7cc4" },
+  { handle: "@logibr", value: "R$ 220.000", color: "#c4c47c" },
+  { handle: "@edutechbr", value: "R$ 130.000", color: "#7cc48a" },
+  { handle: "@solarenergy", value: "R$ 390.000", color: "#c4b87c" },
+  { handle: "@fashionhaus", value: "R$ 100.000", color: "#b87cc4" },
+  { handle: "@agrobr360", value: "R$ 310.000", color: "#7cb8c4" },
+  { handle: "@cervejariabr", value: "R$ 145.000", color: "#c4967c" },
+  { handle: "@smartdevbr", value: "R$ 260.000", color: "#7cc4b8" },
+  { handle: "@beautyline", value: "R$ 72.000", color: "#c47ca8" },
+  { handle: "@reciclamais", value: "R$ 340.000", color: "#8ac47c" },
+  { handle: "@hotelpremium", value: "R$ 180.000", color: "#c4a87c" },
+  { handle: "@brinquedoskids", value: "R$ 60.000", color: "#7c9ec4" },
+  { handle: "@textilbrasil", value: "R$ 275.000", color: "#c4c07c" },
+  { handle: "@biofarmbr", value: "R$ 210.000", color: "#7cc4a0" },
+];
+
 const orgaos = [
   "FINEP", "CNPq", "SEBRAE", "FAPESP", "FAPERJ", "FAPEMIG",
   "BNDES", "EMBRAPII", "CAPES", "AEB", "MCTI", "FAPESC",
@@ -189,8 +222,26 @@ export default function Index() {
         </div>
       </header>
 
+      {/* ─── MARQUEE CASES ─── */}
+      <div className="fixed top-[52px] sm:top-[56px] left-0 right-0 z-40 bg-[#0f1d32] border-b border-[#d4a853]/10 overflow-hidden">
+        <div className="marquee-track flex items-center gap-8 py-2 whitespace-nowrap">
+          {[...marqueeCases, ...marqueeCases].map((c, i) => (
+            <div key={i} className="flex items-center gap-2 shrink-0 px-2">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                style={{ backgroundColor: c.color }}
+              >
+                {c.handle.slice(1, 3).toUpperCase()}
+              </div>
+              <span className="text-white/60 text-xs">{c.handle}</span>
+              <span className="text-[#d4a853] text-xs font-bold">{c.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ─── 2. HERO ─── */}
-      <section className="relative bg-[#0a1628] pt-24 pb-16 md:pt-28 md:pb-24 px-4">
+      <section className="relative bg-[#0a1628] pt-32 pb-16 md:pt-36 md:pb-24 px-4">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6 animate-fade-in">
             {/* Date/event bar */}
