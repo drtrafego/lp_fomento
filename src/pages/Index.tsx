@@ -365,6 +365,7 @@ export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
+  const location = useUserLocation();
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
