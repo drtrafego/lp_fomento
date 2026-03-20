@@ -190,7 +190,7 @@ export default function Index() {
       </header>
 
       {/* ─── 2. HERO ─── */}
-      <section className="relative bg-[#0a1628] pt-12 pb-16 md:pt-20 md:pb-24 px-4">
+      <section className="relative bg-[#0a1628] pt-24 pb-16 md:pt-28 md:pb-24 px-4">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6 animate-fade-in">
             {/* Date/event bar */}
