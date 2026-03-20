@@ -1,52 +1,48 @@
 
 
-## Plano Atualizado — Seção de Prova Social com Vídeos
+## Alterações na Primeira Dobra (Hero) e Botões
 
-A página ainda não foi implementada (Index.tsx é placeholder). Vou construir **toda a landing page** conforme plano aprovado, agora com a seção de prova social atualizada para **6 vídeos de depoimentos**.
+### Mudanças solicitadas
 
-### Mudança na Seção de Prova Social (Seção 8)
+**1. Barra de data/evento no topo da hero (antes do H1)**
+- Estilo similar às referências: "Quinta-feira às 20h / ● online ao vivo"
+- Layout inline com separador visual
 
-Em vez de apenas prints de WhatsApp, teremos um **grid de 6 cards de vídeo** com:
-- Espaço para embed de vídeo (placeholder com ícone de play até os vídeos serem fornecidos)
-- **@ do Instagram** abaixo de cada vídeo
-- **Valor captado** em destaque dourado (ex: "R$ 180.000")
-- Layout: 3 colunas desktop, 2 colunas tablet, 1 coluna mobile
+**2. Nova H1**
+- De: "Como captar de R$ 39 mil a R$ 400 mil para a sua empresa ou ideia de negócio"
+- Para: "Em 1h ao vivo, eu vou te mostrar o passo a passo de como você vai captar de **R$ 39 mil a R$ 400 mil** para sua empresa ou ideia de negócio"
 
-### Estrutura completa da página (12 seções)
+**3. Botão sem preço**
+- Texto: "GARANTIR MINHA VAGA" (sem "— R$ 47")
+- Abaixo do botão: "🛡 Garantia de 30 dias · Compra segura"
 
-1. Sticky header com countdown
-2. Hero — headline R$39mil–R$400mil + CTA R$47
-3. "Não é Empréstimo" — copy + decreto-lei
-4. 42+ Programas de Fomento — mapa + badges órgãos
-5. O que você vai aprender — 3 cards
-6. Bônus — Lista TOP 10 + WhatsApp + Masterclass
-7. Quem são Pedro e Igor — bio + foto
-8. **Prova Social — 6 cards de vídeo com @instagram + valor captado** (ATUALIZADO)
-9. Garantia 30 dias — selo + copy
-10. Oferta/Pricing — resumo + R$47
-11. FAQ — accordion
-12. Footer CTA
+**4. Barra de contador de dias até o workshop**
+- Visível apenas terça, quarta e quinta-feira
+- Progress bar visual (3 etapas: terça → quarta → quinta)
+- Texto dinâmico:
+  - Terça: "Faltam 2 dias"
+  - Quarta: "É amanhã!"
+  - Quinta: "É hoje!"
+- Nos outros dias da semana, a barra não aparece
 
-### Arquivos
+**5. Todos os botões da página**
+- Remover preço de todos os CTAs (manter apenas no pricing section)
+- Manter abaixo de cada botão: "Garantia de 30 dias · Compra segura"
 
-| Ação | Arquivo |
-|------|---------|
-| Reescrever | `src/pages/Index.tsx` — landing page completa, todas as seções inline |
-| Editar | `src/index.css` — animações shimmer, fade-in, counter |
-| Limpar | `src/App.css` — remover estilos default |
+### Arquivos modificados
 
-### Card de vídeo (estrutura de cada um dos 6)
+| Arquivo | Mudança |
+|---------|---------|
+| `src/pages/Index.tsx` | Refatorar hero section, atualizar todos os GoldButton, adicionar lógica de dia da semana para barra de countdown |
+
+### Lógica do contador de dias
 
 ```text
-┌─────────────────────┐
-│                     │
-│   ▶ (play icon)     │  ← placeholder para vídeo
-│                     │
-├─────────────────────┤
-│ @instagram_handle   │
-│ R$ XXX.XXX          │  ← valor em dourado
-└─────────────────────┘
+const dayOfWeek = new Date().getDay()
+// 2 = terça, 3 = quarta, 4 = quinta
+if (dayOfWeek === 2) → "Faltam 2 dias" (barra 33%)
+if (dayOfWeek === 3) → "É amanhã!" (barra 66%)
+if (dayOfWeek === 4) → "É hoje!" (barra 100%)
+else → barra oculta
 ```
-
-Os dados (@ e valor) ficarão em um array editável no código para fácil atualização quando os vídeos forem fornecidos.
 
