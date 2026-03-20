@@ -556,41 +556,74 @@ export default function Index() {
 
       {/* ─── 10. OFERTA / PRICING ─── */}
       <Section dark>
-        <div className="max-w-2xl mx-auto text-center space-y-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
-            Tudo isso por apenas
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center">
+            Workshop Do Zero ao Milhão
           </h2>
-          <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl p-8 sm:p-12 space-y-6">
-            <p className="text-white/50 text-sm line-through">De R$ 197,00</p>
-            <div className="flex items-baseline justify-center gap-2">
-              <span className="text-white/60 text-lg">R$</span>
-              <span className="text-6xl sm:text-7xl font-extrabold text-[#d4a853]">47</span>
-              <span className="text-white/60 text-lg">,00</span>
+          <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl overflow-hidden">
+            <div className="flex flex-col md:flex-row">
+              {/* Left — Benefits + Guarantee Seal */}
+              <div className="flex-1 p-8 sm:p-10 space-y-5 border-b md:border-b-0 md:border-r border-[#d4a853]/15">
+                <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">O que você vai receber</p>
+                <ul className="space-y-4">
+                  {[
+                    "Workshop ao vivo de 1h no Zoom",
+                    "Masterclass exclusiva gravada",
+                    "Lista TOP 10 programas de incentivo",
+                    "Grupo de Alerta WhatsApp",
+                    "Garantia incondicional de 30 dias",
+                  ].map((t) => (
+                    <li key={t} className="flex items-center gap-3 text-white/80 text-sm">
+                      <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4 flex items-center gap-4">
+                  <img src={seloGarantia} alt="Garantia 30 dias" className="w-20 h-20 object-contain" />
+                  <div>
+                    <p className="text-white/80 text-sm font-semibold">Garantia de 30 dias</p>
+                    <p className="text-white/50 text-xs">Risco zero. Não gostou, devolvemos 100%.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right — Price + CTA + Card Icons */}
+              <div className="flex-1 p-8 sm:p-10 flex flex-col items-center justify-center space-y-6 bg-[#0a1628]/40">
+                <span className="bg-red-500/15 text-red-400 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
+                  Vagas limitadas
+                </span>
+                <div className="text-center space-y-1">
+                  <p className="text-white/40 text-sm">De <span className="line-through">R$ 97,00</span></p>
+                  <p className="text-white/60 text-xs uppercase tracking-widest">por</p>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white/50 text-2xl font-bold">R$</span>
+                  <span className="text-6xl sm:text-7xl font-extrabold text-[#d4a853]">47</span>
+                  <span className="text-white/50 text-2xl font-bold">,00</span>
+                </div>
+                <p className="text-white/40 text-xs">Pagamento único · Acesso imediato</p>
+                <GoldButton className="w-full max-w-xs text-center" showGuarantee={false}>
+                  GARANTIR MINHA VAGA AGORA
+                  <ArrowRight className="inline ml-2" size={18} />
+                </GoldButton>
+                {/* Card brand icons */}
+                <div className="flex items-center gap-3 pt-2">
+                  {/* Visa */}
+                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1a1f71">VISA</text></svg>
+                  {/* Mastercard */}
+                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="8" fill="#eb001b" opacity="0.8"/><circle cx="29" cy="16" r="8" fill="#f79e1b" opacity="0.8"/></svg>
+                  {/* Elo */}
+                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#000">ELO</text></svg>
+                  {/* Amex */}
+                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#2e77bb">AMEX</text></svg>
+                  {/* Pix */}
+                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#32bcad">PIX</text></svg>
+                </div>
+                <p className="text-white/30 text-[10px]">Ambiente seguro · Dados criptografados</p>
+              </div>
             </div>
-            <p className="text-white/50 text-sm">Pagamento único · Acesso imediato</p>
-            <ul className="text-left space-y-3 max-w-sm mx-auto">
-              {[
-                "Workshop ao vivo de 1h no Zoom",
-                "Masterclass exclusiva",
-                "Lista TOP 10 programas",
-                "Grupo de Alerta WhatsApp",
-                "Garantia incondicional de 30 dias",
-              ].map((t) => (
-                <li key={t} className="flex items-center gap-3 text-white/80 text-sm">
-                  <CheckCircle className="text-[#d4a853] shrink-0" size={16} />
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <GoldButton className="w-full text-center block" showGuarantee={false}>
-              GARANTIR MINHA VAGA AGORA
-              <ArrowRight className="inline ml-2" size={18} />
-            </GoldButton>
           </div>
-          <span className="flex items-center justify-center gap-2 text-white/40 text-xs">
-            <Shield size={14} />
-            Compra segura · Garantia de 30 dias · Acesso imediato
-          </span>
         </div>
       </Section>
 
@@ -633,17 +666,29 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── MOBILE FLOATING CTA ─── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-3 bg-[#0a1628]/95 backdrop-blur-md border-t border-[#d4a853]/20 sm:hidden">
-        <a
-          href={CHECKOUT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center bg-[#d4a853] text-[#0a1628] font-bold py-4 rounded-xl shimmer-btn active:scale-[0.97] transition-transform"
-        >
-          GARANTIR MINHA VAGA
-        </a>
+      {/* ─── FIXED BOTTOM BAR — GLASSMORPHISM ─── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+          <div className="hidden sm:flex flex-col text-sm">
+            <span className="text-white/70 font-semibold flex items-center gap-2">
+              <Clock size={14} className="text-[#d4a853]" />
+              Quinta-feira às 20h · Online ao vivo
+            </span>
+            <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
+          </div>
+          <a
+            href={CHECKOUT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform"
+          >
+            QUERO MEU INGRESSO
+          </a>
+        </div>
       </div>
+
+      {/* Bottom spacer for fixed bar */}
+      <div className="h-16" />
     </div>
   );
 }
