@@ -293,6 +293,24 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ─── MARQUEE CASES ─── */}
+      <div className="bg-[#0f1d32] border-y border-[#d4a853]/10 overflow-hidden">
+        <div className="marquee-track flex items-center gap-8 py-3 whitespace-nowrap">
+          {[...marqueeCases, ...marqueeCases].map((c, i) => (
+            <div key={i} className="flex items-center gap-2 shrink-0 px-2">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                style={{ backgroundColor: c.color }}
+              >
+                {c.handle.slice(1, 3).toUpperCase()}
+              </div>
+              <span className="text-white/60 text-xs">{c.handle}</span>
+              <span className="text-[#d4a853] text-xs font-bold">{c.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
       <Section dark={false}>
         <div className="text-center space-y-6 max-w-3xl mx-auto">
