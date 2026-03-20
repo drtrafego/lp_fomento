@@ -1,44 +1,26 @@
 
 
-## Melhorar Visualmente a Seção "Não é Empréstimo"
+## Adicionar Copy Personalizada por Estado (via IP, sem permissão)
 
-### Problemas identificados
-- A imagem do homem parece "voando" — sem base/ancoragem visual
-- Badge "Não é empréstimo" não está centralizado no mobile
-- Layout 3 colunas no desktop com imagem no centro fragmenta a leitura
+### Abordagem
 
-### Novo layout (inspirado na referência)
+Usar a API gratuita `https://ipapi.co/json/` (não requer permissão do navegador) para detectar o estado do visitante pelo IP. Substituir a copy estática "Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil" por uma versão dinâmica citando o estado.
 
-```text
-Mobile:
-┌─────────────────────────────┐
-│      [IMAGEM do homem]      │  ← com gradiente na base
-│      fundido no fundo       │     para não parecer voando
-│                             │
-│     NÃO É EMPRÉSTIMO        │  ← badge centralizado
-│                             │
-│  NÃO É EMPRÉSTIMO.          │
-│  NÃO É FAVOR.               │
-│  É SEU DIREITO POR LEI.     │
-│                             │
-│  Copy de apoio...           │
-│                             │
-│  [QUERO MEU INGRESSO]       │
-└─────────────────────────────┘
-```
+### Exemplo de resultado
 
-### Mudanças
+> "Sua empresa no **Maranhão** pode estar a um passo de captar de R$ 39 mil a R$ 400 mil"
 
-1. **Imagem**: Colocar na parte superior com gradiente `from-transparent to-[#0a1628]` na base para fundir com o fundo (eliminar efeito "voando")
-2. **Badge vermelho**: Centralizar com `text-center` no mobile
-3. **Layout**: Empilhar verticalmente — imagem no topo, headline + copy abaixo centralizado
-4. **Desktop**: Manter 2 colunas (imagem à esquerda com gradiente, texto à direita) em vez de 3 colunas
-5. **Copy completa**: Manter os 3 parágrafos conforme o usuário aprovou + adicionar CTA "QUERO MEU INGRESSO"
-6. **Anéis dourados**: Posicionar atrás da imagem (não no centro da seção) para dar contexto à pessoa
+Se falhar, mantém a copy genérica atual.
 
-### Arquivos
+### Implementação em `src/pages/Index.tsx`
 
-| Arquivo | Mudança |
-|---------|---------|
-| `src/pages/Index.tsx` | Refatorar seção 3: layout, gradiente na imagem, centralizar badge, CTA |
+1. **Hook inline `useUserState`**: Faz fetch para `https://ipapi.co/json/` no mount, extrai `region` (nome do estado). Retorna `{ estado: string | null }`
+2. **Atualizar a copy** na linha 753-755: Se `estado` detectado, renderiza "Sua empresa **no {estado}**..." senão mantém texto atual
+3. Animação fade-in quando o estado é detectado
+
+### Detalhes técnicos
+
+- `ipapi.co/json/` retorna `{ region: "São Paulo", country_name: "Brazil", ... }` — campo `region` é o estado
+- Fallback: se não Brasil ou erro, copy genérica
+- Sem necessidade de permissão do navegador
 
