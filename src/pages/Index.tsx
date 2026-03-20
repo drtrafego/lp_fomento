@@ -140,8 +140,12 @@ const testimonials = [
   { handle: "@depoimento6", value: "R$ 400.000" },
 ];
 
-const marqueeCases = [
-  { handle: "@bulldogburguer", value: "R$ 400.000", color: "#d4a853" },
+const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
+  { handle: "@bulldogburguer", value: "R$ 420.000", color: "#d4a853", image: caseBulldog },
+  { handle: "@roysbrasil", value: "R$ 79.000", color: "#5b8fb9", image: caseRoys },
+  { handle: "@biofluid_", value: "R$ 194.410", color: "#7cb87c", image: caseBiofluid },
+  { handle: "@querysistemas", value: "R$ 70.000", color: "#c97e6c", image: caseQuery },
+  { handle: "@instabovreal", value: "R$ 739.000", color: "#6ec9a8", image: caseInstabov },
   { handle: "@padarianova", value: "R$ 95.000", color: "#5b8fb9" },
   { handle: "@techsolucoes", value: "R$ 250.000", color: "#7cb87c" },
   { handle: "@modafitbr", value: "R$ 180.000", color: "#c97e6c" },
