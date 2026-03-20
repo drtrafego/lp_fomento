@@ -133,6 +133,7 @@ function ScrollRevealBadges() {
 }
 
 
+const Section = ({ children, className = "", dark = false }: { children: React.ReactNode; className?: string; dark?: boolean }) => {
   const { ref, visible } = useScrollReveal();
   return (
     <section
