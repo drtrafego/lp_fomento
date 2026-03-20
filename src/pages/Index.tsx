@@ -222,8 +222,26 @@ export default function Index() {
         </div>
       </header>
 
+      {/* ─── MARQUEE CASES ─── */}
+      <div className="fixed top-[52px] sm:top-[56px] left-0 right-0 z-40 bg-[#0f1d32] border-b border-[#d4a853]/10 overflow-hidden">
+        <div className="marquee-track flex items-center gap-8 py-2 whitespace-nowrap">
+          {[...marqueeCases, ...marqueeCases].map((c, i) => (
+            <div key={i} className="flex items-center gap-2 shrink-0 px-2">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                style={{ backgroundColor: c.color }}
+              >
+                {c.handle.slice(1, 3).toUpperCase()}
+              </div>
+              <span className="text-white/60 text-xs">{c.handle}</span>
+              <span className="text-[#d4a853] text-xs font-bold">{c.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ─── 2. HERO ─── */}
-      <section className="relative bg-[#0a1628] pt-24 pb-16 md:pt-28 md:pb-24 px-4">
+      <section className="relative bg-[#0a1628] pt-32 pb-16 md:pt-36 md:pb-24 px-4">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6 animate-fade-in">
             {/* Date/event bar */}
