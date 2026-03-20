@@ -627,21 +627,38 @@ export default function Index() {
       </div>
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+      <section className="relative py-16 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
           <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.08] blur-[80px] animate-pulse" />
-          {/* Golden rings */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-[1fr_auto_1fr] items-center gap-8 md:gap-0">
-            {/* Left — Bold headline */}
-            <div className="space-y-4 text-left md:pr-8">
-              <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider">
+          {/* Mobile: stacked vertically. Desktop: 2 columns */}
+          <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-8 md:gap-16">
+
+            {/* Image with golden rings behind + gradient anchor */}
+            <div className="relative flex justify-center w-full">
+              {/* Golden rings behind image */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] md:w-[500px] md:h-[500px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+              {/* Glow behind image */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
+              <div className="relative">
+                <img
+                  src={autoridadeImg}
+                  alt="Especialista em captação de recursos"
+                  className="relative w-56 sm:w-64 md:w-80 drop-shadow-[0_0_40px_rgba(212,168,83,0.3)]"
+                />
+                {/* Gradient to anchor image to background */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/80 to-transparent" />
+              </div>
+            </div>
+
+            {/* Text content */}
+            <div className="space-y-5 text-center md:text-left">
+              <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider border border-red-500/20">
                 Não é empréstimo
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.05] uppercase">
@@ -652,20 +669,9 @@ export default function Index() {
                 <span className="text-white">É seu</span>{" "}
                 <span className="text-[#d4a853]">direito por lei.</span>
               </h2>
-            </div>
 
-            {/* Center — Image with golden aura */}
-            <div className="relative flex justify-center order-first md:order-none">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#d4a853]/20 via-[#d4a853]/5 to-transparent rounded-full blur-3xl scale-125" />
-              <img
-                src={autoridadeImg}
-                alt="Especialista em captação de recursos"
-                className="relative w-56 sm:w-64 md:w-72 drop-shadow-[0_0_40px_rgba(212,168,83,0.3)]"
-              />
-            </div>
+              <div className="w-16 h-0.5 bg-[#d4a853]/40 mx-auto md:mx-0" />
 
-            {/* Right — Supporting copy */}
-            <div className="space-y-5 text-left md:pl-8 md:border-l border-[#d4a853]/20">
               <p className="text-white/80 text-base sm:text-lg leading-relaxed">
                 Existe um caminho legítimo, disponível, pensado para quem constrói o país de verdade:{" "}
                 <strong className="text-white">o pequeno empresário.</strong>
@@ -678,6 +684,15 @@ export default function Index() {
               <p className="text-white/50 text-sm italic">
                 Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
               </p>
+
+              <a
+                href={CHECKOUT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105"
+              >
+                QUERO MEU INGRESSO →
+              </a>
             </div>
           </div>
 
