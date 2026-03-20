@@ -307,12 +307,16 @@ export default function Index() {
         <div className="marquee-track flex items-center gap-8 py-3 whitespace-nowrap">
           {[...marqueeCases, ...marqueeCases].map((c, i) => (
             <div key={i} className="flex items-center gap-2 shrink-0 px-2">
-              <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-                style={{ backgroundColor: c.color }}
-              >
-                {c.handle.slice(1, 3).toUpperCase()}
-              </div>
+              {c.image ? (
+                <img src={c.image} alt={c.handle} className="w-7 h-7 rounded-full object-cover shrink-0" />
+              ) : (
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                  style={{ backgroundColor: c.color }}
+                >
+                  {c.handle.slice(1, 3).toUpperCase()}
+                </div>
+              )}
               <span className="text-white/60 text-xs">{c.handle}</span>
               <span className="text-[#d4a853] text-xs font-bold">{c.value}</span>
             </div>
