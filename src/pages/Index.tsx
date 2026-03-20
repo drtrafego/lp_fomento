@@ -215,8 +215,133 @@ const marqueeCases: { handle: string; value: string; color: string; image?: stri
 
 const orgaos = [
   "FINEP", "CNPq", "SEBRAE", "FAPESP", "FAPERJ", "FAPEMIG",
-  "BNDES", "EMBRAPII", "CAPES", "AEB", "MCTI", "FAPESC",
+  "BNDES", "EMBRAPII", "CAPES", "AEB", "MCTI", "FAPESC", "FAPEMA",
 ];
+
+// State → position on map (% from top-left), FAP name
+const stateData: Record<string, { name: string; fap: string; top: string; left: string }> = {
+  AC: { name: "Acre", fap: "FAPAC", top: "38%", left: "12%" },
+  AL: { name: "Alagoas", fap: "FAPEAL", top: "38%", left: "82%" },
+  AM: { name: "Amazonas", fap: "FAPEAM", top: "25%", left: "22%" },
+  AP: { name: "Amapá", fap: "FAPEAP", top: "12%", left: "48%" },
+  BA: { name: "Bahia", fap: "FAPESB", top: "42%", left: "72%" },
+  CE: { name: "Ceará", fap: "FUNCAP", top: "28%", left: "78%" },
+  DF: { name: "Distrito Federal", fap: "FAPDF", top: "52%", left: "58%" },
+  ES: { name: "Espírito Santo", fap: "FAPES", top: "58%", left: "72%" },
+  GO: { name: "Goiás", fap: "FAPEG", top: "52%", left: "52%" },
+  MA: { name: "Maranhão", fap: "FAPEMA", top: "25%", left: "62%" },
+  MG: { name: "Minas Gerais", fap: "FAPEMIG", top: "58%", left: "62%" },
+  MS: { name: "Mato Grosso do Sul", fap: "FUNDECT", top: "62%", left: "42%" },
+  MT: { name: "Mato Grosso", fap: "FAPEMAT", top: "42%", left: "38%" },
+  PA: { name: "Pará", fap: "FAPESPA", top: "22%", left: "45%" },
+  PB: { name: "Paraíba", fap: "FAPESQ", top: "32%", left: "82%" },
+  PE: { name: "Pernambuco", fap: "FACEPE", top: "35%", left: "80%" },
+  PI: { name: "Piauí", fap: "FAPEPI", top: "30%", left: "68%" },
+  PR: { name: "Paraná", fap: "Fundação Araucária", top: "72%", left: "48%" },
+  RJ: { name: "Rio de Janeiro", fap: "FAPERJ", top: "62%", left: "68%" },
+  RN: { name: "Rio Grande do Norte", fap: "FAPERN", top: "28%", left: "82%" },
+  RO: { name: "Rondônia", fap: "FAPERO", top: "40%", left: "22%" },
+  RR: { name: "Roraima", fap: "FAPER", top: "10%", left: "25%" },
+  RS: { name: "Rio Grande do Sul", fap: "FAPERGS", top: "82%", left: "45%" },
+  SC: { name: "Santa Catarina", fap: "FAPESC", top: "78%", left: "50%" },
+  SE: { name: "Sergipe", fap: "FAPITEC", top: "38%", left: "78%" },
+  SP: { name: "São Paulo", fap: "FAPESP", top: "65%", left: "55%" },
+  TO: { name: "Tocantins", fap: "FAPT", top: "35%", left: "55%" },
+};
+
+// Simple lat/lng → state mapping using center coordinates
+function latLngToState(lat: number, lng: number): string | null {
+  const states: { sigla: string; lat: number; lng: number }[] = [
+    { sigla: "AC", lat: -9.97, lng: -67.81 },
+    { sigla: "AL", lat: -9.57, lng: -36.78 },
+    { sigla: "AM", lat: -3.42, lng: -65.86 },
+    { sigla: "AP", lat: 1.41, lng: -51.77 },
+    { sigla: "BA", lat: -12.97, lng: -38.51 },
+    { sigla: "CE", lat: -3.72, lng: -38.53 },
+    { sigla: "DF", lat: -15.78, lng: -47.93 },
+    { sigla: "ES", lat: -20.32, lng: -40.34 },
+    { sigla: "GO", lat: -16.68, lng: -49.26 },
+    { sigla: "MA", lat: -2.53, lng: -44.28 },
+    { sigla: "MG", lat: -19.92, lng: -43.94 },
+    { sigla: "MS", lat: -20.44, lng: -54.65 },
+    { sigla: "MT", lat: -15.6, lng: -56.1 },
+    { sigla: "PA", lat: -1.46, lng: -48.5 },
+    { sigla: "PB", lat: -7.12, lng: -34.86 },
+    { sigla: "PE", lat: -8.05, lng: -34.87 },
+    { sigla: "PI", lat: -5.09, lng: -42.8 },
+    { sigla: "PR", lat: -25.43, lng: -49.27 },
+    { sigla: "RJ", lat: -22.91, lng: -43.17 },
+    { sigla: "RN", lat: -5.79, lng: -35.21 },
+    { sigla: "RO", lat: -8.76, lng: -63.9 },
+    { sigla: "RR", lat: 2.82, lng: -60.67 },
+    { sigla: "RS", lat: -30.03, lng: -51.23 },
+    { sigla: "SC", lat: -27.59, lng: -48.55 },
+    { sigla: "SE", lat: -10.91, lng: -37.07 },
+    { sigla: "SP", lat: -23.55, lng: -46.64 },
+    { sigla: "TO", lat: -10.18, lng: -48.33 },
+  ];
+  let closest = states[0];
+  let minDist = Infinity;
+  for (const s of states) {
+    const d = Math.pow(s.lat - lat, 2) + Math.pow(s.lng - lng, 2);
+    if (d < minDist) { minDist = d; closest = s; }
+  }
+  return closest.sigla;
+}
+
+function useUserLocation() {
+  const [sigla, setSigla] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    // Try browser geolocation first
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          if (cancelled) return;
+          const state = latLngToState(pos.coords.latitude, pos.coords.longitude);
+          setSigla(state);
+          setLoading(false);
+        },
+        () => {
+          // Fallback to IP-based
+          fetch("https://ipapi.co/json/")
+            .then((r) => r.json())
+            .then((data) => {
+              if (cancelled) return;
+              if (data.region_code && stateData[data.region_code]) {
+                setSigla(data.region_code);
+              } else if (data.latitude && data.longitude) {
+                setSigla(latLngToState(data.latitude, data.longitude));
+              }
+              setLoading(false);
+            })
+            .catch(() => { if (!cancelled) setLoading(false); });
+        },
+        { timeout: 5000 }
+      );
+    } else {
+      // No geolocation support, use IP
+      fetch("https://ipapi.co/json/")
+        .then((r) => r.json())
+        .then((data) => {
+          if (cancelled) return;
+          if (data.region_code && stateData[data.region_code]) {
+            setSigla(data.region_code);
+          }
+          setLoading(false);
+        })
+        .catch(() => { if (!cancelled) setLoading(false); });
+    }
+
+    return () => { cancelled = true; };
+  }, []);
+
+  const info = sigla ? stateData[sigla] : null;
+  return { sigla, name: info?.name ?? null, fap: info?.fap ?? null, top: info?.top ?? null, left: info?.left ?? null, loading };
+}
 
 const faqItems = [
   { q: "Para quem é o Workshop?", a: "Se você tem um CPF e uma ideia de negócio, você já pode participar dos Programas de Incentivo Federais. Este workshop é para você." },
