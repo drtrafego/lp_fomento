@@ -11,6 +11,8 @@ import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
 import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
+import reuniaoFomento from "@/assets/reuniao-fomento.webp";
+import leiDecreto from "@/assets/lei-decreto.png";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
