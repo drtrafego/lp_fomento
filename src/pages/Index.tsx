@@ -166,7 +166,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 1. STICKY HEADER ─── */}
-      <header className="sticky top-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3 px-4">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3 px-4">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-xs sm:text-sm text-[#d4a853] font-semibold tracking-wide uppercase">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
