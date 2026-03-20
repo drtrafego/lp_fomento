@@ -450,6 +450,7 @@ export default function Index() {
               alt="Mapa dos órgãos de fomento no Brasil"
               className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl"
             />
+          </div>
 
           <div className="flex flex-wrap justify-center gap-3 pt-4">
             {orgaos.map((o) => (
