@@ -107,15 +107,23 @@ const Section = ({ children, className = "", dark = false }: { children: React.R
   );
 };
 
-const GoldButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <a
-    href={CHECKOUT_URL}
-    target="_blank"
-    rel="noopener noreferrer"
-    className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform ${className}`}
-  >
-    {children}
-  </a>
+const GoldButton = ({ children, className = "", showGuarantee = true }: { children: React.ReactNode; className?: string; showGuarantee?: boolean }) => (
+  <div className="flex flex-col items-center gap-2">
+    <a
+      href={CHECKOUT_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform ${className}`}
+    >
+      {children}
+    </a>
+    {showGuarantee && (
+      <span className="flex items-center gap-1.5 text-white/45 text-xs">
+        <Shield size={12} />
+        Garantia de 30 dias · Compra segura
+      </span>
+    )}
+  </div>
 );
 
 const testimonials = [
@@ -142,9 +150,18 @@ const faqItems = [
   { q: "E se eu não gostar, posso pedir reembolso?", a: "Sim. Você pode assistir o workshop, baixar os materiais, e se mesmo assim achar que não valeu a pena, tem 30 dias de garantia total para solicitar 100% do valor pago." },
 ];
 
+function useDayCountdown() {
+  const day = new Date().getDay();
+  if (day === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
+  if (day === 3) return { show: true, label: "É amanhã!", progress: 66 };
+  if (day === 4) return { show: true, label: "É HOJE!", progress: 100 };
+  return { show: false, label: "", progress: 0 };
+}
+
 export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
+  const dayCountdown = useDayCountdown();
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
@@ -176,11 +193,47 @@ export default function Index() {
       <section className="relative bg-[#0a1628] pt-12 pb-16 md:pt-20 md:pb-24 px-4">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6 animate-fade-in">
-            <p className="text-[#d4a853] font-semibold tracking-wider uppercase text-sm">Workshop Exclusivo · 1h ao vivo</p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] text-white" style={{ textWrap: "balance" }}>
-              Como captar de{" "}
+            {/* Date/event bar */}
+            <div className="flex items-center gap-3 text-sm">
+              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                AO VIVO
+              </span>
+              <span className="text-white/50">Quinta-feira às 20h · Zoom</span>
+            </div>
+
+            {/* Day countdown bar - only Tue/Wed/Thu */}
+            {dayCountdown.show && (
+              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-4 space-y-2">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/60">Workshop ao vivo</span>
+                  <span className={`font-bold ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
+                    {dayCountdown.label}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{
+                      width: `${dayCountdown.progress}%`,
+                      background: dayCountdown.progress === 100
+                        ? "linear-gradient(90deg, #d4a853, #22c55e)"
+                        : "linear-gradient(90deg, #d4a853, #e8c778)",
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-[10px] text-white/30 uppercase">
+                  <span>Terça</span>
+                  <span>Quarta</span>
+                  <span>Quinta 20h</span>
+                </div>
+              </div>
+            )}
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
+              Em 1h ao vivo, eu vou te mostrar o passo a passo de como você vai captar de{" "}
               <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
-              para a sua empresa ou ideia de negócio
+              para sua empresa ou ideia de negócio
             </h1>
             <ul className="space-y-3 text-base sm:text-lg text-white/80">
               {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
@@ -191,16 +244,10 @@ export default function Index() {
               ))}
             </ul>
             <p className="text-white/60 text-sm">Através de Programas de Incentivo Federais</p>
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <GoldButton>
-                GARANTIR MINHA VAGA — R$ 47
-                <ArrowRight className="inline ml-2" size={18} />
-              </GoldButton>
-              <div className="flex items-center gap-2 text-white/50 text-xs">
-                <Shield size={14} />
-                Garantia de 30 dias
-              </div>
-            </div>
+            <GoldButton>
+              GARANTIR MINHA VAGA
+              <ArrowRight className="inline ml-2" size={18} />
+            </GoldButton>
           </div>
           <div className="flex justify-center animate-fade-in" style={{ animationDelay: "200ms" }}>
             <img
@@ -218,7 +265,7 @@ export default function Index() {
           <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider">
             Não é empréstimo
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight" style={{ textWrap: "balance" }}>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight" style={{ textWrap: "balance" as any }}>
             Você não precisa pedir crédito em banco, convencer familiares ou amigos
           </h2>
           <p className="text-white/70 text-base sm:text-lg leading-relaxed">
@@ -277,7 +324,7 @@ export default function Index() {
           <p className="text-[#d4a853] font-bold text-lg sm:text-xl pt-2">
             Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil
           </p>
-          <GoldButton>QUERO APRENDER A CAPTAR — R$ 47</GoldButton>
+          <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
       </Section>
 
@@ -384,7 +431,7 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <GoldButton>EU TAMBÉM QUERO CAPTAR — R$ 47</GoldButton>
+          <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
         </div>
       </Section>
 
@@ -442,15 +489,15 @@ export default function Index() {
                 </li>
               ))}
             </ul>
-            <GoldButton className="w-full text-center block">
-              GARANTIR MINHA VAGA AGORA — R$ 47
+            <GoldButton className="w-full text-center block" showGuarantee={false}>
+              GARANTIR MINHA VAGA AGORA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
           </div>
-          <div className="flex items-center justify-center gap-2 text-white/40 text-xs">
+          <span className="flex items-center justify-center gap-2 text-white/40 text-xs">
             <Shield size={14} />
             Compra segura · Garantia de 30 dias · Acesso imediato
-          </div>
+          </span>
         </div>
       </Section>
 
@@ -478,7 +525,7 @@ export default function Index() {
       {/* ─── 12. FOOTER CTA ─── */}
       <section className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ textWrap: "balance" }}>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ textWrap: "balance" as any }}>
             Seja você um empresário experiente ou alguém com apenas uma ideia na cabeça
           </h2>
           <p className="text-white/70 text-lg">
@@ -486,7 +533,7 @@ export default function Index() {
             <strong className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</strong> em poucos dias.
           </p>
           <GoldButton className="text-xl px-10 py-5">
-            QUERO MINHA VAGA — R$ 47
+            QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
           <p className="text-white/40 text-xs">Quinta-feira às 20h · AO VIVO no Zoom</p>
@@ -501,7 +548,7 @@ export default function Index() {
           rel="noopener noreferrer"
           className="block w-full text-center bg-[#d4a853] text-[#0a1628] font-bold py-4 rounded-xl shimmer-btn active:scale-[0.97] transition-transform"
         >
-          GARANTIR VAGA — R$ 47
+          GARANTIR MINHA VAGA
         </a>
       </div>
     </div>
