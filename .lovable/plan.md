@@ -1,48 +1,42 @@
 
 
-## Alterações na Primeira Dobra (Hero) e Botões
+## Barra Rotativa de Cases de Sucesso
 
-### Mudanças solicitadas
+Adicionar uma barra estilo marquee/ticker logo abaixo do header fixo (antes da hero), com 30 cases de empresas que captaram recursos. Cada item mostra: foto de perfil circular + @ do Instagram + valor captado.
 
-**1. Barra de data/evento no topo da hero (antes do H1)**
-- Estilo similar às referências: "Quinta-feira às 20h / ● online ao vivo"
-- Layout inline com separador visual
-
-**2. Nova H1**
-- De: "Como captar de R$ 39 mil a R$ 400 mil para a sua empresa ou ideia de negócio"
-- Para: "Em 1h ao vivo, eu vou te mostrar o passo a passo de como você vai captar de **R$ 39 mil a R$ 400 mil** para sua empresa ou ideia de negócio"
-
-**3. Botão sem preço**
-- Texto: "GARANTIR MINHA VAGA" (sem "— R$ 47")
-- Abaixo do botão: "🛡 Garantia de 30 dias · Compra segura"
-
-**4. Barra de contador de dias até o workshop**
-- Visível apenas terça, quarta e quinta-feira
-- Progress bar visual (3 etapas: terça → quarta → quinta)
-- Texto dinâmico:
-  - Terça: "Faltam 2 dias"
-  - Quarta: "É amanhã!"
-  - Quinta: "É hoje!"
-- Nos outros dias da semana, a barra não aparece
-
-**5. Todos os botões da página**
-- Remover preço de todos os CTAs (manter apenas no pricing section)
-- Manter abaixo de cada botão: "Garantia de 30 dias · Compra segura"
-
-### Arquivos modificados
-
-| Arquivo | Mudança |
-|---------|---------|
-| `src/pages/Index.tsx` | Refatorar hero section, atualizar todos os GoldButton, adicionar lógica de dia da semana para barra de countdown |
-
-### Lógica do contador de dias
+### Estrutura visual de cada item
 
 ```text
-const dayOfWeek = new Date().getDay()
-// 2 = terça, 3 = quarta, 4 = quinta
-if (dayOfWeek === 2) → "Faltam 2 dias" (barra 33%)
-if (dayOfWeek === 3) → "É amanhã!" (barra 66%)
-if (dayOfWeek === 4) → "É hoje!" (barra 100%)
-else → barra oculta
+(○ foto)  @bulldogburguer  R$ 400.000
 ```
+
+### Implementação
+
+**Arquivo: `src/pages/Index.tsx`**
+
+1. Criar array `cases` com 30 entradas (handle + valor + placeholder para foto)
+2. Adicionar componente `MarqueeCases` logo após o `</header>` e antes da hero
+3. A barra usa animação CSS `@keyframes marquee` — duplica o conteúdo para loop infinito
+4. Fundo `#0f1d32` com borda sutil dourada, posição fixa abaixo do header (`top: ~56px`)
+5. Ajustar `pt` da hero para compensar a altura extra
+
+**Arquivo: `src/index.css`**
+
+6. Adicionar keyframes `marquee` para scroll horizontal contínuo:
+```css
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+```
+
+### Dados dos 30 cases
+
+Serão preenchidos com dados placeholder (ex: `@bulldogburguer · R$ 400.000`, `@empresa2 · R$ 180.000`, etc.) — o array fica editável para substituir pelos dados reais. Cada case terá um círculo colorido como avatar placeholder até fotos reais serem fornecidas.
+
+### Layout
+
+- Desktop: scroll contínuo horizontal, ~30s de duração
+- Mobile: mesma animação, velocidade ajustada
+- Itens espaçados com `gap`, texto pequeno (`text-xs`/`text-sm`), valor em dourado
 
