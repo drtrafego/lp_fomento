@@ -9,6 +9,7 @@ import {
 
 import headerImg from "@/assets/header-dunas.png";
 import seloGarantia from "@/assets/selo-garantia.png";
+import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
@@ -359,28 +360,65 @@ export default function Index() {
       </div>
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <Section dark={false}>
-        <div className="text-center space-y-6 max-w-3xl mx-auto">
-          <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider">
-            Não é empréstimo
-          </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight" style={{ textWrap: "balance" as any }}>
-            Você não precisa pedir crédito em banco, convencer familiares ou amigos
-          </h2>
-          <p className="text-white/70 text-base sm:text-lg leading-relaxed">
-            Existe um caminho legítimo, disponível, pensado para quem constrói o país de verdade:{" "}
-            <strong className="text-white">o pequeno empresário.</strong>
-          </p>
-          <p className="text-white/70 text-base sm:text-lg leading-relaxed">
-            Um caminho onde você não é refém dos juros, da burocracia ou da sorte.
-            Um caminho onde a sua empresa ou ideia será reconhecida e financiada como merece.
-          </p>
-          <ScrollRevealBadges />
-          <p className="text-white/50 text-sm italic">
-            Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
-          </p>
+      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+        {/* Golden glow background effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
+          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.08] blur-[80px] animate-pulse" />
+          {/* Golden rings */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
         </div>
-      </Section>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-[1fr_auto_1fr] items-center gap-8 md:gap-0">
+            {/* Left — Bold headline */}
+            <div className="space-y-4 text-left md:pr-8">
+              <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider">
+                Não é empréstimo
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.05] uppercase">
+                <span className="text-[#d4a853]">Não é</span>{" "}
+                <span className="text-white">empréstimo.</span><br />
+                <span className="text-[#d4a853]">Não é</span>{" "}
+                <span className="text-white">favor.</span><br />
+                <span className="text-white">É seu</span>{" "}
+                <span className="text-[#d4a853]">direito por lei.</span>
+              </h2>
+            </div>
+
+            {/* Center — Image with golden aura */}
+            <div className="relative flex justify-center order-first md:order-none">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#d4a853]/20 via-[#d4a853]/5 to-transparent rounded-full blur-3xl scale-125" />
+              <img
+                src={autoridadeImg}
+                alt="Especialista em captação de recursos"
+                className="relative w-56 sm:w-64 md:w-72 drop-shadow-[0_0_40px_rgba(212,168,83,0.3)]"
+              />
+            </div>
+
+            {/* Right — Supporting copy */}
+            <div className="space-y-5 text-left md:pl-8 md:border-l border-[#d4a853]/20">
+              <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+                Existe um caminho legítimo, disponível, pensado para quem constrói o país de verdade:{" "}
+                <strong className="text-white">o pequeno empresário.</strong>
+              </p>
+              <p className="text-white/70 text-base sm:text-lg leading-relaxed">
+                Um caminho onde você não é refém dos juros, da burocracia ou da sorte.
+                Um caminho onde a sua empresa ou ideia será{" "}
+                <strong className="text-[#d4a853]">reconhecida e financiada como merece.</strong>
+              </p>
+              <p className="text-white/50 text-sm italic">
+                Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <ScrollRevealBadges />
+          </div>
+        </div>
+      </section>
 
       {/* ─── 4. 42+ PROGRAMAS / ÓRGÃOS DE FOMENTO ─── */}
       <Section dark>
