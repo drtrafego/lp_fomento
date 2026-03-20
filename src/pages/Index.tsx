@@ -237,7 +237,173 @@ function useDayCountdown() {
   return { show: false, label: "", progress: 0 };
 }
 
-export default function Index() {
+const workshopCards = [
+  {
+    num: "01",
+    icon: Zap,
+    title: "Estar Apto",
+    bullets: [
+      "Descubra sua Elegibilidade Real — você NÃO precisa ter CNPJ, faturamento alto ou histórico de crédito impecável.",
+      "Seu Negócio se Encaixa — de hamburguerias a startups, de agronegócio a clínicas, qualquer tipo de negócio pode ser elegível.",
+      "Desmistifique os Requisitos — aprenda os critérios verdadeiros, desvendando mitos sobre o que importa para aprovação.",
+    ],
+  },
+  {
+    num: "02",
+    icon: ArrowRight,
+    title: "Passo a Passo",
+    bullets: [
+      "Do Zero ao Dinheiro na Conta — método prático que guia desde a identificação até o recebimento de R$ 39 mil a R$ 400 mil.",
+      "Modelos Prontos e Validados — templates para copiar, colar e adaptar, acelerando sua aplicação.",
+      "Gestão e Prestação de Contas Simplificada — como gerir o recurso e prestar contas sem dor de cabeça.",
+    ],
+  },
+  {
+    num: "03",
+    icon: Users,
+    title: "Onde Encontrar",
+    bullets: [
+      "Acesso Rápido aos Editais — encontre programas disponíveis AGORA sem ler centenas de páginas complexas.",
+      'O "Radar" que Trabalha por Você — ferramenta que busca, lê e resume programas adequados ao seu perfil 24h por dia.',
+      "Pare de Procurar, Comece a Captar — método otimizado que te coloca frente a frente com os recursos disponíveis.",
+    ],
+  },
+];
+
+function WorkshopLearningSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false]);
+  const [arrowsVisible, setArrowsVisible] = useState<boolean[]>([false, false]);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Stagger cards
+          setTimeout(() => setVisibleCards((p) => [true, p[1], p[2]]), 0);
+          setTimeout(() => {
+            setArrowsVisible((p) => [true, p[1]]);
+            setVisibleCards((p) => [p[0], true, p[2]]);
+          }, 300);
+          setTimeout(() => {
+            setArrowsVisible([true, true]);
+            setVisibleCards([true, true, true]);
+          }, 600);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div ref={sectionRef} className="max-w-6xl mx-auto relative z-10">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-14">
+        O que você vai aprender neste Workshop
+      </h2>
+
+      {/* Desktop: horizontal cards with arrows */}
+      <div className="hidden md:flex items-stretch gap-0">
+        {workshopCards.map((card, i) => {
+          const Icon = card.icon;
+          return (
+            <div key={card.num} className="flex items-stretch">
+              {/* Card */}
+              <div
+                className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 flex-1 min-w-[280px] card-glow-hover transition-all duration-700"
+                style={{
+                  opacity: visibleCards[i] ? 1 : 0,
+                  transform: visibleCards[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
+                }}
+              >
+                {/* Large number */}
+                <span className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/10 select-none leading-none">
+                  {card.num}
+                </span>
+                <div className="relative space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-[#d4a853]/10 flex items-center justify-center">
+                      <Icon className="text-[#d4a853]" size={24} />
+                    </div>
+                    <h3 className="text-xl font-bold text-[#d4a853]">{card.title}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {card.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2.5 text-sm text-white/70 leading-relaxed">
+                        <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={16} />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Arrow between cards (not after last) */}
+              {i < 2 && (
+                <div className="flex items-center px-3">
+                  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" className={arrowsVisible[i] ? "arrow-drawn" : "opacity-0"} style={{ animationDelay: `${i * 200}ms` }}>
+                    <path d="M2 12 L30 12 M24 5 L32 12 L24 19" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile: vertical cards with down arrows */}
+      <div className="md:hidden space-y-0">
+        {workshopCards.map((card, i) => {
+          const Icon = card.icon;
+          return (
+            <div key={card.num}>
+              <div
+                className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-6 card-glow-hover transition-all duration-700"
+                style={{
+                  opacity: visibleCards[i] ? 1 : 0,
+                  transform: visibleCards[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
+                }}
+              >
+                <span className="absolute -top-3 -left-1 text-6xl font-black text-[#d4a853]/10 select-none leading-none">
+                  {card.num}
+                </span>
+                <div className="relative space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-xl bg-[#d4a853]/10 flex items-center justify-center">
+                      <Icon className="text-[#d4a853]" size={22} />
+                    </div>
+                    <h3 className="text-lg font-bold text-[#d4a853]">{card.title}</h3>
+                  </div>
+                  <ul className="space-y-2.5">
+                    {card.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-white/70 leading-relaxed">
+                        <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={15} />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              {/* Down arrow between cards */}
+              {i < 2 && (
+                <div className="flex justify-center py-3">
+                  <svg width="24" height="40" viewBox="0 0 24 40" fill="none" className={arrowsVisible[i] ? "arrow-drawn" : "opacity-0"}>
+                    <path d="M12 2 L12 30 M5 24 L12 32 L19 24" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
