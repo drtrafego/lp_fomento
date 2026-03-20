@@ -99,6 +99,39 @@ function useScrollReveal() {
   }, []);
   return { ref, visible };
 }
+function ScrollRevealBadges() {
+  const badges = ["Sem favores", 'Sem "indicações"', "Seu direito por lei"];
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+      {badges.map((t, i) => (
+        <div
+          key={t}
+          className="bg-[#0a1628] border border-[#d4a853]/20 rounded-xl py-4 px-6 transition-all duration-700"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0) scale(1)" : "translateY(30px) scale(0.9)",
+            transitionDelay: `${i * 300}ms`,
+          }}
+        >
+          <p className="text-[#d4a853] font-bold">{t}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
 const Section = ({ children, className = "", dark = false }: { children: React.ReactNode; className?: string; dark?: boolean }) => {
   const { ref, visible } = useScrollReveal();
@@ -342,13 +375,7 @@ export default function Index() {
             Um caminho onde você não é refém dos juros, da burocracia ou da sorte.
             Um caminho onde a sua empresa ou ideia será reconhecida e financiada como merece.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-            {["Sem favores", 'Sem "indicações"', "Seu direito por lei"].map((t) => (
-              <div key={t} className="bg-[#0a1628] border border-[#d4a853]/20 rounded-xl py-4 px-6">
-                <p className="text-[#d4a853] font-bold">{t}</p>
-              </div>
-            ))}
-          </div>
+          <ScrollRevealBadges />
           <p className="text-white/50 text-sm italic">
             Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
           </p>
