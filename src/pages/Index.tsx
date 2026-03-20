@@ -301,9 +301,14 @@ function WorkshopLearningSection() {
 
   return (
     <div ref={sectionRef} className="max-w-6xl mx-auto relative z-10">
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-14">
-        O que você vai aprender neste Workshop
-      </h2>
+      <div className="text-center mb-14 space-y-2">
+        <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Em apenas 1 hora ao vivo</p>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+          O que você vai aprender no{" "}
+          <span className="text-[#d4a853]">WORKSHOP AO VIVO</span>{" "}
+          do Zero à Captação
+        </h2>
+      </div>
 
       {/* Desktop: horizontal cards with arrows */}
       <div className="hidden md:flex items-stretch gap-0">
