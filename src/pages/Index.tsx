@@ -687,6 +687,16 @@ export default function Index() {
                 Desde 1969 o Governo Federal libera, através de programas de incentivo, recursos para fomentar o crescimento empresarial no Brasil.
               </p>
 
+              {/* Lei + Reunião de Fomento */}
+              <div className="space-y-3 mt-3">
+                <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 bg-white">
+                  <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" />
+                </div>
+                <div className="rounded-lg overflow-hidden border border-[#d4a853]/20">
+                  <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" />
+                </div>
+              </div>
+
               <a
                 href={CHECKOUT_URL}
                 target="_blank"
