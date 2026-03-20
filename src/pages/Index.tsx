@@ -467,26 +467,13 @@ export default function Index() {
       </Section>
 
       {/* ─── 5. O QUE VOCÊ VAI APRENDER ─── */}
-      <Section dark={false}>
-        <div className="text-center space-y-10">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">O que você vai aprender neste Workshop</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { icon: Zap, title: "Estar Apto", desc: "O que você precisa para estar apto aos programas de incentivo." },
-              { icon: ArrowRight, title: "Passo a Passo", desc: "O passo a passo do zero até receber o recurso na sua conta!" },
-              { icon: Users, title: "Onde Encontrar", desc: "Onde encontrar os programas de incentivos disponíveis AGORA!" },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 space-y-4 hover:border-[#d4a853]/40 transition-colors">
-                <div className="w-14 h-14 rounded-xl bg-[#d4a853]/10 flex items-center justify-center mx-auto">
-                  <Icon className="text-[#d4a853]" size={28} />
-                </div>
-                <h3 className="text-xl font-bold text-[#d4a853]">{title}</h3>
-                <p className="text-white/70">{desc}</p>
-              </div>
-            ))}
-          </div>
+      <section className="relative py-20 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-[#d4a853]/[0.03] blur-[100px]" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.05] blur-[80px]" />
         </div>
-      </Section>
+        <WorkshopLearningSection />
+      </section>
 
       {/* ─── 6. BÔNUS ─── */}
       <Section dark>
