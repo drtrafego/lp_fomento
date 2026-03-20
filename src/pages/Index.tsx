@@ -402,8 +402,7 @@ function WorkshopLearningSection() {
     </div>
   );
 }
-
-
+export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
