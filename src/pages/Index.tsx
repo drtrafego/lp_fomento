@@ -14,6 +14,8 @@ import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import leiDecreto from "@/assets/lei-decreto.png";
+import zoomLogo from "@/assets/zoom-logo.png";
+import { ScrollTypewriter } from "@/components/ScrollTypewriter";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
