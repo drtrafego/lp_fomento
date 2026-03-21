@@ -807,11 +807,13 @@ export default function Index() {
               {/* Glow behind image */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
               {/* Circular bust crop */}
-              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)]">
+              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                 <img
                   src={autoridadeImg}
                   alt="Pedro Diniz - Especialista em captação de recursos"
                   className="w-full h-full object-cover object-top scale-125"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               {/* Name and credentials */}
@@ -849,7 +851,7 @@ export default function Index() {
 
               {/* Lei — entre "merece" e "Desde 1969" */}
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 bg-white mt-2">
-                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" />
+                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" loading="lazy" decoding="async" />
               </div>
 
               <p className="text-white/50 text-sm italic">
@@ -858,7 +860,7 @@ export default function Index() {
 
               {/* Reunião de Fomento */}
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 mt-2">
-                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" />
+                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" />
               </div>
 
               <a
@@ -903,6 +905,8 @@ export default function Index() {
               src={mapaOrgaos}
               alt="Mapa dos órgãos de fomento no Brasil"
               className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl"
+              loading="lazy"
+              decoding="async"
             />
           </div>
 
@@ -971,6 +975,8 @@ export default function Index() {
               src={headerImg}
               alt="Pedro Diniz e Igor Abreu"
               className="w-full max-w-sm rounded-2xl border border-[#d4a853]/15 shadow-xl"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="space-y-5">
@@ -996,7 +1002,7 @@ export default function Index() {
       <Section dark={false}>
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="flex justify-center">
-            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" />
+            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" loading="lazy" decoding="async" />
           </div>
           <div className="space-y-5">
             <h2 className="text-2xl sm:text-3xl font-bold">Garantia Incondicional de 30 Dias</h2>
