@@ -946,7 +946,7 @@ export default function Index() {
       <PixNotificationsSection uf={userUf} />
 
       {/* ─── COPY DE TRANSIÇÃO (mobile only) ─── */}
-      <div className="sm:hidden pt-2 pb-12 px-6 bg-[#0a1628] text-center">
+      <div className="sm:hidden pt-2 pb-4 px-6 bg-[#0a1628] text-center">
         <p className="text-[#d4a853] text-lg sm:text-xl font-bold leading-relaxed">
           Já pensou se essa ordem de pagamento fosse na conta da sua empresa? Isso daria uma alavancada no seu negócio?{" "}
           <span className="text-white">Faça como eles 👇</span>
