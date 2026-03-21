@@ -27,7 +27,12 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
       if (!video) return;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && activatedVideos.has(index)) {
+          if (entry.isIntersecting) {
+            if (activatedVideos.has(index)) {
+              video.muted = false;
+            } else {
+              video.muted = true;
+            }
             video.play().catch(() => {});
           } else {
             video.pause();
