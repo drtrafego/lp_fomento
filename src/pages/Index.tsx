@@ -807,11 +807,13 @@ export default function Index() {
               {/* Glow behind image */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
               {/* Circular bust crop */}
-              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)]">
+              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                 <img
                   src={autoridadeImg}
                   alt="Pedro Diniz - Especialista em captação de recursos"
                   className="w-full h-full object-cover object-top scale-125"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               {/* Name and credentials */}
