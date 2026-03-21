@@ -625,7 +625,7 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   const govLabel = uf ? `GOV ${uf}` : "GOV FEDERAL";
 
   return (
-    <div ref={containerRef} className="sm:hidden relative min-h-[80vh] bg-[#0a1628]">
+    <div ref={containerRef} className="sm:hidden relative min-h-[60vh] bg-[#0a1628]">
       <div className="sticky top-1/2 -translate-y-1/2 px-4 space-y-3 z-40">
         {PIX_NOTIFICATIONS.map((n, i) => (
           <div
@@ -938,6 +938,45 @@ export default function Index() {
       {/* ─── PIX NOTIFICATIONS (mobile only) ─── */}
       <PixNotificationsSection uf={userUf} />
 
+      {/* ─── COPY DE TRANSIÇÃO (mobile only) ─── */}
+      <div className="sm:hidden py-12 px-6 bg-[#0a1628] text-center">
+        <p className="text-[#d4a853] text-lg sm:text-xl font-bold leading-relaxed">
+          Já pensou se essa ordem de pagamento fosse na conta da sua empresa? Isso daria uma alavancada no seu negócio?{" "}
+          <span className="text-white">Faça como eles 👇</span>
+        </p>
+      </div>
+
+      {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
+      <Section dark>
+        <div className="text-center space-y-10">
+          <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
+              >
+                <div className="relative aspect-[9/16] max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-[#d4a853]/20 flex items-center justify-center group-hover:bg-[#d4a853]/30 transition-colors">
+                    <Play className="text-[#d4a853] ml-1" size={28} fill="currentColor" />
+                  </div>
+                  <span className="absolute bottom-3 right-3 bg-black/60 text-white/80 text-xs px-2 py-1 rounded">
+                    Vídeo em breve
+                  </span>
+                </div>
+                <div className="p-5 space-y-1 text-left">
+                  <p className="text-white/50 text-sm">{t.handle}</p>
+                  <p className="text-[#d4a853] text-xl font-bold">{t.value}</p>
+                  <p className="text-white/40 text-xs">captados com Programas de Incentivo</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
+        </div>
+      </Section>
+
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
       <Section dark={false}>
         <div className="grid md:grid-cols-2 gap-10 items-center">
@@ -964,39 +1003,6 @@ export default function Index() {
               Pedro Diniz e Igor Abreu são os profissionais mais capacitados do Brasil hoje para te mostrar o passo a passo detalhado!
             </p>
           </div>
-        </div>
-      </Section>
-
-      {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
-      <Section dark>
-        <div className="text-center space-y-10">
-          <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
-              >
-                {/* Video placeholder */}
-                <div className="relative aspect-[9/16] max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
-                  <div className="w-16 h-16 rounded-full bg-[#d4a853]/20 flex items-center justify-center group-hover:bg-[#d4a853]/30 transition-colors">
-                    <Play className="text-[#d4a853] ml-1" size={28} fill="currentColor" />
-                  </div>
-                  <span className="absolute bottom-3 right-3 bg-black/60 text-white/80 text-xs px-2 py-1 rounded">
-                    Vídeo em breve
-                  </span>
-                </div>
-                {/* Info */}
-                <div className="p-5 space-y-1 text-left">
-                  <p className="text-white/50 text-sm">{t.handle}</p>
-                  <p className="text-[#d4a853] text-xl font-bold">{t.value}</p>
-                  <p className="text-white/40 text-xs">captados com Programas de Incentivo</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
         </div>
       </Section>
 
