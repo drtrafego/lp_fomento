@@ -293,7 +293,8 @@ function WorkshopLearningSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false]);
   const [arrowsVisible, setArrowsVisible] = useState<boolean[]>([false, false]);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const desktopCardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const mobileCardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
   const [numberZoomed, setNumberZoomed] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
@@ -319,25 +320,28 @@ function WorkshopLearningSection() {
     return () => obs.disconnect();
   }, []);
 
-  // Individual card observers for zoom-in numbers
+  // Individual card observers for zoom-in numbers (observe both desktop and mobile)
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setNumberZoomed(prev => {
-              const next = [...prev];
-              next[i] = true;
-              return next;
-            });
-          }
-        },
-        { threshold: 0.3 }
-      );
-      obs.observe(el);
-      observers.push(obs);
+    const allRefs = [desktopCardRefs.current, mobileCardRefs.current];
+    allRefs.forEach(refs => {
+      refs.forEach((el, i) => {
+        if (!el) return;
+        const obs = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setNumberZoomed(prev => {
+                const next = [...prev];
+                next[i] = true;
+                return next;
+              });
+            }
+          },
+          { threshold: 0.3 }
+        );
+        obs.observe(el);
+        observers.push(obs);
+      });
     });
     return () => observers.forEach(o => o.disconnect());
   }, []);
@@ -367,7 +371,7 @@ function WorkshopLearningSection() {
           return (
             <div key={card.num} className="flex items-stretch">
               <div
-                ref={el => { cardRefs.current[i] = el; }}
+                ref={el => { desktopCardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 flex-1 min-w-[280px] card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
@@ -431,7 +435,7 @@ function WorkshopLearningSection() {
                 </span>
               </div>
               <div
-                ref={el => { if (!cardRefs.current[i]) cardRefs.current[i] = el; }}
+                ref={el => { mobileCardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-6 card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
