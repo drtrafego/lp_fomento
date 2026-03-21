@@ -691,6 +691,8 @@ export default function Index() {
         </div>
       </header>
 
+      {/* ─── PIX NOTIFICATIONS (mobile only) ─── */}
+      <PixNotificationsSection uf={userUf} />
 
       {/* ─── 2. HERO ─── */}
       <section className="relative bg-[#0a1628] pt-20 pb-10 md:pt-28 md:pb-24 px-4">
