@@ -190,12 +190,12 @@ const GoldButton = ({ children, className = "", showGuarantee = true }: { childr
 );
 
 const testimonials = [
-  { handle: "@depoimento1", value: "R$ 180.000" },
-  { handle: "@depoimento2", value: "R$ 95.000" },
-  { handle: "@depoimento3", value: "R$ 250.000" },
-  { handle: "@depoimento4", value: "R$ 39.000" },
-  { handle: "@depoimento5", value: "R$ 150.000" },
-  { handle: "@depoimento6", value: "R$ 400.000" },
+  { handle: "@bulldogburguer", value: "R$ 420.000", video: "https://dunas.b-cdn.net/videos_LP_nova/0C7535c4-Fc79-44B7-9257-1C6e1b48d0d3.mp4" },
+  { handle: "@quasis", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
+  { handle: "@girotec", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
+  { handle: "@depoimento4", value: "R$ 39.000", video: "" },
+  { handle: "@depoimento5", value: "R$ 150.000", video: "" },
+  { handle: "@depoimento6", value: "R$ 400.000", video: "" },
 ];
 
 const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
