@@ -320,25 +320,28 @@ function WorkshopLearningSection() {
     return () => obs.disconnect();
   }, []);
 
-  // Individual card observers for zoom-in numbers
+  // Individual card observers for zoom-in numbers (observe both desktop and mobile)
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setNumberZoomed(prev => {
-              const next = [...prev];
-              next[i] = true;
-              return next;
-            });
-          }
-        },
-        { threshold: 0.3 }
-      );
-      obs.observe(el);
-      observers.push(obs);
+    const allRefs = [desktopCardRefs.current, mobileCardRefs.current];
+    allRefs.forEach(refs => {
+      refs.forEach((el, i) => {
+        if (!el) return;
+        const obs = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setNumberZoomed(prev => {
+                const next = [...prev];
+                next[i] = true;
+                return next;
+              });
+            }
+          },
+          { threshold: 0.3 }
+        );
+        obs.observe(el);
+        observers.push(obs);
+      });
     });
     return () => observers.forEach(o => o.disconnect());
   }, []);
