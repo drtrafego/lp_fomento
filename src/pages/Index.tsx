@@ -193,9 +193,9 @@ const testimonials = [
   { handle: "@bulldogburguer", value: "R$ 420.000", video: "https://dunas.b-cdn.net/videos_LP_nova/0C7535c4-Fc79-44B7-9257-1C6e1b48d0d3.mp4" },
   { handle: "@quasis", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
   { handle: "@girotec", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
-  { handle: "@depoimento4", value: "R$ 39.000", video: "" },
-  { handle: "@depoimento5", value: "R$ 150.000", video: "" },
-  { handle: "@depoimento6", value: "R$ 400.000", video: "" },
+  { handle: "@instabov", value: "R$ 730.000", video: "https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4" },
+  { handle: "@impargestao", value: "R$ 39.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
+  { handle: "@globaltec", value: "R$ 500.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
 ];
 
 const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
@@ -950,11 +950,11 @@ export default function Index() {
         <div className="text-center space-y-10">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 -mx-6 sm:mx-0">
             {testimonials.map((t, i) => (
               <div
                 key={i}
-                className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
+                className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-none sm:rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
               >
                 <div className="relative aspect-[9/16] max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
                   {t.video ? (
