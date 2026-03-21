@@ -629,8 +629,8 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   const govLabel = uf ? `GOV ${uf}` : "GOV FEDERAL";
 
   return (
-    <div ref={containerRef} className="sm:hidden relative pb-0 bg-[#0a1628]">
-      <div className="px-4 space-y-3 z-40 py-4">
+    <div ref={containerRef} className="sm:hidden relative bg-[#0a1628]" style={{ minHeight: `${PIX_NOTIFICATIONS.length * 82 + 32}px` }}>
+      <div className="px-4 space-y-3 z-40 pt-4 pb-8">
         {PIX_NOTIFICATIONS.map((n, i) => (
           <div
             key={i}
