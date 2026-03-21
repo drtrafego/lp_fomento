@@ -85,7 +85,6 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
                     <span className="mt-4 text-white/90 font-bold text-sm tracking-widest uppercase flex items-center gap-2 drop-shadow-lg">
                       <Volume2 size={14} className="text-[#d4a853]" /> Toque para ouvir
                     </span>
-                    </span>
                   </div>
                 )}
               </>
