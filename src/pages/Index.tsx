@@ -981,15 +981,7 @@ export default function Index() {
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
       <Section dark={false}>
-        <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="flex justify-center">
-            <img
-              src={headerImg}
-              alt="Pedro Diniz e Igor Abreu"
-              className="w-full max-w-sm rounded-2xl border border-[#d4a853]/15 shadow-xl"
-              loading="lazy"
-              decoding="async"
-            />
           </div>
           <div className="space-y-5">
             <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Seus mentores</p>
