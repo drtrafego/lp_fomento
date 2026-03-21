@@ -698,7 +698,6 @@ export default function Index() {
             {/* Date/event bar */}
             <div className="flex items-center gap-3 text-sm">
               <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 AO VIVO
               </span>
               <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
