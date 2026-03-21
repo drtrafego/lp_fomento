@@ -946,7 +946,7 @@ export default function Index() {
       <PixNotificationsSection uf={userUf} />
 
       {/* ─── COPY DE TRANSIÇÃO (mobile only) ─── */}
-      <div className="sm:hidden pt-2 pb-12 px-6 bg-[#0a1628] text-center">
+      <div className="sm:hidden pt-2 pb-4 px-6 bg-[#0a1628] text-center">
         <p className="text-[#d4a853] text-lg sm:text-xl font-bold leading-relaxed">
           Já pensou se essa ordem de pagamento fosse na conta da sua empresa? Isso daria uma alavancada no seu negócio?{" "}
           <span className="text-white">Faça como eles 👇</span>
@@ -954,8 +954,8 @@ export default function Index() {
       </div>
 
       {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
-      <Section dark>
-        <div className="text-center space-y-10">
+      <Section dark className="!pt-6 sm:!pt-16">
+        <div className="text-center space-y-4">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
           <VideoTestimonials testimonials={testimonials} />
