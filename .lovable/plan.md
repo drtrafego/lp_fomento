@@ -1,22 +1,34 @@
 
 
-## Acelerar Carregamento da Imagem do Mentor
+## Play Pulsante + Autoplay Mutado com Pause ao Sair
 
-### Problema
-A imagem `autoridade-homem.png` na seção do Pedro Diniz demora para carregar porque é um PNG grande e não tem `loading="lazy"` nem otimização.
+### O que muda
 
-### Mudanças em `src/pages/Index.tsx`
+1. **Ícone de play pulsando**: Trocar `animate-pulse` por uma animação customizada mais visível — scale pulsante (1 → 1.15 → 1) com glow dourado, para induzir o clique
 
-1. **Adicionar `loading="eager"` e `fetchPriority="low"`** na imagem do mentor (linha 811-815) — como está abaixo do fold, o browser pode priorizar outras coisas primeiro. Alternativamente, adicionar `loading="lazy"` para não bloquear o carregamento inicial.
+2. **Autoplay mutado ao entrar na viewport**: O IntersectionObserver agora dá play mutado quando o vídeo entra na viewport (mesmo sem clique), criando movimento no fundo. Ao sair, pausa.
 
-2. **Adicionar `decoding="async"`** para não bloquear o rendering thread.
+3. **Clique no play**: Continua desmutando e escondendo o overlay como já funciona. Após clicar, o observer retoma com som ao voltar à viewport.
 
-3. **Aplicar o mesmo tratamento** a todas as imagens abaixo do fold (mapa, selo garantia, reunião, etc.) — `loading="lazy" decoding="async"`.
+### Mudanças em `src/components/VideoTestimonials.tsx`
 
-4. **Placeholder visual**: Adicionar um `bg-[#1a2a4a]` no container circular para que o espaço não fique vazio enquanto a imagem carrega — o usuário verá o círculo com fundo escuro em vez de vazio.
+**IntersectionObserver (linhas 28-34)**: Mudar a lógica:
+- Se `isIntersecting`: sempre dar `video.play()`. Se já foi ativado (`activatedVideos.has(index)`), manter `muted = false`. Se não, manter `muted = true`.
+- Se não `isIntersecting`: sempre `video.pause()`
+
+**Botão play (linha 71)**: Adicionar animação CSS customizada de pulse+scale mais agressiva via `animate-[pulse-glow_2s_ease-in-out_infinite]` e adicionar keyframes inline ou no tailwind config.
+
+**Keyframes** no `tailwind.config.ts`:
+```
+"pulse-glow": {
+  "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(212,168,83,0.4)" },
+  "50%": { transform: "scale(1.12)", boxShadow: "0 0 25px 8px rgba(212,168,83,0.25)" }
+}
+```
 
 ### Resultado
-- Imagem do mentor carrega sem bloquear o resto da página
-- Container mostra fundo escuro enquanto a imagem baixa
-- Demais imagens below-the-fold também ficam lazy
+- Vídeos mostram movimento (autoplay mutado) ao scrollar → induz clique
+- Play pulsa com glow dourado → mais chamativo
+- Pause ao sair da viewport, play ao voltar
+- Clique ativa som
 
