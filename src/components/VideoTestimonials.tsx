@@ -27,7 +27,12 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
       if (!video) return;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && activatedVideos.has(index)) {
+          if (entry.isIntersecting) {
+            if (activatedVideos.has(index)) {
+              video.muted = false;
+            } else {
+              video.muted = true;
+            }
             video.play().catch(() => {});
           } else {
             video.pause();
@@ -68,7 +73,7 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
                     onClick={() => handlePlay(i)}
                     className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 cursor-pointer group/play"
                   >
-                    <div className="w-20 h-20 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center animate-pulse group-hover/play:scale-110 transition-transform">
+                    <div className="w-20 h-20 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center animate-pulse-glow group-hover/play:scale-110 transition-transform">
                       <Play className="w-9 h-9 text-[#d4a853] fill-[#d4a853] ml-1" />
                     </div>
                     <span className="mt-4 text-white/90 font-semibold text-sm tracking-widest uppercase flex items-center gap-2">
