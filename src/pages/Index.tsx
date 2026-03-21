@@ -289,6 +289,21 @@ const workshopCards = [
   },
 ];
 
+function SequentialBullets({ bullets, iconSize = 16, gap = "gap-2.5", spacing = "space-y-3" }: { bullets: string[]; iconSize?: number; gap?: string; spacing?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const progresses = useSequentialBulletProgress(containerRef, bullets.length);
+  return (
+    <ul ref={containerRef} className={spacing}>
+      {bullets.map((b, j) => (
+        <li key={j} className={`flex items-start ${gap} text-sm leading-relaxed`}>
+          <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={iconSize} />
+          <ScrollTypewriter text={b} progress={progresses[j]} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function WorkshopLearningSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false]);
