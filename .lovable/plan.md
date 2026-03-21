@@ -1,23 +1,35 @@
 
 
-## Glassmorphism nas Notificações de PIX
+## Reorganizar Seções Pós-PIX + Adicionar Copy de Transição + Reduzir Espaço Vazio
 
-### Mudança
+### Problemas identificados
+1. Notificações PIX sobrepõem texto (sticky posicionamento conflitante)
+2. Espaço azul vazio muito grande após as notificações (min-h-[80vh])
+3. Ordem das seções não está como desejado
 
-Alterar o estilo de cada card de notificação na `PixNotificationsSection` (linha 639) de fundo branco opaco para vidro jateado (frosted glass):
+### Nova ordem (mobile)
 
-**De:** `bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl`
-**Para:** `bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20`
+```text
+[Bônus]
+   ↓
+[PIX Notifications scroll-driven] ← reduzir min-h para 60vh
+   ↓
+"Já pensou se essa ordem de pagamento
+ fosse na conta da sua empresa?
+ Isso daria uma alavancada no seu negócio?
+ Faça como eles 👇"
+   ↓
+[Vídeos Prova Social] ← mover para cá (era seção 8)
+   ↓
+[Mentores Pedro e Igor] ← mover para cá (era seção 7)
+   ↓
+[Pricing/CTA card] ← seção 10
+```
 
-Ajustar as cores do texto de cinza escuro para branco/claro:
-- Título "Pix recebido": `text-white font-semibold`
-- "agora": `text-white/50`
-- "ORDEM DE PAGAMENTO": `text-white/70`
-- Valor: `text-white font-bold`
+### Mudanças em `src/pages/Index.tsx`
 
-### Arquivo
-
-| Arquivo | Mudança |
-|---------|---------|
-| `src/pages/Index.tsx` | Linha 639: trocar bg/cores para glassmorphism |
+1. **Reduzir espaço vazio**: Trocar `min-h-[80vh]` por `min-h-[60vh]` no container do PixNotificationsSection
+2. **Adicionar copy de transição**: Após `<PixNotificationsSection>`, inserir bloco mobile-only com texto "Já pensou se essa ordem de pagamento fosse na conta da sua empresa? isso daria uma alavancada no seu negócio? Faça como eles 👇" — centralizado, dourado
+3. **Reordenar seções**: Mover seção 8 (Prova Social vídeos) para antes da seção 7 (Mentores), ficando logo após a copy de transição
+4. **Manter desktop inalterado**: A reordenação se aplica no HTML geral (afeta ambos), mas a copy de transição é `sm:hidden`
 
