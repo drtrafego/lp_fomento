@@ -613,10 +613,10 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
     const onScroll = () => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const start = vh * 0.8;
-      const end = -el.offsetHeight + vh * 0.3;
+      const start = vh * 0.7;
+      const end = -el.offsetHeight * 0.4;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-      const idx = Math.floor(progress * PIX_NOTIFICATIONS.length) - 1;
+      const idx = Math.floor(progress * (PIX_NOTIFICATIONS.length + 0.5)) - 1;
       setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -627,7 +627,7 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   const govLabel = uf ? `GOV ${uf}` : "GOV FEDERAL";
 
   return (
-    <div ref={containerRef} className="sm:hidden relative min-h-[200vh] pb-0 bg-[#0a1628]">
+    <div ref={containerRef} className="sm:hidden relative min-h-[120vh] pb-0 bg-[#0a1628]">
       <div className="sticky top-1/2 -translate-y-1/2 px-4 space-y-3 z-40">
         {PIX_NOTIFICATIONS.map((n, i) => (
           <div
