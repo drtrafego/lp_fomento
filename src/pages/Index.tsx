@@ -975,6 +975,8 @@ export default function Index() {
               src={headerImg}
               alt="Pedro Diniz e Igor Abreu"
               className="w-full max-w-sm rounded-2xl border border-[#d4a853]/15 shadow-xl"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="space-y-5">
