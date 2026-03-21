@@ -625,7 +625,7 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   const govLabel = uf ? `GOV ${uf}` : "GOV FEDERAL";
 
   return (
-    <div ref={containerRef} className="sm:hidden relative min-h-[60vh] bg-[#0a1628]">
+    <div ref={containerRef} className="sm:hidden relative min-h-[40vh] pb-0 bg-[#0a1628]">
       <div className="sticky top-1/2 -translate-y-1/2 px-4 space-y-3 z-40">
         {PIX_NOTIFICATIONS.map((n, i) => (
           <div
@@ -938,7 +938,7 @@ export default function Index() {
       <PixNotificationsSection uf={userUf} />
 
       {/* ─── COPY DE TRANSIÇÃO (mobile only) ─── */}
-      <div className="sm:hidden py-12 px-6 bg-[#0a1628] text-center">
+      <div className="sm:hidden pt-2 pb-12 px-6 bg-[#0a1628] text-center">
         <p className="text-[#d4a853] text-lg sm:text-xl font-bold leading-relaxed">
           Já pensou se essa ordem de pagamento fosse na conta da sua empresa? Isso daria uma alavancada no seu negócio?{" "}
           <span className="text-white">Faça como eles 👇</span>
