@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import {
@@ -14,6 +14,8 @@ import autoridadeImg from "@/assets/autoridade-homem.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import leiDecreto from "@/assets/lei-decreto.png";
+import zoomLogo from "@/assets/zoom-logo.png";
+import { ScrollTypewriter } from "@/components/ScrollTypewriter";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
@@ -291,6 +293,8 @@ function WorkshopLearningSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false]);
   const [arrowsVisible, setArrowsVisible] = useState<boolean[]>([false, false]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const [numberZoomed, setNumberZoomed] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -298,7 +302,6 @@ function WorkshopLearningSection() {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Stagger cards
           setTimeout(() => setVisibleCards((p) => [true, p[1], p[2]]), 0);
           setTimeout(() => {
             setArrowsVisible((p) => [true, p[1]]);
@@ -316,15 +319,45 @@ function WorkshopLearningSection() {
     return () => obs.disconnect();
   }, []);
 
+  // Individual card observers for zoom-in numbers
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    cardRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setNumberZoomed(prev => {
+              const next = [...prev];
+              next[i] = true;
+              return next;
+            });
+          }
+        },
+        { threshold: 0.3 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
   return (
     <div ref={sectionRef} className="max-w-6xl mx-auto relative z-10">
-      <div className="text-center mb-14 space-y-2">
+      <div className="text-center mb-14 space-y-3">
         <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Em apenas 1 hora ao vivo</p>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
           O que você vai aprender no{" "}
           <span className="text-[#d4a853]">WORKSHOP AO VIVO</span>{" "}
           do Zero à Captação
         </h2>
+        {/* Zoom logo badge */}
+        <div className="flex items-center justify-center gap-2 mt-3">
+          <div className="flex items-center gap-2 bg-[#2D8CFF]/15 border border-[#2D8CFF]/30 rounded-full px-4 py-1.5">
+            <img src={zoomLogo} alt="Zoom" className="w-5 h-5 object-contain" />
+            <span className="text-[#2D8CFF] text-xs font-semibold uppercase tracking-wider">via Zoom</span>
+          </div>
+        </div>
       </div>
 
       {/* Desktop: horizontal cards with arrows */}
@@ -333,16 +366,21 @@ function WorkshopLearningSection() {
           const Icon = card.icon;
           return (
             <div key={card.num} className="flex items-stretch">
-              {/* Card */}
               <div
+                ref={el => { cardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 flex-1 min-w-[280px] card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
                   transform: visibleCards[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
                 }}
               >
-                {/* Large number */}
-                <span className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/10 select-none leading-none">
+                <span
+                  className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/10 select-none leading-none transition-all duration-700"
+                  style={{
+                    transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
+                    opacity: numberZoomed[i] ? 1 : 0,
+                  }}
+                >
                   {card.num}
                 </span>
                 <div className="relative space-y-4">
@@ -354,16 +392,14 @@ function WorkshopLearningSection() {
                   </div>
                   <ul className="space-y-3">
                     {card.bullets.map((b, j) => (
-                      <li key={j} className="flex items-start gap-2.5 text-sm text-white/70 leading-relaxed">
+                      <li key={j} className="flex items-start gap-2.5 text-sm leading-relaxed">
                         <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={16} />
-                        <span>{b}</span>
+                        <ScrollTypewriter text={b} />
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
-
-              {/* Arrow between cards (not after last) */}
               {i < 2 && (
                 <div className="flex items-center px-3">
                   <svg width="40" height="24" viewBox="0 0 40 24" fill="none" className={arrowsVisible[i] ? "arrow-drawn" : "opacity-0"} style={{ animationDelay: `${i * 200}ms` }}>
@@ -376,22 +412,32 @@ function WorkshopLearningSection() {
         })}
       </div>
 
-      {/* Mobile: vertical cards with down arrows */}
+      {/* Mobile: vertical cards with down arrows — numbers centered + zoom-in */}
       <div className="md:hidden space-y-0">
         {workshopCards.map((card, i) => {
           const Icon = card.icon;
           return (
             <div key={card.num}>
+              {/* Centered large number with zoom-in */}
+              <div className="text-center mb-2">
+                <span
+                  className="inline-block text-8xl font-black text-[#d4a853]/15 select-none leading-none transition-all duration-700 ease-out"
+                  style={{
+                    transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
+                    opacity: numberZoomed[i] ? 1 : 0,
+                  }}
+                >
+                  {card.num}
+                </span>
+              </div>
               <div
+                ref={el => { if (!cardRefs.current[i]) cardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-6 card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
                   transform: visibleCards[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
                 }}
               >
-                <span className="absolute -top-3 -left-1 text-6xl font-black text-[#d4a853]/10 select-none leading-none">
-                  {card.num}
-                </span>
                 <div className="relative space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-xl bg-[#d4a853]/10 flex items-center justify-center">
@@ -401,15 +447,14 @@ function WorkshopLearningSection() {
                   </div>
                   <ul className="space-y-2.5">
                     {card.bullets.map((b, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-white/70 leading-relaxed">
+                      <li key={j} className="flex items-start gap-2 text-sm leading-relaxed">
                         <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={15} />
-                        <span>{b}</span>
+                        <ScrollTypewriter text={b} />
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
-              {/* Down arrow between cards */}
               {i < 2 && (
                 <div className="flex justify-center py-3">
                   <svg width="24" height="40" viewBox="0 0 24 40" fill="none" className={arrowsVisible[i] ? "arrow-drawn" : "opacity-0"}>
