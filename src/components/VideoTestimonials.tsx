@@ -73,11 +73,17 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
                     onClick={() => handlePlay(i)}
                     className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 cursor-pointer group/play"
                   >
-                    <div className="w-20 h-20 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full flex items-center justify-center animate-pulse-glow group-hover/play:scale-110 transition-transform">
-                      <Play className="w-9 h-9 text-[#d4a853] fill-[#d4a853] ml-1" />
+                    <div className="relative">
+                      {/* Ping rings */}
+                      <div className="absolute inset-0 w-20 h-20 rounded-full border-2 border-[#d4a853]/50 animate-ping-ring" />
+                      <div className="absolute inset-0 w-20 h-20 rounded-full border border-[#d4a853]/30 animate-ping-ring [animation-delay:0.6s]" />
+                      {/* Main button */}
+                      <div className="relative w-20 h-20 bg-white/15 backdrop-blur-sm border-2 border-[#d4a853]/60 rounded-full flex items-center justify-center animate-pulse-glow group-hover/play:scale-110 transition-transform shadow-[0_0_20px_rgba(212,168,83,0.3)]">
+                        <Play className="w-9 h-9 text-[#d4a853] fill-[#d4a853] ml-1 drop-shadow-[0_0_8px_rgba(212,168,83,0.6)]" />
+                      </div>
                     </div>
-                    <span className="mt-4 text-white/90 font-semibold text-sm tracking-widest uppercase flex items-center gap-2">
-                      <Volume2 size={14} /> Toque para ouvir
+                    <span className="mt-4 text-white/90 font-bold text-sm tracking-widest uppercase flex items-center gap-2 drop-shadow-lg">
+                      <Volume2 size={14} className="text-[#d4a853]" /> Toque para ouvir
                     </span>
                   </div>
                 )}
