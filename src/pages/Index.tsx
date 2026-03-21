@@ -636,17 +636,17 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
               animationDelay: "0ms",
             }}
           >
-            <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-3 flex items-start gap-3">
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-3 flex items-start gap-3">
               <BankLogo bank={n.bank} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-900 font-semibold text-sm">Pix recebido</p>
-                  <span className="text-gray-400 text-xs">agora</span>
+                  <p className="text-white font-semibold text-sm">Pix recebido</p>
+                  <span className="text-white/50 text-xs">agora</span>
                 </div>
-                <p className="text-gray-600 text-xs mt-0.5">
+                <p className="text-white/70 text-xs mt-0.5">
                   ORDEM DE PAGAMENTO {govLabel}
                 </p>
-                <p className="text-gray-900 font-bold text-sm mt-0.5">
+                <p className="text-white font-bold text-sm mt-0.5">
                   {n.valor} creditado na sua conta
                 </p>
               </div>
