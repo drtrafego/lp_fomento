@@ -956,7 +956,7 @@ export default function Index() {
                 key={i}
                 className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-none sm:rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
               >
-                <div className="relative aspect-video sm:aspect-[9/16] sm:max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
+                <div className="relative aspect-[9/16] sm:max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
                   {t.video ? (
                     <video
                       src={t.video}
