@@ -981,9 +981,7 @@ export default function Index() {
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
       <Section dark={false}>
-          <div className="flex justify-center">
-          </div>
-          <div className="space-y-5">
+        <div className="max-w-2xl mx-auto space-y-5 text-center">
             <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Seus mentores</p>
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
             <p className="text-white/60 text-sm">Empresários e Sócios da Dunas Capital</p>
@@ -998,7 +996,6 @@ export default function Index() {
             <p className="text-white/70 leading-relaxed">
               Pedro Diniz e Igor Abreu são os profissionais mais capacitados do Brasil hoje para te mostrar o passo a passo detalhado!
             </p>
-          </div>
         </div>
       </Section>
 
