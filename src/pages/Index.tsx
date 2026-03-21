@@ -796,20 +796,24 @@ export default function Index() {
           <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-8 md:gap-16">
 
             {/* Image with golden rings behind + gradient anchor */}
-            <div className="relative flex justify-center w-full">
+            <div className="relative flex flex-col items-center w-full">
               {/* Golden rings behind image */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] md:w-[500px] md:h-[500px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] md:w-[500px] md:h-[500px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
               {/* Glow behind image */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
-              <div className="relative">
+              {/* Circular bust crop */}
+              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)]">
                 <img
                   src={autoridadeImg}
-                  alt="Especialista em captação de recursos"
-                  className="relative w-56 sm:w-64 md:w-80 drop-shadow-[0_0_40px_rgba(212,168,83,0.3)]"
+                  alt="Pedro Diniz - Especialista em captação de recursos"
+                  className="w-full h-full object-cover object-top scale-125"
                 />
-                {/* Gradient to anchor image to background */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/80 to-transparent" />
+              </div>
+              {/* Name and credentials */}
+              <div className="mt-4 text-center relative z-10">
+                <h3 className="text-white font-bold text-lg sm:text-xl tracking-widest uppercase">PEDRO DINIZ</h3>
+                <p className="text-[#d4a853] text-sm sm:text-base font-medium mt-1">+ de 50 milhões captados</p>
               </div>
             </div>
 
