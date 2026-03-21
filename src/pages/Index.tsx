@@ -905,6 +905,8 @@ export default function Index() {
               src={mapaOrgaos}
               alt="Mapa dos órgãos de fomento no Brasil"
               className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl"
+              loading="lazy"
+              decoding="async"
             />
           </div>
 
