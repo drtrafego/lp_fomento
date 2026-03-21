@@ -613,10 +613,10 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
     const onScroll = () => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const start = vh * 0.8;
-      const end = -el.offsetHeight + vh * 0.3;
+      const start = vh * 0.7;
+      const end = -el.offsetHeight * 0.4;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-      const idx = Math.floor(progress * PIX_NOTIFICATIONS.length) - 1;
+      const idx = Math.floor(progress * (PIX_NOTIFICATIONS.length + 0.5)) - 1;
       setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
