@@ -1,37 +1,31 @@
 
 
-## Cards Premium + Autoplay por Scroll nos Vídeos de Prova Social
+## Botão Play VSL-style nos Vídeos de Prova Social
 
-### O que muda
-
-1. **Cards premium**: Adicionar padding/margin nos vídeos mobile (remover `rounded-none -mx-6`) e usar `rounded-2xl` com borda dourada e sombra em todos os breakpoints
-2. **Autoplay por scroll**: Usar IntersectionObserver para dar play quando o vídeo entra na viewport e pause quando sai
+### Conceito
+Adicionar um overlay com botão de play grande estilo VSL (Video Sales Letter) sobre cada vídeo. O vídeo começa pausado e mutado. Ao tocar no botão, o overlay desaparece, o vídeo dá play COM som. O IntersectionObserver continua funcionando para pausar ao sair da viewport.
 
 ### Mudanças em `src/pages/Index.tsx`
 
-**Grid container (linha 957)**:
-- Remover `-mx-6 sm:mx-0` para vídeos não encostarem na borda
-- Manter `gap-4 sm:gap-6`
+**Novo estado**: `const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set())` para rastrear quais vídeos o usuário já clicou.
 
-**Card (linha 961)**:
-- Trocar `rounded-none sm:rounded-2xl` por `rounded-2xl` em todos os breakpoints
-- Adicionar `shadow-lg shadow-black/20` para efeito premium
+**Overlay play button** (sobre cada vídeo):
+- Overlay escuro (`bg-black/40`) com botão play centralizado (triângulo grande branco/dourado dentro de círculo semi-transparente)
+- Texto "Toque para assistir" ou ícone pulsante
+- Visível apenas quando o vídeo NÃO está no set `playingVideos`
+- Ao clicar: adiciona ao set, faz `video.muted = false` e `video.play()`
 
-**Video (linhas 963-981)**:
-- Trocar `aspect-[9/16] sm:max-h-[320px]` por `aspect-[9/16]` com `rounded-t-2xl overflow-hidden`
-- Adicionar `ref` via callback ref com IntersectionObserver
-- Configurar `muted autoPlay` controlado pelo observer (threshold ~0.5)
-- Remover `controls` e adicionar `muted loop playsInline` para autoplay funcionar no mobile
+**IntersectionObserver ajustado**:
+- Se o vídeo já foi "clicado" (está no set): ao sair da viewport → pause; ao voltar → play com som
+- Se NÃO foi clicado: fica pausado esperando o clique
 
-**Lógica IntersectionObserver** (novo useEffect ou inline):
-- Criar um observer com `threshold: 0.5`
-- Quando o vídeo entra em 50% da viewport: `video.play()`
-- Quando sai: `video.pause()`
-- Usar `useRef` com array de refs para os vídeos
-- Cleanup no unmount
+**Poster/thumbnail**: Adicionar `poster` com o primeiro frame (usar `preload="metadata"`) para mostrar thumbnail antes do play.
 
-### Resultado visual
-- Vídeos dentro de cards com bordas arredondadas e sombra
-- Espaçamento nas laterais no mobile (não encosta na borda)
-- Autoplay silencioso ao scrollar, pausa ao sair da tela
+### Visual do botão
+- Círculo `w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full`
+- Triângulo play dourado dentro (`Play` icon do lucide, fill)
+- Animação `animate-pulse` sutil no círculo
+
+### Resultado
+Vídeos mostram thumbnail → usuário toca → play com áudio → ao scrollar para longe pausa → ao voltar retoma
 
