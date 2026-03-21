@@ -293,7 +293,8 @@ function WorkshopLearningSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false]);
   const [arrowsVisible, setArrowsVisible] = useState<boolean[]>([false, false]);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const desktopCardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const mobileCardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
   const [numberZoomed, setNumberZoomed] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
