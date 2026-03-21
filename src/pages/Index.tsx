@@ -492,13 +492,13 @@ function BonusSection() {
 
   const bonuses = [
     {
-      icon: Gift,
+      customIcon: "lista-top" as const,
       title: "Lista TOP 10",
       desc: "Os programas de incentivo disponíveis AGORA! A lista mais atualizada do mercado com os editais abertos para você aplicar imediatamente.",
       price: "R$ 97,00",
     },
     {
-      icon: MessageCircle,
+      customIcon: "whatsapp" as const,
       title: "Grupo de Alerta",
       desc: "WhatsApp fechado com oportunidades de programas de incentivo imperdíveis. Receba alertas em primeira mão quando novos editais abrirem.",
       price: "R$ 97,00",
