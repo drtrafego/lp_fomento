@@ -18,6 +18,7 @@ import leiDecreto from "@/assets/lei-decreto.png";
 import zoomLogo from "@/assets/zoom-logo.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
+import { VideoTestimonials } from "@/components/VideoTestimonials";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
