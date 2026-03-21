@@ -290,8 +290,8 @@ const workshopCards = [
 ];
 
 function SequentialBullets({ bullets, iconSize = 16, gap = "gap-2.5", spacing = "space-y-3" }: { bullets: string[]; iconSize?: number; gap?: string; spacing?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const progresses = useSequentialBulletProgress(containerRef, bullets.length);
+  const containerRef = useRef<HTMLUListElement>(null);
+  const progresses = useSequentialBulletProgress(containerRef as React.RefObject<HTMLDivElement | null>, bullets.length);
   return (
     <ul ref={containerRef} className={spacing}>
       {bullets.map((b, j) => (
