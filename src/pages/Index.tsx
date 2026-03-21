@@ -860,7 +860,7 @@ export default function Index() {
 
               {/* Reunião de Fomento */}
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 mt-2">
-                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" />
+                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" />
               </div>
 
               <a
