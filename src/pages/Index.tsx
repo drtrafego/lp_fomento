@@ -935,6 +935,9 @@ export default function Index() {
         <BonusSection />
       </section>
 
+      {/* ─── PIX NOTIFICATIONS (mobile only) ─── */}
+      <PixNotificationsSection uf={userUf} />
+
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
       <Section dark={false}>
         <div className="grid md:grid-cols-2 gap-10 items-center">
