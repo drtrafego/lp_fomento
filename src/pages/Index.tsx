@@ -371,7 +371,7 @@ function WorkshopLearningSection() {
           return (
             <div key={card.num} className="flex items-stretch">
               <div
-                ref={el => { cardRefs.current[i] = el; }}
+                ref={el => { desktopCardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 flex-1 min-w-[280px] card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
