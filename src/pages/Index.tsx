@@ -754,12 +754,24 @@ export default function Index() {
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
           </div>
-          <div className="flex justify-center animate-fade-in" style={{ animationDelay: "200ms" }}>
-            <img
-              src={headerImg}
-              alt="Pedro Diniz e Igor Abreu — Workshop Dunas Capital"
-              className="w-full max-w-md rounded-xl shadow-2xl shadow-[#d4a853]/15 border-2 border-[#d4a853]/20 hero-glow"
-            />
+          <div className="flex justify-center animate-fade-in relative" style={{ animationDelay: "200ms" }}>
+            {/* Golden rings behind image */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
+            <div className="flex flex-col items-center">
+              <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
+                <img
+                  src={autoridadeImg}
+                  alt="Pedro Diniz - Especialista em captação de recursos"
+                  className="w-full h-full object-cover object-top scale-125"
+                />
+              </div>
+              <div className="mt-3 text-center relative z-10">
+                <h3 className="text-white font-bold text-base sm:text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
+                <p className="text-[#d4a853] text-xs sm:text-sm font-medium mt-1">+ de 50 milhões captados</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
