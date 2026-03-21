@@ -29,17 +29,19 @@ const CHECKOUT_URL =
   "https://payfast.greenn.com.br/124770/offer/HZeJnK?ch_id=23349&b_id_1=130170&b_offer_1=tJv2Nz&b_id_2=149317&b_offer_2=R1ELtR&cart_token=1200637589.1771014523";
 function useUserState() {
   const [estado, setEstado] = useState<string | null>(null);
+  const [uf, setUf] = useState<string | null>(null);
   useEffect(() => {
     fetch("https://ipapi.co/json/")
       .then(r => r.json())
       .then(data => {
         if (data.country_code === "BR" && data.region) {
           setEstado(data.region);
+          setUf(data.region_code || null);
         }
       })
       .catch(() => {});
   }, []);
-  return estado;
+  return { estado, uf };
 }
 
 function getNextThursday8pm() {

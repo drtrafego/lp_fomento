@@ -125,3 +125,12 @@
   animation: hero-glow-pulse 3s ease-in-out infinite;
 }
 
+@keyframes slide-up-notification {
+  0% { transform: translateY(100px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.pix-notification-enter {
+  animation: slide-up-notification 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
