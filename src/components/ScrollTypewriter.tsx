@@ -67,7 +67,7 @@ export function ScrollTypewriter({ text, className = "", progress }: ScrollTypew
  * Returns an array of per-bullet progress values (0-1).
  */
 export function useSequentialBulletProgress(
-  containerRef: React.RefObject<HTMLDivElement | null>,
+  containerRef: React.RefObject<HTMLElement | null>,
   bulletCount: number
 ): number[] {
   const [progresses, setProgresses] = useState<number[]>(
