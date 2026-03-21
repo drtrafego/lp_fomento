@@ -1,21 +1,21 @@
 
 
-## Atualizar Vídeos 4-6 + Layout Edge-to-Edge no Mobile
+## Vídeos em Formato Stories (9:16) no Mobile
 
-### Dados dos vídeos
+### Problema
+Os vídeos estão em `aspect-video` (16:9) no mobile, ficando achatados e com espaços vazios. O formato correto para mobile é stories (9:16 vertical).
 
-| # | Handle | Valor | URL |
-|---|--------|-------|-----|
-| 4 | @instabov | R$ 730.000 | `https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4` |
-| 5 | @impargestao | R$ 39.000 | `https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4` |
-| 6 | @globaltec | R$ 500.000 | `https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4` |
+### Mudança em `src/pages/Index.tsx`
 
-### Mudanças em `src/pages/Index.tsx`
+**Linha 959**: Trocar `aspect-video` por `aspect-[9/16]` no mobile e remover o `sm:max-h-[320px]` do desktop:
 
-1. **Atualizar testimonials array (linhas 196-198)**: Substituir os 3 placeholders pelos dados reais acima com URLs de vídeo
+```
+aspect-video sm:aspect-[9/16] sm:max-h-[320px]
+```
+→
+```
+aspect-[9/16] sm:max-h-[320px]
+```
 
-2. **Layout edge-to-edge no mobile (linha 953)**: Alterar o grid container para remover padding lateral no mobile:
-   - Grid: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6` → `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6`
-   - Cards: remover `rounded-2xl` no mobile (usar `rounded-none sm:rounded-2xl`)
-   - Section wrapper: adicionar `px-0 sm:px-6` para o container mobile preencher até a borda
+Isso faz os vídeos no mobile ficarem em formato vertical/stories, preenchendo o espaço como o usuário deseja. No desktop mantém o mesmo aspecto 9:16.
 
