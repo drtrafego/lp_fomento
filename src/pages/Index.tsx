@@ -697,70 +697,50 @@ export default function Index() {
 
       {/* ─── 2. HERO ─── */}
       <section className="relative bg-[#0a1628] pt-20 pb-10 md:pt-28 md:pb-24 px-4">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 md:gap-10 items-center">
-          <div className="space-y-4 md:space-y-6 animate-fade-in">
-            {/* Date/event bar */}
-            <div className="flex items-center gap-3 text-sm">
-              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-                AO VIVO
-              </span>
-              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
-            </div>
-
-            {/* Day countdown bar - only Tue/Wed/Thu */}
-            {dayCountdown.show && (
-              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
-                  <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
-                    {dayCountdown.label}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-1000 ease-out"
-                    style={{
-                      width: `${dayCountdown.progress}%`,
-                      background: dayCountdown.progress === 100
-                        ? "linear-gradient(90deg, #d4a853, #22c55e)"
-                        : "linear-gradient(90deg, #d4a853, #e8c778)",
-                    }}
-                  />
-                </div>
-                <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                  <span>Terça</span>
-                  <span>Quarta</span>
-                  <span>Quinta 20h</span>
-                </div>
-              </div>
-            )}
-
-            <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
-              Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
-              <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
-              para sua empresa ou ideia de negócio
-            </h1>
-            <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80">
-              {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
-                <li key={t} className="flex items-center gap-2 md:gap-3">
-                  <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
-            <GoldButton className="w-full sm:w-auto">
-              GARANTIR MINHA VAGA
-              <ArrowRight className="inline ml-2" size={18} />
-            </GoldButton>
+        <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 animate-fade-in text-center">
+          {/* Date/event bar */}
+          <div className="flex items-center justify-center gap-3 text-sm">
+            <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+              AO VIVO
+            </span>
+            <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
           </div>
-          <div className="flex justify-center animate-fade-in relative" style={{ animationDelay: "200ms" }}>
-            {/* Golden rings behind image */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+
+          {/* Day countdown bar - only Tue/Wed/Thu */}
+          {dayCountdown.show && (
+            <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
+                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
+                  {dayCountdown.label}
+                </span>
+              </div>
+              <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-1000 ease-out"
+                  style={{
+                    width: `${dayCountdown.progress}%`,
+                    background: dayCountdown.progress === 100
+                      ? "linear-gradient(90deg, #d4a853, #22c55e)"
+                      : "linear-gradient(90deg, #d4a853, #e8c778)",
+                  }}
+                />
+              </div>
+              <div className="flex justify-between text-[10px] text-white/30 uppercase">
+                <span>Terça</span>
+                <span>Quarta</span>
+                <span>Quinta 20h</span>
+              </div>
+            </div>
+          )}
+
+          {/* Pedro Diniz photo */}
+          <div className="flex justify-center relative py-4">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
             <div className="flex flex-col items-center">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
+              <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                 <img
                   src={autoridadeImg}
                   alt="Pedro Diniz - Especialista em captação de recursos"
@@ -773,6 +753,25 @@ export default function Index() {
               </div>
             </div>
           </div>
+
+          <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
+            Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
+            <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
+            para sua empresa ou ideia de negócio
+          </h1>
+          <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto">
+            {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
+              <li key={t} className="flex items-center gap-2 md:gap-3">
+                <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
+                {t}
+              </li>
+            ))}
+          </ul>
+          <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
+          <GoldButton className="w-full sm:w-auto">
+            GARANTIR MINHA VAGA
+            <ArrowRight className="inline ml-2" size={18} />
+          </GoldButton>
         </div>
       </section>
 
