@@ -15,6 +15,7 @@ import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import leiDecreto from "@/assets/lei-decreto.png";
 import zoomLogo from "@/assets/zoom-logo.png";
+import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
