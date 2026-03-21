@@ -435,7 +435,7 @@ function WorkshopLearningSection() {
                 </span>
               </div>
               <div
-                ref={el => { if (!cardRefs.current[i]) cardRefs.current[i] = el; }}
+                ref={el => { mobileCardRefs.current[i] = el; }}
                 className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-6 card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
