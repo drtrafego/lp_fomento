@@ -613,8 +613,8 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
     const onScroll = () => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const start = vh * 0.9;
-      const end = vh * 0.1;
+      const start = vh * 0.8;
+      const end = -el.offsetHeight + vh * 0.3;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
       const idx = Math.floor(progress * PIX_NOTIFICATIONS.length) - 1;
       setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
