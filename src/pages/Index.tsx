@@ -457,14 +457,7 @@ function WorkshopLearningSection() {
                     </div>
                     <h3 className="text-lg font-bold text-[#d4a853]">{card.title}</h3>
                   </div>
-                  <ul className="space-y-2.5">
-                    {card.bullets.map((b, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm leading-relaxed">
-                        <CheckCircle className="text-[#d4a853] shrink-0 mt-0.5" size={15} />
-                        <ScrollTypewriter text={b} />
-                      </li>
-                    ))}
-                  </ul>
+                  <SequentialBullets bullets={card.bullets} iconSize={15} gap="gap-2" spacing="space-y-2.5" />
                 </div>
               </div>
               {i < 2 && (
