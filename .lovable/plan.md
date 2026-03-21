@@ -1,27 +1,37 @@
 
 
-## Ajustar Imagem do Mentor na Seção "Não é Empréstimo"
+## Cards Premium + Autoplay por Scroll nos Vídeos de Prova Social
 
 ### O que muda
 
-A imagem do Pedro Diniz na seção 3 será ajustada para:
-1. Mostrar apenas o busto (crop via `object-cover` + `object-top` dentro de um container circular)
-2. Encaixar dentro da bola dourada (clipar em círculo com `rounded-full overflow-hidden`)
-3. Aumentar o tamanho da imagem para preencher o círculo
-4. Adicionar nome e credencial abaixo do círculo
+1. **Cards premium**: Adicionar padding/margin nos vídeos mobile (remover `rounded-none -mx-6`) e usar `rounded-2xl` com borda dourada e sombra em todos os breakpoints
+2. **Autoplay por scroll**: Usar IntersectionObserver para dar play quando o vídeo entra na viewport e pause quando sai
 
-### Mudanças em `src/pages/Index.tsx` (linhas 799-814)
+### Mudanças em `src/pages/Index.tsx`
 
-**Antes**: Imagem retangular com corpo inteiro, gradiente na base
-**Depois**: Container circular (`w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden`) com a imagem usando `object-cover object-top` para focar no busto. Remover o gradiente inferior (não faz sentido em círculo).
+**Grid container (linha 957)**:
+- Remover `-mx-6 sm:mx-0` para vídeos não encostarem na borda
+- Manter `gap-4 sm:gap-6`
 
-Abaixo do círculo, adicionar:
-```text
-PEDRO DINIZ
-+ de 50 milhões captados
-```
-- Nome em branco, bold, uppercase, tracking wide
-- Credencial em dourado (#d4a853), text-sm
+**Card (linha 961)**:
+- Trocar `rounded-none sm:rounded-2xl` por `rounded-2xl` em todos os breakpoints
+- Adicionar `shadow-lg shadow-black/20` para efeito premium
 
-Os anéis dourados giratórios continuam atrás do círculo como estão.
+**Video (linhas 963-981)**:
+- Trocar `aspect-[9/16] sm:max-h-[320px]` por `aspect-[9/16]` com `rounded-t-2xl overflow-hidden`
+- Adicionar `ref` via callback ref com IntersectionObserver
+- Configurar `muted autoPlay` controlado pelo observer (threshold ~0.5)
+- Remover `controls` e adicionar `muted loop playsInline` para autoplay funcionar no mobile
+
+**Lógica IntersectionObserver** (novo useEffect ou inline):
+- Criar um observer com `threshold: 0.5`
+- Quando o vídeo entra em 50% da viewport: `video.play()`
+- Quando sai: `video.pause()`
+- Usar `useRef` com array de refs para os vídeos
+- Cleanup no unmount
+
+### Resultado visual
+- Vídeos dentro de cards com bordas arredondadas e sombra
+- Espaçamento nas laterais no mobile (não encosta na borda)
+- Autoplay silencioso ao scrollar, pausa ao sair da tela
 
