@@ -1,31 +1,23 @@
 
 
-## Botão Play VSL-style nos Vídeos de Prova Social
+## Corrigir Delay e Aparecimento Súbito das Notificações PIX
 
-### Conceito
-Adicionar um overlay com botão de play grande estilo VSL (Video Sales Letter) sobre cada vídeo. O vídeo começa pausado e mutado. Ao tocar no botão, o overlay desaparece, o vídeo dá play COM som. O IntersectionObserver continua funcionando para pausar ao sair da viewport.
+### Problema
+O container tem `min-h-[40vh]`, que é pouco espaço de scroll para distribuir 5 notificações progressivamente. O cálculo de `progress` mapeia toda a travessia do container (de `0.9vh` a `0.1vh`) — com 40vh de altura, essa faixa é muito curta e as notificações "pulam" todas de uma vez quando o container entra na viewport.
 
-### Mudanças em `src/pages/Index.tsx`
+### Solução
 
-**Novo estado**: `const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set())` para rastrear quais vídeos o usuário já clicou.
+**`src/pages/Index.tsx` — PixNotificationsSection:**
 
-**Overlay play button** (sobre cada vídeo):
-- Overlay escuro (`bg-black/40`) com botão play centralizado (triângulo grande branco/dourado dentro de círculo semi-transparente)
-- Texto "Toque para assistir" ou ícone pulsante
-- Visível apenas quando o vídeo NÃO está no set `playingVideos`
-- Ao clicar: adiciona ao set, faz `video.muted = false` e `video.play()`
+1. **Aumentar a altura do container** de `min-h-[40vh]` para `min-h-[200vh]` — isso cria espaço de scroll suficiente para as 5 notificações aparecerem uma a uma conforme o usuário rola
 
-**IntersectionObserver ajustado**:
-- Se o vídeo já foi "clicado" (está no set): ao sair da viewport → pause; ao voltar → play com som
-- Se NÃO foi clicado: fica pausado esperando o clique
+2. **Ajustar o cálculo de progress** para usar a posição do topo do container relativa ao viewport, com uma faixa de scroll mais generosa:
+   - `start`: quando o topo do container chega a 80% do viewport
+   - `end`: quando o topo do container chega a -100% do viewport (já saiu)
+   - Isso distribui as 5 notificações ao longo de ~180vh de scroll
 
-**Poster/thumbnail**: Adicionar `poster` com o primeiro frame (usar `preload="metadata"`) para mostrar thumbnail antes do play.
-
-### Visual do botão
-- Círculo `w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full`
-- Triângulo play dourado dentro (`Play` icon do lucide, fill)
-- Animação `animate-pulse` sutil no círculo
+3. **O sticky `top-1/2`** garante que as notificações ficam visíveis no centro da tela enquanto o usuário rola pelo container alto
 
 ### Resultado
-Vídeos mostram thumbnail → usuário toca → play com áudio → ao scrollar para longe pausa → ao voltar retoma
+Cada notificação aparece individualmente conforme o scroll, sem delay artificial nem aparecimento em bloco.
 
