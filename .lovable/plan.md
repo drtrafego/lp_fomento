@@ -1,23 +1,26 @@
 
 
-## Corrigir Delay e Aparecimento Súbito das Notificações PIX
+## Resultado do Teste das Notificações PIX
 
-### Problema
-O container tem `min-h-[40vh]`, que é pouco espaço de scroll para distribuir 5 notificações progressivamente. O cálculo de `progress` mapeia toda a travessia do container (de `0.9vh` a `0.1vh`) — com 40vh de altura, essa faixa é muito curta e as notificações "pulam" todas de uma vez quando o container entra na viewport.
+### O que foi verificado
 
-### Solução
+- A seção PIX **está renderizando corretamente** no DOM com todas as 5 notificações
+- O container tem `min-h-[200vh]` com conteúdo `sticky top-1/2` e lógica de `scrollProgress` baseada em `getBoundingClientRect`
+- A seção "Já pensou" aparece logo após
+- O layout mobile está correto com `sm:hidden`
 
-**`src/pages/Index.tsx` — PixNotificationsSection:**
+### Limitação do teste automatizado
 
-1. **Aumentar a altura do container** de `min-h-[40vh]` para `min-h-[200vh]` — isso cria espaço de scroll suficiente para as 5 notificações aparecerem uma a uma conforme o usuário rola
+O browser tool usa `scrollTo` que **pula** para posições em vez de simular scroll real com o dedo. Isso impede a verificação visual do efeito progressivo das notificações durante o scroll — o sticky container de 200vh se comporta de forma diferente com `scrollTo` vs. scroll real.
 
-2. **Ajustar o cálculo de progress** para usar a posição do topo do container relativa ao viewport, com uma faixa de scroll mais generosa:
-   - `start`: quando o topo do container chega a 80% do viewport
-   - `end`: quando o topo do container chega a -100% do viewport (já saiu)
-   - Isso distribui as 5 notificações ao longo de ~180vh de scroll
+### Recomendação
 
-3. **O sticky `top-1/2`** garante que as notificações ficam visíveis no centro da tela enquanto o usuário rola pelo container alto
+Para testar de verdade, o ideal é testar manualmente no celular pela URL publicada. Se ainda houver o problema de "delay + aparecimento súbito", posso ajustar:
 
-### Resultado
-Cada notificação aparece individualmente conforme o scroll, sem delay artificial nem aparecimento em bloco.
+1. **Reduzir `min-h-[200vh]` para `min-h-[120vh]`** — 200vh pode ser longo demais, criando uma seção vazia antes das notificações aparecerem
+2. **Ajustar o cálculo de progress** — atualmente usa `start = vh * 0.8` e `end = -el.offsetHeight + vh * 0.3`. Com 200vh, o range é enorme e as 5 notificações se concentram numa faixa curta. Podemos usar thresholds mais distribuídos.
+
+### Quer que eu ajuste?
+
+Se você ainda está vendo o problema no seu celular, confirme e eu ajusto a altura e o cálculo de progresso para distribuir melhor as notificações ao longo do scroll.
 
