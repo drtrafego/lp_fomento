@@ -579,7 +579,7 @@ export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
-  const userEstado = useUserState();
+  const { estado: userEstado, uf: userUf } = useUserState();
   
 
   return (
