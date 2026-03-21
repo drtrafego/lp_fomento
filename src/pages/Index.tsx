@@ -190,12 +190,12 @@ const GoldButton = ({ children, className = "", showGuarantee = true }: { childr
 );
 
 const testimonials = [
-  { handle: "@depoimento1", value: "R$ 180.000" },
-  { handle: "@depoimento2", value: "R$ 95.000" },
-  { handle: "@depoimento3", value: "R$ 250.000" },
-  { handle: "@depoimento4", value: "R$ 39.000" },
-  { handle: "@depoimento5", value: "R$ 150.000" },
-  { handle: "@depoimento6", value: "R$ 400.000" },
+  { handle: "@bulldogburguer", value: "R$ 420.000", video: "https://dunas.b-cdn.net/videos_LP_nova/0C7535c4-Fc79-44B7-9257-1C6e1b48d0d3.mp4" },
+  { handle: "@quasis", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
+  { handle: "@girotec", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
+  { handle: "@depoimento4", value: "R$ 39.000", video: "" },
+  { handle: "@depoimento5", value: "R$ 150.000", video: "" },
+  { handle: "@depoimento6", value: "R$ 400.000", video: "" },
 ];
 
 const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
@@ -957,12 +957,24 @@ export default function Index() {
                 className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
               >
                 <div className="relative aspect-[9/16] max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
-                  <div className="w-16 h-16 rounded-full bg-[#d4a853]/20 flex items-center justify-center group-hover:bg-[#d4a853]/30 transition-colors">
-                    <Play className="text-[#d4a853] ml-1" size={28} fill="currentColor" />
-                  </div>
-                  <span className="absolute bottom-3 right-3 bg-black/60 text-white/80 text-xs px-2 py-1 rounded">
-                    Vídeo em breve
-                  </span>
+                  {t.video ? (
+                    <video
+                      src={t.video}
+                      controls
+                      preload="metadata"
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <>
+                      <div className="w-16 h-16 rounded-full bg-[#d4a853]/20 flex items-center justify-center group-hover:bg-[#d4a853]/30 transition-colors">
+                        <Play className="text-[#d4a853] ml-1" size={28} fill="currentColor" />
+                      </div>
+                      <span className="absolute bottom-3 right-3 bg-black/60 text-white/80 text-xs px-2 py-1 rounded">
+                        Vídeo em breve
+                      </span>
+                    </>
+                  )}
                 </div>
                 <div className="p-5 space-y-1 text-left">
                   <p className="text-white/50 text-sm">{t.handle}</p>
