@@ -84,7 +84,7 @@ export function useSequentialBulletProgress(
       // Card starts typing when top enters 85% of viewport
       // Card finishes all bullets when top reaches 15% of viewport
       const start = vh * 0.9;
-      const end = vh * 0.7;
+      const end = vh * 0.3;
       const totalProgress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
 
       // Distribute total progress across bullets sequentially
