@@ -1002,7 +1002,7 @@ export default function Index() {
       <Section dark={false}>
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="flex justify-center">
-            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" />
+            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" loading="lazy" decoding="async" />
           </div>
           <div className="space-y-5">
             <h2 className="text-2xl sm:text-3xl font-bold">Garantia Incondicional de 30 Dias</h2>
