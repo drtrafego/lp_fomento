@@ -575,6 +575,89 @@ function BonusSection() {
   );
 }
 
+const PIX_NOTIFICATIONS = [
+  { bank: "nubank", valor: "R$ 150.000,70", color: "#8B2A8B" },
+  { bank: "bb", valor: "R$ 39.000,00", color: "#F9D423" },
+  { bank: "santander", valor: "R$ 85.500,00", color: "#EC0000" },
+  { bank: "nubank", valor: "R$ 200.350,50", color: "#8B2A8B" },
+  { bank: "bb", valor: "R$ 400.000,00", color: "#F9D423" },
+];
+
+function BankLogo({ bank }: { bank: string }) {
+  if (bank === "nubank") return (
+    <div className="w-10 h-10 rounded-full bg-[#8B2A8B] flex items-center justify-center flex-shrink-0">
+      <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+  );
+  if (bank === "bb") return (
+    <div className="w-10 h-10 rounded-full bg-[#FFCB05] flex items-center justify-center flex-shrink-0">
+      <span className="text-[#003882] font-black text-xs">BB</span>
+    </div>
+  );
+  return (
+    <div className="w-10 h-10 rounded-full bg-[#EC0000] flex items-center justify-center flex-shrink-0">
+      <span className="text-white font-black text-[10px]">SAN</span>
+    </div>
+  );
+}
+
+function PixNotificationsSection({ uf }: { uf: string | null }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const start = vh * 0.9;
+      const end = vh * 0.1;
+      const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+      const idx = Math.floor(progress * PIX_NOTIFICATIONS.length) - 1;
+      setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const govLabel = uf ? `GOV ${uf}` : "GOV FEDERAL";
+
+  return (
+    <div ref={containerRef} className="sm:hidden relative min-h-[80vh] bg-[#0a1628]">
+      <div className="sticky top-1/2 -translate-y-1/2 px-4 space-y-3 z-40">
+        {PIX_NOTIFICATIONS.map((n, i) => (
+          <div
+            key={i}
+            className="pix-notification-enter"
+            style={{
+              display: i <= activeIndex ? "block" : "none",
+              animationDelay: "0ms",
+            }}
+          >
+            <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-3 flex items-start gap-3">
+              <BankLogo bank={n.bank} />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-900 font-semibold text-sm">Pix recebido</p>
+                  <span className="text-gray-400 text-xs">agora</span>
+                </div>
+                <p className="text-gray-600 text-xs mt-0.5">
+                  ORDEM DE PAGAMENTO {govLabel}
+                </p>
+                <p className="text-gray-900 font-bold text-sm mt-0.5">
+                  {n.valor} creditado na sua conta
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const countdown = useCountdown();
   const counter = useAnimatedCounter(42);
