@@ -954,19 +954,36 @@ export default function Index() {
         <div className="text-center space-y-10">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 -mx-6 sm:mx-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {testimonials.map((t, i) => (
               <div
                 key={i}
-                className={`bg-[#0f1d32] border border-[#d4a853]/15 rounded-none sm:rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group ${i >= 3 ? "hidden sm:block" : ""}`}
+                className={`bg-[#0f1d32] border border-[#d4a853]/20 rounded-2xl overflow-hidden hover:border-[#d4a853]/40 transition-colors group shadow-lg shadow-black/20 ${i >= 3 ? "hidden sm:block" : ""}`}
               >
-                <div className="relative aspect-[9/16] sm:max-h-[320px] bg-[#0a1628] flex items-center justify-center cursor-pointer">
+                <div className="relative aspect-[9/16] bg-[#0a1628] flex items-center justify-center rounded-t-2xl overflow-hidden">
                   {t.video ? (
                     <video
+                      ref={(el) => {
+                        if (el) {
+                          const observer = new IntersectionObserver(
+                            ([entry]) => {
+                              if (entry.isIntersecting) {
+                                el.play().catch(() => {});
+                              } else {
+                                el.pause();
+                              }
+                            },
+                            { threshold: 0.5 }
+                          );
+                          observer.observe(el);
+                          (el as any)._observer = observer;
+                        }
+                      }}
                       src={t.video}
-                      controls
-                      preload="metadata"
+                      muted
+                      loop
                       playsInline
+                      preload="metadata"
                       className="w-full h-full object-cover"
                     />
                   ) : (
