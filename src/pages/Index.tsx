@@ -709,7 +709,7 @@ export default function Index() {
 
           {/* Coluna esquerda - Texto */}
           <div className="order-last lg:order-first space-y-4 md:space-y-6 text-center lg:text-left">
-            {/* AO VIVO badge */}
+            {/* Date/event bar */}
             <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
               <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
                 AO VIVO
@@ -746,7 +746,7 @@ export default function Index() {
             )}
 
             <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
-              Em <span className="text-red-500 border-b border-red-500/40">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
+              Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
               <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
               para sua empresa ou ideia de negócio
             </h1>
@@ -763,8 +763,6 @@ export default function Index() {
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
-
-
 
             {/* Referência do evento - dinâmica */}
             {(() => {
