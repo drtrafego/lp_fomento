@@ -18,6 +18,7 @@ import pedroIgorImg from "@/assets/pedro-igor.png";
 import leiDecreto from "@/assets/lei-decreto.png";
 import zoomLogo from "@/assets/zoom-logo.png";
 import zoomIcon from "@/assets/zoom-icon.png";
+import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { VideoTestimonials } from "@/components/VideoTestimonials";
@@ -678,12 +679,13 @@ export default function Index() {
         <div className="max-w-6xl mx-auto animate-fade-in lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
           {/* Coluna direita - Foto (aparece primeiro no mobile) */}
           <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
-            <div className="relative py-4">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] lg:w-[340px] lg:h-[340px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] lg:w-[400px] lg:h-[400px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+            {/* Mobile: foto circular */}
+            <div className="lg:hidden relative py-4">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
               <div className="flex flex-col items-center">
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                   <img
                     src={autoridadeImg}
                     alt="Pedro Diniz - Especialista em captação de recursos"
@@ -694,6 +696,19 @@ export default function Index() {
                 <div className="mt-3 text-center relative z-10">
                   <h3 className="text-white font-bold text-base sm:text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
                   <p className="text-[#d4a853] text-xs sm:text-sm font-medium mt-1">+ de 50 milhões captados</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop: foto full com degradê */}
+            <div className="hidden lg:block relative w-full max-w-md mx-auto">
+              <div className="relative overflow-hidden rounded-2xl">
+                <img src={pedroPalcoDesktop} alt="Pedro Diniz" className="w-full h-auto object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/60 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-0 right-0 text-center">
+                  <h3 className="text-white font-bold text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
+                  <p className="text-[#d4a853] text-sm font-medium mt-1">+ de 50 milhões captados</p>
                 </div>
               </div>
             </div>
