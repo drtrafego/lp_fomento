@@ -152,7 +152,7 @@ function ScrollRevealBadges() {
             transitionDelay: `${i * 300}ms`,
           }}
         >
-          <p className="text-[#d4a853] font-bold">{t}</p>
+          <p className="text-[#d4a853] font-bold">❌ {t}</p>
         </div>
       ))}
     </div>
