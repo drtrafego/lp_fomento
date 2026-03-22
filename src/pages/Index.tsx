@@ -1130,7 +1130,7 @@ export default function Index() {
       <section className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ textWrap: "balance" as any }}>
-            Seja você um <span className="text-[#d4a853]">empresário</span> experiente ou alguém com apenas uma ideia na cabeça
+            Seja você um <span className="text-[#d4a853]">empresário(a)</span> experiente ou alguém com apenas uma ideia na cabeça
           </h2>
           <p className="text-white/70 text-lg">
             Os Programas de Incentivos Federais podem liberar de{" "}
