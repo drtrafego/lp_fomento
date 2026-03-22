@@ -199,7 +199,7 @@ const testimonials = [
   { handle: "@energiaquasis · José Roberto", value: "R$ 480.000", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
   { handle: "@girotec · Kleber Castro e Milton Lira", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
   { handle: "@instabovreal · Fernando", value: "R$ 734.000", video: "https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4" },
-  { handle: "@impargestao", value: "R$ 39.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
+  { handle: "@impar.gestao · Richardson", value: "R$ 39.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
   { handle: "@globaltec", value: "R$ 500.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
 ];
 
