@@ -957,7 +957,7 @@ export default function Index() {
       </Section>
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
-      <Section dark={false}>
+      <Section dark>
         <div className="max-w-2xl mx-auto space-y-5 text-center">
             <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Seus mentores</p>
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
