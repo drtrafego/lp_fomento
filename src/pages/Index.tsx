@@ -679,11 +679,14 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 1. STICKY HEADER ─── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3.5 px-4">
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b py-3.5 px-4 ${dayCountdown.isToday ? "bg-[#0a1628]/95 border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.15)]" : "bg-[#0a1628]/95 border-[#d4a853]/20"}`}>
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
-          <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-            AO VIVO no ZOOM · Quinta-feira 20h
+          <div className="flex items-center gap-2.5 text-sm sm:text-base font-bold tracking-wide uppercase">
+            <span className={`w-2.5 h-2.5 rounded-full ${dayCountdown.isToday ? "bg-red-500 animate-ping-ring" : "bg-red-500 animate-pulse"}`} />
+            {dayCountdown.isToday && (
+              <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse font-bold mr-1">HOJE</span>
+            )}
+            <span className="text-[#d4a853]">AO VIVO 100% ONLINE · {dayCountdown.isToday ? "Quinta-feira às 20h" : dayCountdown.isTomorrow ? "Amanhã às 20h" : "Quinta-feira 20h"}</span>
           </div>
           <div className="flex items-center gap-2 text-base">
             <span className="text-white/70 hidden sm:inline font-medium">Começa em:</span>
