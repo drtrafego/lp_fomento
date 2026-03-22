@@ -1122,7 +1122,7 @@ export default function Index() {
             QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
-          <p className="text-white/40 text-xs">Quinta-feira às 20h · AO VIVO no Zoom</p>
+          <p className="text-white/40 text-xs">{dayCountdown.label} · AO VIVO 100% ONLINE</p>
         </div>
       </section>
 
