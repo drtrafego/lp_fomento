@@ -18,6 +18,7 @@ import pedroIgorImg from "@/assets/pedro-igor.png";
 import leiDecreto from "@/assets/lei-decreto.png";
 import zoomLogo from "@/assets/zoom-logo.png";
 import zoomIcon from "@/assets/zoom-icon.png";
+import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { VideoTestimonials } from "@/components/VideoTestimonials";
