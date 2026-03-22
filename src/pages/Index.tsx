@@ -817,7 +817,7 @@ export default function Index() {
       */}
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-16 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+      <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
