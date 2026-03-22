@@ -11,7 +11,7 @@ import {
 
 
 import seloGarantia from "@/assets/selo-garantia.png";
-import autoridadeImg from "@/assets/autoridade-homem.png";
+import autoridadeImg from "@/assets/pedro-palco.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import leiDecreto from "@/assets/lei-decreto.png";
