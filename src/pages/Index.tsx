@@ -1070,6 +1070,32 @@ export default function Index() {
         </div>
       </Section>
 
+      {/* ─── 10. GARANTIA ─── */}
+      <Section dark={false}>
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div className="flex justify-center">
+            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" loading="lazy" decoding="async" />
+          </div>
+          <div className="space-y-5">
+            <h2 className="text-2xl sm:text-3xl font-bold">Garantia Incondicional de 30 Dias</h2>
+            <p className="text-white/70 leading-relaxed">
+              Você pode entrar no grupo, assistir ao workshop, baixar todos os materiais e se, mesmo assim, achar que não valeu a pena...
+            </p>
+            <p className="text-white/70 leading-relaxed">
+              Basta entrar em contato com nossa equipe dentro do prazo de 30 dias após a aprovação da compra e solicitar o reembolso integral.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              {["Sem letras miúdas", "Sem burocracia", "Risco zero para você"].map((t) => (
+                <div key={t} className="flex items-center gap-2 text-[#d4a853] font-semibold text-sm">
+                  <CheckCircle size={16} />
+                  {t}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* ─── 11. FAQ ─── */}
       <Section dark={false}>
         <div className="max-w-2xl mx-auto space-y-8">
