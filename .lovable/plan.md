@@ -1,52 +1,59 @@
 
 
-## Alternar Cores de Fundo Entre Seções
+## Reformular Header e Contagem Regressiva com Gatilhos Dinâmicos
 
-### Problema
-Várias seções consecutivas usam a mesma cor de fundo (`#0a1628`), criando um "buraco" visual sem separação entre elas. Precisa alternar entre `#0a1628` (escuro) e `#0f1d32` (um tom mais claro) para criar quebra visual.
+### Mudanças
 
-### Sequência corrigida (alternância consistente)
+**1. Atualizar `useDayCountdown()` (linhas 257-263)**
 
-| Seção | Cor atual | Cor corrigida |
-|-------|-----------|---------------|
-| Hero | `#0a1628` | `#0a1628` ✅ |
-| NÃO É EMPRÉSTIMO | `#0a1628` | **`#0f1d32`** |
-| 42+ PROGRAMAS | `dark` (#0a1628) | **`dark={false}`** (#0f1d32) → mas mesma que anterior. Trocar para `dark` (#0a1628) |
-| O QUE VAI APRENDER | `#0f1d32` | **`#0f1d32`** ✅ → trocar para `#0a1628` para alternar |
-| BÔNUS | `#0a1628` | **`#0f1d32`** |
-| PIX + "Já pensou" | `#0a1628` | **`#0a1628`** ✅ |
-| PROVA SOCIAL | `dark` (#0a1628) | **`dark={false}`** (#0f1d32) |
-| MENTORES | `dark={false}` (#0f1d32) | **`dark`** (#0a1628) |
-| GARANTIA | `dark={false}` (#0f1d32) | **`dark={false}`** (#0f1d32) ✅ |
-| OFERTA | `dark` (#0a1628) | **`dark`** (#0a1628) ✅ |
-| FAQ | `dark={false}` (#0f1d32) | **`dark={false}`** (#0f1d32) ✅ |
-| FOOTER | `#0a1628` | `#0a1628` ✅ |
+Expandir para cobrir todos os dias da semana com lógica de "faltam X dias":
+- **Sexta (5)**: "Faltam 6 dias" 
+- **Sábado (6)**: "Faltam 5 dias"
+- **Domingo (0)**: "Faltam 4 dias"
+- **Segunda (1)**: "Faltam 3 dias"
+- **Terça (2)**: "Faltam 2 dias"
+- **Quarta (3)**: "Amanhã, Quinta-feira às 20h"
+- **Quinta (4)**: "HOJE, Quinta-feira às 20h" — com flag `isToday: true` para ativar urgência
 
-### Mudanças em `src/pages/Index.tsx`
+Sempre retorna `show: true`.
 
-1. **Seção 3 (NÃO É EMPRÉSTIMO, linha 805)**: Trocar `bg-[#0a1628]` → `bg-[#0f1d32]`
-2. **Seção 4 (42+ PROGRAMAS, linha 873)**: Trocar `dark` → `dark={false}` (fica `#0f1d32`). Na verdade precisa ficar `#0a1628` para alternar. Manter `dark`.
-3. **Seção 5 (O QUE VAI APRENDER, linha 919)**: Trocar `bg-[#0f1d32]` → `bg-[#0a1628]`... Mas vamos simplificar.
+**2. Atualizar texto do header sticky (linhas 678-680)**
 
-**Alternância limpa (seção por seção):**
+Trocar texto fixo "AO VIVO no ZOOM · Quinta-feira 20h" por texto dinâmico:
+- `AO VIVO 100% ONLINE · {dayCountdown.label}`
 
-- Hero: `#0a1628` (A)
-- NÃO É EMPRÉSTIMO: `#0f1d32` (B) — **mudar linha 805**
-- 42+ PROGRAMAS: `#0a1628` (A) — já está `dark` ✅
-- O QUE VAI APRENDER: `#0f1d32` (B) — já está ✅
-- BÔNUS: `#0a1628` (A) — já está ✅
-- PIX/Já pensou: `#0a1628` (A) — ✅ (continuação)
-- PROVA SOCIAL: `#0f1d32` (B) — **mudar `dark` → `dark={false}`**
-- MENTORES: `#0a1628` (A) — **mudar `dark={false}` → `dark`**
-- GARANTIA: `#0f1d32` (B) — já `dark={false}` ✅
-- OFERTA: `#0a1628` (A) — já `dark` ✅
-- FAQ: `#0f1d32` (B) — já `dark={false}` ✅
-- FOOTER: `#0a1628` (A) — ✅
+**3. Atualizar seção hero (linhas 703-708)**
 
-### Resumo das edições
-1. **Linha 805**: `bg-[#0a1628]` → `bg-[#0f1d32]`
-2. **Linha 950**: `Section dark` → `Section dark={false}`
-3. **Linha 960**: `Section dark={false}` → `Section dark`
+Trocar badge "AO VIVO" + texto fixo por:
+- Badge "AO VIVO 100% ONLINE"
+- Texto dinâmico com a label do countdown
 
-3 linhas alteradas, alternância perfeita entre todas as seções.
+**4. Visual de urgência quando `isToday === true`**
+
+Quando for quinta-feira:
+- Header ganha borda pulsante dourada/vermelha
+- Badge "HOJE" com fundo vermelho pulsante
+- Texto "HOJE" em verde/vermelho com animação
+- Glow sutil no header
+
+**5. Atualizar barra de progresso no hero (linhas 711-728)**
+
+Mostrar sempre (não só Ter/Qua/Qui). Progress dinâmico baseado na proximidade:
+- 6 dias: ~15%
+- 5 dias: ~30%
+- 4 dias: ~45%
+- 3 dias: ~60%
+- 2 dias: ~75%
+- Amanhã: ~90%
+- Hoje: 100% com cor verde
+
+**6. Atualizar textos no footer/oferta (linhas 1116, 1126)**
+
+Mesmo padrão dinâmico usando `dayCountdown.label`.
+
+### Resultado
+- Contagem "faltam X dias" aparece todos os dias da semana
+- Quarta mostra "Amanhã" com urgência moderada
+- Quinta mostra "HOJE" com animação pulsante vermelha/dourada — máximo gatilho de urgência
+- Texto "AO VIVO 100% ONLINE" em vez de "AO VIVO no ZOOM"
 
