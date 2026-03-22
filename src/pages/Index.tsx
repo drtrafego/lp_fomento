@@ -195,12 +195,12 @@ const GoldButton = ({ children, className = "", showGuarantee = true }: { childr
 );
 
 const testimonials = [
-  { handle: "@bulldogburguer", value: "R$ 420.000", video: "https://dunas.b-cdn.net/videos_LP_nova/0C7535c4-Fc79-44B7-9257-1C6e1b48d0d3.mp4" },
-  { handle: "@energiaquasis · José Roberto", value: "R$ 480.000", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
-  { handle: "@girotec · Kleber Castro e Milton Lira", value: "R$ 400.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
-  { handle: "@instabovreal · Fernando", value: "R$ 734.000", video: "https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4" },
-  { handle: "@impar.gestao · Richardson", value: "R$ 39.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
-  { handle: "@globaltec", value: "R$ 500.000", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
+  { handle: "@bulldogburguer", value: "R$ 420 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/0C7535c4-Fc79-44B7-9257-1C6e1b48d0d3.mp4" },
+  { handle: "@energiaquasis · José Roberto", value: "R$ 480 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/90C9c3b6-5Cf7-4E23-Ba5c-Bbf4ab07c4c8.mp4" },
+  { handle: "@girotec · Kleber Castro e Milton Lira", value: "R$ 400 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
+  { handle: "@instabovreal · Fernando", value: "R$ 734 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4" },
+  { handle: "@impar.gestao · Richardson", value: "R$ 39 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
+  { handle: "@globalteceducacional · Maria", value: "R$ 500 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
 ];
 
 const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
