@@ -14,6 +14,7 @@ import seloGarantia from "@/assets/selo-garantia.png";
 import autoridadeImg from "@/assets/pedro-palco.png";
 import mapaOrgaos from "@/assets/mapa-orgaos.png";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
+import pedroIgorImg from "@/assets/pedro-igor.png";
 import leiDecreto from "@/assets/lei-decreto.png";
 import zoomLogo from "@/assets/zoom-logo.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
