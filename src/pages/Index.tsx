@@ -776,7 +776,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── MARQUEE CASES ─── */}
+      {/* ─── MARQUEE CASES (oculto temporariamente) ───
       <div className="bg-[#0f1d32] border-y border-[#d4a853]/10 overflow-hidden">
         <p className="text-center text-white/50 text-xs pt-3 pb-1 tracking-widest uppercase">Faça como eles — captaram recursos e não precisaram devolver</p>
         <div className="marquee-track flex items-center gap-8 py-3 whitespace-nowrap">
@@ -798,6 +798,7 @@ export default function Index() {
           ))}
         </div>
       </div>
+      */}
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
       <section className="relative py-16 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
