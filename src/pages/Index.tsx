@@ -710,11 +710,41 @@ export default function Index() {
           {/* Coluna esquerda - Texto */}
           <div className="order-last lg:order-first space-y-4 md:space-y-6 text-center lg:text-left">
             {/* Date/event bar */}
-            <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
+            <div className="flex items-center justify-center lg:justify-start gap-3 text-sm flex-wrap">
               <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
                 AO VIVO
               </span>
-              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
+              {(() => {
+                const now = new Date();
+                const dayOfWeek = now.getDay();
+                const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
+                const nextThursday = new Date(now);
+                nextThursday.setDate(now.getDate() + daysUntilThursday);
+                const dd = String(nextThursday.getDate()).padStart(2, '0');
+                const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
+                const yy = String(nextThursday.getFullYear()).slice(-2);
+                const dateStr = `${dd}/${mm}/${yy}`;
+                const isToday = dayOfWeek === 4;
+                const isTomorrow = dayOfWeek === 3;
+
+                if (isToday) {
+                  return (
+                    <div className="flex items-center gap-2 text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-3 py-1.5 animate-pulse">
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                      <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
+                      <span className="text-xs sm:text-sm">HOJE · Quinta-feira às 20h</span>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-white/50">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                    <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
+                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Day countdown bar - only Tue/Wed/Thu */}
