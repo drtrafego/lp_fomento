@@ -675,120 +675,125 @@ export default function Index() {
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 2. HERO ─── */}
       <section className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
-        <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 animate-fade-in text-center">
-          {/* Date/event bar */}
-          <div className="flex items-center justify-center gap-3 text-sm">
-            <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-              AO VIVO
-            </span>
-            <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
-          </div>
-
-          {/* Day countdown bar - only Tue/Wed/Thu */}
-          {dayCountdown.show && (
-            <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
-                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
-                  {dayCountdown.label}
-                </span>
-              </div>
-              <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-1000 ease-out"
-                  style={{
-                    width: `${dayCountdown.progress}%`,
-                    background: dayCountdown.progress === 100
-                      ? "linear-gradient(90deg, #d4a853, #22c55e)"
-                      : "linear-gradient(90deg, #d4a853, #e8c778)",
-                  }}
-                />
-              </div>
-              <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                <span>Terça</span>
-                <span>Quarta</span>
-                <span>Quinta 20h</span>
-              </div>
-            </div>
-          )}
-
-          {/* Pedro Diniz photo */}
-          <div className="flex justify-center relative py-4">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
-            <div className="flex flex-col items-center">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
-                <img
-                  src={autoridadeImg}
-                  alt="Pedro Diniz - Especialista em captação de recursos"
-                  className="w-full h-full object-cover scale-150"
-                  style={{ objectPosition: "50% 25%" }}
-                />
-              </div>
-              <div className="mt-3 text-center relative z-10">
-                <h3 className="text-white font-bold text-base sm:text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
-                <p className="text-[#d4a853] text-xs sm:text-sm font-medium mt-1">+ de 50 milhões captados</p>
+        <div className="max-w-6xl mx-auto animate-fade-in lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+          {/* Coluna direita - Foto (aparece primeiro no mobile) */}
+          <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
+            <div className="relative py-4">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] lg:w-[340px] lg:h-[340px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] lg:w-[400px] lg:h-[400px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
+              <div className="flex flex-col items-center">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
+                  <img
+                    src={autoridadeImg}
+                    alt="Pedro Diniz - Especialista em captação de recursos"
+                    className="w-full h-full object-cover scale-150"
+                    style={{ objectPosition: "50% 25%" }}
+                  />
+                </div>
+                <div className="mt-3 text-center relative z-10">
+                  <h3 className="text-white font-bold text-base sm:text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
+                  <p className="text-[#d4a853] text-xs sm:text-sm font-medium mt-1">+ de 50 milhões captados</p>
+                </div>
               </div>
             </div>
           </div>
 
-          <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
-            Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
-            <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
-            para sua empresa ou ideia de negócio
-          </h1>
-          <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto">
-            {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
-              <li key={t} className="flex items-center gap-2 md:gap-3">
-                <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
-                {t}
-              </li>
-            ))}
-          </ul>
-          <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
-          <GoldButton className="w-full sm:w-auto">
-            GARANTIR MINHA VAGA
-            <ArrowRight className="inline ml-2" size={18} />
-          </GoldButton>
+          {/* Coluna esquerda - Texto */}
+          <div className="order-last lg:order-first space-y-4 md:space-y-6 text-center lg:text-left">
+            {/* Date/event bar */}
+            <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
+              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+                AO VIVO
+              </span>
+              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
+            </div>
 
-          {/* Referência do evento - dinâmica */}
-          {(() => {
-            const now = new Date();
-            const dayOfWeek = now.getDay();
-            const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
-            const nextThursday = new Date(now);
-            nextThursday.setDate(now.getDate() + daysUntilThursday);
-            const dd = String(nextThursday.getDate()).padStart(2, '0');
-            const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
-            const yy = String(nextThursday.getFullYear()).slice(-2);
-            const dateStr = `${dd}/${mm}/${yy}`;
-            const isToday = dayOfWeek === 4;
-            const isTomorrow = dayOfWeek === 3;
+            {/* Day countdown bar - only Tue/Wed/Thu */}
+            {dayCountdown.show && (
+              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto lg:mx-0">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
+                  <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
+                    {dayCountdown.label}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{
+                      width: `${dayCountdown.progress}%`,
+                      background: dayCountdown.progress === 100
+                        ? "linear-gradient(90deg, #d4a853, #22c55e)"
+                        : "linear-gradient(90deg, #d4a853, #e8c778)",
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between text-[10px] text-white/30 uppercase">
+                  <span>Terça</span>
+                  <span>Quarta</span>
+                  <span>Quinta 20h</span>
+                </div>
+              </div>
+            )}
 
-            if (isToday) {
-              return (
-                <div className="flex flex-col items-center gap-2 pt-3">
-                  <div className="flex items-center justify-center gap-2 text-sm text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-4 py-2 animate-pulse">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                    <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
-                    <span>HOJE · Quinta-feira às 20h</span>
+            <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
+              Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
+              <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
+              para sua empresa ou ideia de negócio
+            </h1>
+            <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto lg:mx-0">
+              {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
+                <li key={t} className="flex items-center gap-2 md:gap-3">
+                  <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
+            <GoldButton className="w-full sm:w-auto">
+              GARANTIR MINHA VAGA
+              <ArrowRight className="inline ml-2" size={18} />
+            </GoldButton>
+
+            {/* Referência do evento - dinâmica */}
+            {(() => {
+              const now = new Date();
+              const dayOfWeek = now.getDay();
+              const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
+              const nextThursday = new Date(now);
+              nextThursday.setDate(now.getDate() + daysUntilThursday);
+              const dd = String(nextThursday.getDate()).padStart(2, '0');
+              const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
+              const yy = String(nextThursday.getFullYear()).slice(-2);
+              const dateStr = `${dd}/${mm}/${yy}`;
+              const isToday = dayOfWeek === 4;
+              const isTomorrow = dayOfWeek === 3;
+
+              if (isToday) {
+                return (
+                  <div className="flex flex-col items-center lg:items-start gap-2 pt-3">
+                    <div className="flex items-center justify-center gap-2 text-sm text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-4 py-2 animate-pulse">
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                      <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
+                      <span>HOJE · Quinta-feira às 20h</span>
+                    </div>
+                    <span className="text-xs font-bold text-red-400 tracking-widest uppercase animate-bounce">🔥 Últimas Vagas</span>
                   </div>
-                  <span className="text-xs font-bold text-red-400 tracking-widest uppercase animate-bounce">🔥 Últimas Vagas</span>
+                );
+              }
+
+              return (
+                <div className="flex flex-col items-center lg:items-start gap-2 pt-3">
+                  <div className="flex items-center justify-center gap-2 text-sm text-white/50">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                    <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
+                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
+                  </div>
                 </div>
               );
-            }
-
-            return (
-              <div className="flex flex-col items-center gap-2 pt-3">
-                <div className="flex items-center justify-center gap-2 text-sm text-white/50">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
-                  <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
-                </div>
-              </div>
-            );
-          })()}
+            })()}
+          </div>
         </div>
       </section>
 
