@@ -1047,7 +1047,6 @@ export default function Index() {
                 <ul className="space-y-4">
                   {[
                     "Workshop ao vivo de 1h no Zoom",
-                    "Masterclass exclusiva gravada",
                     "Lista TOP 10 programas de incentivo",
                     "Grupo de Alerta WhatsApp",
                     "Garantia incondicional de 30 dias",
