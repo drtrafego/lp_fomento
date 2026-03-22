@@ -200,7 +200,7 @@ const testimonials = [
   { handle: "@girotec · Kleber Castro e Milton Lira", value: "R$ 400 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Edits%20Girotec%20-%20Depoimento%20Curto%2020250519%20132550.mp4" },
   { handle: "@instabovreal · Fernando", value: "R$ 734 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/C9cf30e2-1Bc7-4Fd3-Be82-71C4c74c3769.mp4" },
   { handle: "@impar.gestao · Richardson", value: "R$ 39 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Depoimento%20Impar.mp4" },
-  { handle: "@globalteceducacional · Maria", value: "R$ 500 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
+  { handle: "@globalteceducacional · Maria", value: "R$ 80 mil + R$ 420 mil", video: "https://dunas.b-cdn.net/videos_LP_nova/Ee35e4db-76A3-4274-A3ff-777398B32196.mp4" },
 ];
 
 const marqueeCases: { handle: string; value: string; color: string; image?: string }[] = [
