@@ -744,7 +744,8 @@ export default function Index() {
                 <img
                   src={autoridadeImg}
                   alt="Pedro Diniz - Especialista em captação de recursos"
-                  className="w-full h-full object-cover object-top scale-125"
+                  className="w-full h-full object-cover scale-150"
+                  style={{ objectPosition: "50% 25%" }}
                 />
               </div>
               <div className="mt-3 text-center relative z-10">
