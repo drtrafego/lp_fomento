@@ -709,14 +709,6 @@ export default function Index() {
 
           {/* Coluna esquerda - Texto */}
           <div className="order-last lg:order-first space-y-4 md:space-y-6 text-center lg:text-left">
-            {/* Date/event bar */}
-            <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
-              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-                AO VIVO
-              </span>
-              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
-            </div>
-
             {/* Day countdown bar - only Tue/Wed/Thu */}
             {dayCountdown.show && (
               <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto lg:mx-0">
@@ -763,6 +755,14 @@ export default function Index() {
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
+
+            {/* AO VIVO badge */}
+            <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
+              <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+                AO VIVO
+              </span>
+              <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
+            </div>
 
             {/* Referência do evento - dinâmica */}
             {(() => {
