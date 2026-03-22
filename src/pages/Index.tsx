@@ -943,6 +943,15 @@ export default function Index() {
         <WorkshopLearningSection />
       </section>
 
+      {/* ─── 10. BÔNUS ─── */}
+      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#d4a853]/[0.04] blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
+        </div>
+        <BonusSection />
+      </section>
 
       {/* ─── PIX NOTIFICATIONS (mobile only) ─── */}
       <PixNotificationsSection uf={userUf} />
