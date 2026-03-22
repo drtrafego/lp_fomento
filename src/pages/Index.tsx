@@ -802,7 +802,7 @@ export default function Index() {
       */}
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-16 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+      <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
@@ -947,7 +947,7 @@ export default function Index() {
       </div>
 
       {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
-      <Section dark className="!pt-6 sm:!pt-16">
+      <Section dark={false} className="!pt-6 sm:!pt-16">
         <div className="text-center space-y-4">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
@@ -957,7 +957,7 @@ export default function Index() {
       </Section>
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
-      <Section dark={false}>
+      <Section dark>
         <div className="max-w-2xl mx-auto space-y-5 text-center">
             <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Seus mentores</p>
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
