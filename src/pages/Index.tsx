@@ -672,21 +672,21 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 1. STICKY HEADER ─── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3 px-4">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-[#d4a853] font-semibold tracking-wide uppercase">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3.5 px-4">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
             AO VIVO no ZOOM · Quinta-feira 20h
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-white/60 hidden sm:inline">Começa em:</span>
+          <div className="flex items-center gap-2 text-base">
+            <span className="text-white/70 hidden sm:inline font-medium">Começa em:</span>
             {(["days", "hours", "minutes", "seconds"] as const).map((unit, i) => (
               <div key={unit} className="flex items-center gap-1">
-                {i > 0 && <span className="text-[#d4a853] font-bold">:</span>}
-                <span className="bg-[#d4a853]/15 text-[#d4a853] rounded px-2 py-1 font-mono font-bold text-sm tabular-nums min-w-[2.2rem] text-center">
+                {i > 0 && <span className="text-[#d4a853] font-bold text-lg">:</span>}
+                <span className="bg-[#d4a853]/20 text-[#d4a853] rounded-md px-2.5 py-1.5 font-mono font-bold text-base tabular-nums min-w-[2.5rem] text-center">
                   {String(countdown[unit]).padStart(2, "0")}
                 </span>
-                <span className="text-white/40 text-[10px] uppercase hidden sm:inline">
+                <span className="text-white/50 text-xs uppercase hidden sm:inline font-medium">
                   {unit === "days" ? "d" : unit === "hours" ? "h" : unit === "minutes" ? "m" : "s"}
                 </span>
               </div>
