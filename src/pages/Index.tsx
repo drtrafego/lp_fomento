@@ -717,11 +717,10 @@ export default function Index() {
           </div>
 
           {/* Day countdown bar - only Tue/Wed/Thu */}
-          {dayCountdown.show && (
-            <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto">
+          <div className={`border rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto ${dayCountdown.isToday ? "bg-red-500/5 border-red-500/30" : "bg-[#0f1d32] border-[#d4a853]/20"}`}>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
-                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
+                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.isToday ? "text-red-400 animate-pulse" : dayCountdown.isTomorrow ? "text-yellow-400" : "text-[#d4a853]"}`}>
                   {dayCountdown.label}
                 </span>
               </div>
@@ -730,19 +729,20 @@ export default function Index() {
                   className="h-full rounded-full transition-all duration-1000 ease-out"
                   style={{
                     width: `${dayCountdown.progress}%`,
-                    background: dayCountdown.progress === 100
-                      ? "linear-gradient(90deg, #d4a853, #22c55e)"
-                      : "linear-gradient(90deg, #d4a853, #e8c778)",
+                    background: dayCountdown.isToday
+                      ? "linear-gradient(90deg, #d4a853, #ef4444)"
+                      : dayCountdown.isTomorrow
+                        ? "linear-gradient(90deg, #d4a853, #eab308)"
+                        : "linear-gradient(90deg, #d4a853, #e8c778)",
                   }}
                 />
               </div>
               <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                <span>Terça</span>
-                <span>Quarta</span>
-                <span>Quinta 20h</span>
+                <span>Sex</span>
+                <span>Qua</span>
+                <span>Qui 20h</span>
               </div>
             </div>
-          )}
 
           {/* Pedro Diniz photo */}
           <div className="flex justify-center relative py-4">
