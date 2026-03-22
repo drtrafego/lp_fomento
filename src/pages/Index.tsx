@@ -751,6 +751,25 @@ export default function Index() {
             GARANTIR MINHA VAGA
             <ArrowRight className="inline ml-2" size={18} />
           </GoldButton>
+
+          {/* Referência do evento */}
+          <div className="flex flex-col items-center gap-2 pt-3">
+            <div className="flex items-center justify-center gap-2 text-sm text-white/50">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
+              <span>Quinta-feira às 20h · Zoom</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {(["days", "hours", "minutes", "seconds"] as const).map((unit, i) => (
+                <div key={unit} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-[#d4a853] font-bold text-sm">:</span>}
+                  <span className="bg-[#d4a853]/15 text-[#d4a853] rounded px-2 py-1 font-mono font-bold text-sm tabular-nums min-w-[2rem] text-center">
+                    {String(countdown[unit]).padStart(2, "0")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
