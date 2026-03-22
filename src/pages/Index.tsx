@@ -678,7 +678,9 @@ export default function Index() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-            AO VIVO no ZOOM · Quinta-feira 20h
+            AO VIVO no
+            <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover inline-block" />
+            ZOOM · Quinta-feira 20h
           </div>
           <div className="flex items-center gap-2 text-base">
             <span className="text-white/70 hidden sm:inline font-medium">Começa em:</span>
