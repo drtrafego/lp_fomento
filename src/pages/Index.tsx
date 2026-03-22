@@ -710,10 +710,10 @@ export default function Index() {
         <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 animate-fade-in text-center">
           {/* Date/event bar */}
           <div className="flex items-center justify-center gap-3 text-sm">
-            <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-              AO VIVO
+            <span className={`font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border ${dayCountdown.isToday ? "bg-red-500/30 text-red-300 border-red-500/40 animate-pulse" : "bg-red-500/20 text-red-400 border-red-500/30"}`}>
+              AO VIVO 100% ONLINE
             </span>
-            <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
+            <span className="text-white/50 text-xs sm:text-sm">{dayCountdown.label}</span>
           </div>
 
           {/* Day countdown bar - only Tue/Wed/Thu */}
