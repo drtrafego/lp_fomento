@@ -1037,7 +1037,7 @@ export default function Index() {
       <Section dark>
         <div className="max-w-4xl mx-auto space-y-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center">
-            Workshop Do Zero ao Milhão
+            Workshop Do Zero à Captação
           </h2>
           <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl overflow-hidden">
             <div className="flex flex-col md:flex-row">
