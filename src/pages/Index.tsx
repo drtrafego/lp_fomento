@@ -256,10 +256,16 @@ const faqItems = [
 
 function useDayCountdown() {
   const day = new Date().getDay();
-  if (day === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
-  if (day === 3) return { show: true, label: "É amanhã!", progress: 66 };
-  if (day === 4) return { show: true, label: "É HOJE!", progress: 100 };
-  return { show: false, label: "", progress: 0 };
+  const daysMap: Record<number, { label: string; progress: number; isToday: boolean; isTomorrow: boolean }> = {
+    5: { label: "Faltam 6 dias", progress: 15, isToday: false, isTomorrow: false },
+    6: { label: "Faltam 5 dias", progress: 30, isToday: false, isTomorrow: false },
+    0: { label: "Faltam 4 dias", progress: 45, isToday: false, isTomorrow: false },
+    1: { label: "Faltam 3 dias", progress: 60, isToday: false, isTomorrow: false },
+    2: { label: "Faltam 2 dias", progress: 75, isToday: false, isTomorrow: false },
+    3: { label: "Amanhã, Quinta-feira às 20h", progress: 90, isToday: false, isTomorrow: true },
+    4: { label: "HOJE, Quinta-feira às 20h", progress: 100, isToday: true, isTomorrow: false },
+  };
+  return { show: true, ...daysMap[day] };
 }
 
 const workshopCards = [
