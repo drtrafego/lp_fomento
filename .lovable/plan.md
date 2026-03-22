@@ -1,15 +1,22 @@
 
 
-## Adicionar Foto do Pedro e Igor na Seção "Seus Mentores"
+## Adicionar Logo do Zoom no Header Fixo
 
 ### Mudança
 
-1. **Copiar a imagem** `user-uploads://header-dunas-novo-set2025-WEBP_1-2.png` para `src/assets/pedro-igor.png`
+1. **Copiar imagem** do Zoom para `src/assets/zoom-icon.png`
 
-2. **Importar** no `Index.tsx`: `import pedroIgorImg from "@/assets/pedro-igor.png"`
+2. **No header (linha 678-681)**: Inserir a logo do Zoom ao lado do texto "AO VIVO no ZOOM", com máscara redonda (`rounded-full overflow-hidden`) e tamanho pequeno (~20px) para caber no header
 
-3. **Inserir a imagem** na seção "SEUS MENTORES" (após linha 963, o subtítulo "Empresários e Sócios da Dunas Capital"), com container centralizado, bordas arredondadas e max-width adequado (~280px no mobile)
+### Código resultante (linha 678-681):
+```tsx
+<div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
+  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+  AO VIVO no
+  <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover inline-block" />
+  ZOOM · Quinta-feira 20h
+</div>
+```
 
-### Resultado
-A foto do Pedro e Igor aparecerá entre o subtítulo e o texto descritivo na seção de mentores.
+Nota: já existe `zoomLogo` importado (linha 19). Vou verificar se é a mesma imagem ou se precisa usar a nova.
 
