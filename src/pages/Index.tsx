@@ -836,9 +836,6 @@ export default function Index() {
 
             {/* Text content */}
             <div className="space-y-5 text-center md:text-left">
-              <span className="inline-block bg-red-500/15 text-red-400 font-bold text-sm px-4 py-1.5 rounded-full uppercase tracking-wider border border-red-500/20">
-                Não é empréstimo
-              </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.05] uppercase">
                 <span className="text-[#d4a853]">Não é</span>{" "}
                 <span className="text-white">empréstimo.</span><br />
