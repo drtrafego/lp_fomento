@@ -776,7 +776,7 @@ export default function Index() {
             )}
 
             <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
-              Em <span className="text-[#d4a853] underline decoration-[#d4a853]/60">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
+              Em <span className="text-red-500">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
               <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
               para sua empresa ou ideia de negócio
             </h1>
