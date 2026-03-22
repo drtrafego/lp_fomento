@@ -794,43 +794,7 @@ export default function Index() {
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
 
-            {/* Referência do evento - dinâmica */}
-            {(() => {
-              const now = new Date();
-              const dayOfWeek = now.getDay();
-              const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
-              const nextThursday = new Date(now);
-              nextThursday.setDate(now.getDate() + daysUntilThursday);
-              const dd = String(nextThursday.getDate()).padStart(2, '0');
-              const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
-              const yy = String(nextThursday.getFullYear()).slice(-2);
-              const dateStr = `${dd}/${mm}/${yy}`;
-              const isToday = dayOfWeek === 4;
-              const isTomorrow = dayOfWeek === 3;
 
-              if (isToday) {
-                return (
-                  <div className="flex flex-col items-center lg:items-start gap-2 pt-3">
-                    <div className="flex items-center justify-center gap-2 text-sm text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-4 py-2 animate-pulse">
-                      <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                      <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
-                      <span>HOJE · Quinta-feira às 20h</span>
-                    </div>
-                    <span className="text-xs font-bold text-red-400 tracking-widest uppercase animate-bounce">🔥 Últimas Vagas</span>
-                  </div>
-                );
-              }
-
-              return (
-                <div className="flex flex-col items-center lg:items-start gap-2 pt-3">
-                  <div className="flex items-center justify-center gap-2 text-sm text-white/50">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                    <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
-                  </div>
-                </div>
-              );
-            })()}
           </div>
         </div>
       </section>
