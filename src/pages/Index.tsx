@@ -845,7 +845,7 @@ export default function Index() {
                 <span className="text-[#d4a853]">direito por lei.</span>
               </h2>
 
-              <div className="w-16 h-0.5 bg-[#d4a853]/40 mx-auto md:mx-0" />
+              <div className="w-16 h-0.5 bg-[#d4a853]/40 mx-auto" />
 
               <p className="text-white/80 text-base sm:text-lg leading-relaxed">
                 Existe um caminho legítimo, disponível, pensado para quem constrói o país de verdade:{" "}
