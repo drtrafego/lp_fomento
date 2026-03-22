@@ -256,16 +256,10 @@ const faqItems = [
 
 function useDayCountdown() {
   const day = new Date().getDay();
-  const daysMap: Record<number, { label: string; progress: number; isToday: boolean; isTomorrow: boolean }> = {
-    5: { label: "Faltam 6 dias", progress: 15, isToday: false, isTomorrow: false },
-    6: { label: "Faltam 5 dias", progress: 30, isToday: false, isTomorrow: false },
-    0: { label: "Faltam 4 dias", progress: 45, isToday: false, isTomorrow: false },
-    1: { label: "Faltam 3 dias", progress: 60, isToday: false, isTomorrow: false },
-    2: { label: "Faltam 2 dias", progress: 75, isToday: false, isTomorrow: false },
-    3: { label: "Amanhã, Quinta-feira às 20h", progress: 90, isToday: false, isTomorrow: true },
-    4: { label: "HOJE, Quinta-feira às 20h", progress: 100, isToday: true, isTomorrow: false },
-  };
-  return { show: true, ...daysMap[day] };
+  if (day === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
+  if (day === 3) return { show: true, label: "É amanhã!", progress: 66 };
+  if (day === 4) return { show: true, label: "É HOJE!", progress: 100 };
+  return { show: false, label: "", progress: 0 };
 }
 
 const workshopCards = [
@@ -679,14 +673,11 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 1. STICKY HEADER ─── */}
-      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b py-3.5 px-4 ${dayCountdown.isToday ? "bg-[#0a1628]/95 border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.15)]" : "bg-[#0a1628]/95 border-[#d4a853]/20"}`}>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628]/95 backdrop-blur-md border-b border-[#d4a853]/20 py-3.5 px-4">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
-          <div className="flex items-center gap-2.5 text-sm sm:text-base font-bold tracking-wide uppercase">
-            <span className={`w-2.5 h-2.5 rounded-full ${dayCountdown.isToday ? "bg-red-500 animate-ping-ring" : "bg-red-500 animate-pulse"}`} />
-            {dayCountdown.isToday && (
-              <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse font-bold mr-1">HOJE</span>
-            )}
-            <span className="text-[#d4a853]">AO VIVO 100% ONLINE · {dayCountdown.isToday ? "Quinta-feira às 20h" : dayCountdown.isTomorrow ? "Amanhã às 20h" : "Quinta-feira 20h"}</span>
+          <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+            AO VIVO no ZOOM · Quinta-feira 20h
           </div>
           <div className="flex items-center gap-2 text-base">
             <span className="text-white/70 hidden sm:inline font-medium">Começa em:</span>
@@ -710,17 +701,18 @@ export default function Index() {
         <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 animate-fade-in text-center">
           {/* Date/event bar */}
           <div className="flex items-center justify-center gap-3 text-sm">
-            <span className={`font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border ${dayCountdown.isToday ? "bg-red-500/30 text-red-300 border-red-500/40 animate-pulse" : "bg-red-500/20 text-red-400 border-red-500/30"}`}>
-              AO VIVO 100% ONLINE
+            <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+              AO VIVO
             </span>
-            <span className="text-white/50 text-xs sm:text-sm">{dayCountdown.label}</span>
+            <span className="text-white/50 text-xs sm:text-sm">Quinta-feira às 20h · Zoom</span>
           </div>
 
           {/* Day countdown bar - only Tue/Wed/Thu */}
-          <div className={`border rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto ${dayCountdown.isToday ? "bg-red-500/5 border-red-500/30" : "bg-[#0f1d32] border-[#d4a853]/20"}`}>
+          {dayCountdown.show && (
+            <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
-                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.isToday ? "text-red-400 animate-pulse" : dayCountdown.isTomorrow ? "text-yellow-400" : "text-[#d4a853]"}`}>
+                <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
                   {dayCountdown.label}
                 </span>
               </div>
@@ -729,20 +721,19 @@ export default function Index() {
                   className="h-full rounded-full transition-all duration-1000 ease-out"
                   style={{
                     width: `${dayCountdown.progress}%`,
-                    background: dayCountdown.isToday
-                      ? "linear-gradient(90deg, #d4a853, #ef4444)"
-                      : dayCountdown.isTomorrow
-                        ? "linear-gradient(90deg, #d4a853, #eab308)"
-                        : "linear-gradient(90deg, #d4a853, #e8c778)",
+                    background: dayCountdown.progress === 100
+                      ? "linear-gradient(90deg, #d4a853, #22c55e)"
+                      : "linear-gradient(90deg, #d4a853, #e8c778)",
                   }}
                 />
               </div>
               <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                <span>Sex</span>
-                <span>Qua</span>
-                <span>Qui 20h</span>
+                <span>Terça</span>
+                <span>Quarta</span>
+                <span>Quinta 20h</span>
               </div>
             </div>
+          )}
 
           {/* Pedro Diniz photo */}
           <div className="flex justify-center relative py-4">
@@ -811,7 +802,7 @@ export default function Index() {
       */}
 
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
+      <section className="relative py-16 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
@@ -956,7 +947,7 @@ export default function Index() {
       </div>
 
       {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
-      <Section dark={false} className="!pt-6 sm:!pt-16">
+      <Section dark className="!pt-6 sm:!pt-16">
         <div className="text-center space-y-4">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
@@ -966,7 +957,7 @@ export default function Index() {
       </Section>
 
       {/* ─── 7. QUEM SÃO PEDRO E IGOR ─── */}
-      <Section dark>
+      <Section dark={false}>
         <div className="max-w-2xl mx-auto space-y-5 text-center">
             <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Seus mentores</p>
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
@@ -1122,7 +1113,7 @@ export default function Index() {
             QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
-          <p className="text-white/40 text-xs">{dayCountdown.label} · AO VIVO 100% ONLINE</p>
+          <p className="text-white/40 text-xs">Quinta-feira às 20h · AO VIVO no Zoom</p>
         </div>
       </section>
 
@@ -1132,9 +1123,9 @@ export default function Index() {
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
               <Clock size={14} className="text-[#d4a853]" />
-              {dayCountdown.label} · AO VIVO 100% ONLINE
+              Quinta-feira às 20h · Online ao vivo
             </span>
-            <span className="text-white/40 text-xs">100% online e ao vivo</span>
+            <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
           <a
             href={CHECKOUT_URL}
