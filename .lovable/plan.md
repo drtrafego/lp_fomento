@@ -1,22 +1,26 @@
 
 
-## Adicionar Logo do Zoom no Header Fixo
+## Mover Referência do Evento para Abaixo do Botão CTA
 
-### Mudança
+### Mudanças em `src/pages/Index.tsx`
 
-1. **Copiar imagem** do Zoom para `src/assets/zoom-icon.png`
+1. **Remover o header fixo inteiro** (linhas 677-700) — o bloco `<header>` com "AO VIVO no ZOOM", countdown e backdrop
 
-2. **No header (linha 678-681)**: Inserir a logo do Zoom ao lado do texto "AO VIVO no ZOOM", com máscara redonda (`rounded-full overflow-hidden`) e tamanho pequeno (~20px) para caber no header
+2. **Remover `pt-20` da hero** (linha 703) — já não precisa de padding-top para compensar o header fixo. Trocar para `pt-8`
 
-### Código resultante (linha 678-681):
+3. **Adicionar referência do evento abaixo do botão CTA** (após linha 779): Uma linha simples com o ícone do Zoom, texto "Quinta-feira às 20h · Zoom" e o countdown, similar ao que estava no header mas inline no hero:
+
 ```tsx
-<div className="flex items-center gap-2.5 text-sm sm:text-base text-[#d4a853] font-bold tracking-wide uppercase">
-  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-  AO VIVO no
-  <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover inline-block" />
-  ZOOM · Quinta-feira 20h
+<div className="flex items-center justify-center gap-2 text-sm text-white/50 pt-2">
+  <img src={zoomIcon} alt="Zoom" className="w-5 h-5 rounded-full object-cover" />
+  <span>Quinta-feira às 20h · Zoom</span>
 </div>
 ```
 
-Nota: já existe `zoomLogo` importado (linha 19). Vou verificar se é a mesma imagem ou se precisa usar a nova.
+4. **Mover o countdown** para dentro dessa mesma área, logo abaixo, em formato compacto
+
+### Resultado
+- Header fixo removido — mais espaço visual
+- Referência de data/hora aparece logo abaixo do botão CTA como informação contextual
+- Countdown continua visível na hero
 
