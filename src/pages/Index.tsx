@@ -963,7 +963,7 @@ export default function Index() {
               </span>
             ))}
           </div>
-          <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
+          <GoldButton onClick={handleCheckoutClick}>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
       </Section>
 
