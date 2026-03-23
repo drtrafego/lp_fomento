@@ -673,8 +673,7 @@ export default function Index() {
   const { estado: userEstado, uf: userUf } = useUserState();
   const { trackPageView, trackInitiateCheckout } = useMetaPixel();
 
-  // Section tracking refs
-  const heroRef = useSectionTracking({ sectionName: "Hero" });
+  // Section tracking refs (2 ViewContent events: mid-page + end)
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
 
