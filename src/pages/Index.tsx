@@ -1064,7 +1064,7 @@ export default function Index() {
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-white/50 text-2xl font-bold">R$</span>
-                  <span className="text-6xl sm:text-7xl font-extrabold text-[#d4a853]">47</span>
+                  <span className="text-6xl sm:text-7xl font-extrabold text-[#d4a853]">37</span>
                   <span className="text-white/50 text-2xl font-bold">,00</span>
                 </div>
                 <p className="text-white/40 text-xs">Pagamento único · Acesso imediato</p>
