@@ -1,37 +1,57 @@
 
 
-## Simplificar ViewContent e Esclarecer Pixel Helper
+## Resultado do Teste de Performance
 
-### 1. Reduzir ViewContent para 2 eventos
+### Desktop (1440x900)
 
-Atualmente existem 3 `useSectionTracking` (Hero, Autoridade, Oferta). Vamos reduzir para 2:
+| Metrica | Valor | Status |
+|---------|-------|--------|
+| First Contentful Paint (FCP) | 6.0s | Ruim |
+| Full Page Load | 8.3s | Ruim |
+| CLS (Layout Shift) | 0.05 | Bom |
+| JS Heap | 13.3MB | Bom |
+| DOM Nodes | 3646 | OK |
 
-- **Meio da página**: "Autoridade" (seção de credibilidade/prova social)
-- **Final da página**: "Oferta" (seção de preço/CTA final)
+### Mobile (375x812)
 
-Remover o tracking do "Hero" — o PageView já cobre a chegada na página.
+| Metrica | Valor | Status |
+|---------|-------|--------|
+| First Contentful Paint (FCP) | 3.5s | Precisa melhorar |
+| Full Page Load | 5.7s | Precisa melhorar |
+| CLS (Layout Shift) | 0.02 | Bom |
+| JS Heap | 25.3MB | OK |
+| DOM Nodes | 7343 | Alto |
 
-**Arquivo**: `src/pages/Index.tsx` (linhas 677-679)
-- Remover `heroRef` e sua referência no JSX
-- Manter `autoridadeRef` e `ofertaRef`
+### Problema Principal: Imagens Gigantes
 
-### 2. Sobre o Pixel Helper
+As imagens estão em formato PNG sem compressão e são responsáveis por ~90% do tempo de carregamento:
 
-O **Pixel Helper** mostra APENAS o que o `fbq()` do browser envia:
-- `event_name` (PageView, ViewContent, InitiateCheckout)
-- `eventID` (para deduplicação)
-- `custom_data` (content_name, value, currency)
-- Advanced Matching (`country`, `ct`, `st`, `zp`, `external_id`)
+| Imagem | Tamanho | Tempo |
+|--------|---------|-------|
+| pedro-hero.png | **2.9 MB** | 1.7s |
+| pedro-palco-desktop.png | **2.3 MB** | 1.3s |
+| mapa-orgaos.png | **1.1 MB** | 2.2s |
+| lista-top-icon.png | **616 KB** | 2.0s |
+| selo-garantia.png | **387 KB** | 1.4s |
+| pedro-igor.png | **367 KB** | 2.3s |
 
-Os seguintes dados **NÃO aparecem no Pixel Helper** porque são enviados pelo servidor (CAPI):
-- `client_ip` — capturado no edge function
-- `user_agent` — enviado via CAPI
-- `page_url`, `page_title`, `referrer` — enviados via CAPI
-- `created_at` — gerado no banco de dados
-- UTMs — enviados via CAPI e salvos no banco
-- Hashes (em, ph, fn, ln) — gerados no servidor
+**Total de imagens: ~7.7 MB** — isso é extremamente pesado.
 
-Para ver esses dados, acesse o **Events Manager** do Meta (aba "Test Events") ou consulte a tabela `pixel_events` no banco de dados.
+### Plano de Otimizacao
 
-Nenhuma mudança técnica é necessária para isso — o sistema já envia tudo corretamente via servidor.
+1. **Converter todas as imagens PNG para WebP** com qualidade 80-85%, reduzindo o tamanho total em ~70-80% (de ~7.7MB para ~1.5-2MB)
+
+2. **Adicionar `loading="lazy"`** em todas as imagens abaixo do fold (tudo exceto pedro-hero)
+
+3. **Adicionar `fetchpriority="high"`** na imagem hero para priorizar seu carregamento
+
+4. **Redimensionar imagens** para o tamanho real de exibicao (pedro-hero.png provavelmente nao precisa ser maior que 800px de largura)
+
+5. **Adicionar `decoding="async"`** em imagens nao-criticas
+
+### Secao tecnica
+
+- As imagens serao convertidas via script usando ferramentas de linha de comando
+- Os imports em `src/pages/Index.tsx` serao atualizados para apontar para os novos arquivos `.webp`
+- Nenhuma mudanca visual — apenas reducao de tamanho de arquivo
 
