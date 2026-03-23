@@ -687,7 +687,7 @@ export default function Index() {
     trackInitiateCheckout({}, {
       content_ids: ["workshop-captacao"],
       content_name: "Workshop Do Zero à Captação",
-      value: 47.00,
+      value: 37.00,
       currency: "BRL",
     });
     window.open(buildCheckoutUrl(), "_blank");
