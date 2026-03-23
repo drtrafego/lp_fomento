@@ -673,7 +673,28 @@ export default function Index() {
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
   const { estado: userEstado, uf: userUf } = useUserState();
-  
+  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+
+  // Section tracking refs
+  const heroRef = useSectionTracking({ sectionName: "Hero" });
+  const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
+  const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
+
+  // Track PageView on mount
+  useEffect(() => {
+    trackPageView();
+  }, [trackPageView]);
+
+  // Checkout handler with tracking
+  const handleCheckoutClick = useCallback(() => {
+    trackInitiateCheckout({}, {
+      content_ids: ["workshop-captacao"],
+      content_name: "Workshop Do Zero à Captação",
+      value: 97.00,
+      currency: "BRL",
+    });
+    window.open(buildCheckoutUrl(), "_blank");
+  }, [trackInitiateCheckout]);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
