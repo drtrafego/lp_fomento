@@ -14,7 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      pixel_events: {
+        Row: {
+          city: string | null
+          client_ip: string | null
+          country: string | null
+          created_at: string
+          custom_data: Json | null
+          event_id: string
+          event_name: string
+          event_time: string
+          external_id: string | null
+          fbc: string | null
+          fbclid: string | null
+          fbp: string | null
+          hashed_country: string | null
+          hashed_ct: string | null
+          hashed_em: string | null
+          hashed_fn: string | null
+          hashed_ln: string | null
+          hashed_ph: string | null
+          hashed_st: string | null
+          hashed_zp: string | null
+          id: string
+          meta_response: Json | null
+          page_title: string | null
+          page_url: string | null
+          referrer: string | null
+          state: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          city?: string | null
+          client_ip?: string | null
+          country?: string | null
+          created_at?: string
+          custom_data?: Json | null
+          event_id: string
+          event_name: string
+          event_time?: string
+          external_id?: string | null
+          fbc?: string | null
+          fbclid?: string | null
+          fbp?: string | null
+          hashed_country?: string | null
+          hashed_ct?: string | null
+          hashed_em?: string | null
+          hashed_fn?: string | null
+          hashed_ln?: string | null
+          hashed_ph?: string | null
+          hashed_st?: string | null
+          hashed_zp?: string | null
+          id?: string
+          meta_response?: Json | null
+          page_title?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          state?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          city?: string | null
+          client_ip?: string | null
+          country?: string | null
+          created_at?: string
+          custom_data?: Json | null
+          event_id?: string
+          event_name?: string
+          event_time?: string
+          external_id?: string | null
+          fbc?: string | null
+          fbclid?: string | null
+          fbp?: string | null
+          hashed_country?: string | null
+          hashed_ct?: string | null
+          hashed_em?: string | null
+          hashed_fn?: string | null
+          hashed_ln?: string | null
+          hashed_ph?: string | null
+          hashed_st?: string | null
+          hashed_zp?: string | null
+          id?: string
+          meta_response?: Json | null
+          page_title?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          state?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
