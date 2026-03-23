@@ -949,8 +949,8 @@ export default function Index() {
       {/* ─── 5. O QUE VOCÊ VAI APRENDER ─── */}
       <section className="relative py-20 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-[#d4a853]/[0.03] blur-[100px]" />
-          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.05] blur-[80px]" />
+          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.03] blur-[60px]" />
+          <div className="absolute bottom-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.05] blur-[60px]" />
         </div>
         <WorkshopLearningSection />
       </section>
