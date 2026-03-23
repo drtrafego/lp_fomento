@@ -22,7 +22,9 @@ import zoomIcon from "@/assets/zoom-icon.png";
 import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
-import { VideoTestimonials } from "@/components/VideoTestimonials";
+import { throttle } from "@/lib/throttle";
+
+const VideoTestimonials = lazy(() => import("@/components/VideoTestimonials").then(m => ({ default: m.VideoTestimonials })));
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
