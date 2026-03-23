@@ -724,7 +724,7 @@ export default function Index() {
             {/* Desktop: foto full com degradê */}
             <div className="hidden lg:block relative w-full max-w-md mx-auto">
               <div className="relative overflow-hidden rounded-2xl">
-                <img src={pedroPalcoDesktop} alt="Pedro Diniz" className="w-full h-auto object-cover" />
+                <img src={pedroPalcoDesktop} alt="Pedro Diniz" className="w-full h-auto object-cover" loading="lazy" decoding="async" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/60 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-0 right-0 text-center">
