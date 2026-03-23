@@ -680,10 +680,9 @@ export default function Index() {
               <div className="flex flex-col items-center">
                 <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                   <img
-                    src={autoridadeImg}
+                    src={pedroHeroImg}
                     alt="Pedro Diniz - Especialista em captação de recursos"
-                    className="w-full h-full object-cover scale-150"
-                    style={{ objectPosition: "50% 25%" }}
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="mt-3 text-center relative z-10">
