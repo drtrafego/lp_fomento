@@ -711,6 +711,7 @@ export default function Index() {
                     src={pedroHeroImg}
                     alt="Pedro Diniz - Especialista em captação de recursos"
                     className="w-full h-full object-cover"
+                    fetchPriority="high"
                   />
                 </div>
                 <div className="mt-3 text-center relative z-10">
