@@ -1071,7 +1071,7 @@ export default function Index() {
                   <span className="text-white/50 text-2xl font-bold">,00</span>
                 </div>
                 <p className="text-white/40 text-xs">Pagamento único · Acesso imediato</p>
-                <GoldButton className="w-full max-w-xs text-center" showGuarantee={false}>
+                <GoldButton className="w-full max-w-xs text-center" showGuarantee={false} onClick={handleCheckoutClick}>
                   GARANTIR MINHA VAGA AGORA
                   <ArrowRight className="inline ml-2" size={18} />
                 </GoldButton>
