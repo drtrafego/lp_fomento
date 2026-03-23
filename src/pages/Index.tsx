@@ -834,8 +834,8 @@ export default function Index() {
       <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
-          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.08] blur-[80px] animate-pulse" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#d4a853]/5 blur-[60px]" />
+          <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.08] blur-[60px]" />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
