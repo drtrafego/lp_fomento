@@ -130,7 +130,7 @@ export function markSectionViewed(sectionName: string): void {
 
 // ─── Checkout URL Builder ───
 const CHECKOUT_BASE =
-  "https://payfast.greenn.com.br/124770/offer/HZeJnK?ch_id=23349&b_id_1=130170&b_offer_1=tJv2Nz&b_id_2=149317&b_offer_2=R1ELtR&cart_token=1200637589.1771014523";
+  "https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_b0i73d4ti6pb7tddgqks1z";
 
 export function buildCheckoutUrl(): string {
   const utms = getStoredUtmParams();
