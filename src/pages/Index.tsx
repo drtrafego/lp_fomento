@@ -882,9 +882,7 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="mt-12">
-            <ScrollRevealBadges />
-          </div>
+
         </div>
       </section>
 
