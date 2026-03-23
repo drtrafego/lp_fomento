@@ -616,17 +616,15 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const onScroll = () => {
+    const onScroll = throttle(() => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // First notification appears when container top enters bottom 20% of viewport
-      // Last notification appears when container top reaches top 40% of viewport
       const start = vh * 0.8;
       const end = vh * 0.15;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
       const idx = Math.floor(progress * PIX_NOTIFICATIONS.length);
       setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
-    };
+    }, 16);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
