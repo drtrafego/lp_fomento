@@ -1162,7 +1162,7 @@ export default function Index() {
             Os Programas de Incentivos Federais podem liberar de{" "}
             <strong className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</strong> em poucos dias.
           </p>
-          <GoldButton className="text-xl px-10 py-5">
+          <GoldButton className="text-xl px-10 py-5" onClick={handleCheckoutClick}>
             QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
