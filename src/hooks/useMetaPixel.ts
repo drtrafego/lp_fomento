@@ -176,7 +176,12 @@ export function useMetaPixel() {
     []
   );
 
-  const trackPageView = useCallback(() => sendEvent("PageView"), [sendEvent]);
+  const trackPageView = useCallback(() => {
+    pendingPageView.current = true;
+    if (advancedMatchingReady.current) {
+      firePageViewIfReady();
+    }
+  }, [firePageViewIfReady]);
 
   const trackViewContent = useCallback(
     (contentName: string, contentCategory: string) =>
