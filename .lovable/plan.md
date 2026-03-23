@@ -1,48 +1,78 @@
 
 
-## Otimização de Performance da Página
+## Meta Pixel Advanced Matching + CAPI Implementation
 
-### Problemas Identificados
+### Overview
+Implement full Meta Pixel tracking with browser-side events, server-side Conversions API (CAPI), deduplication, Advanced Matching, UTM forwarding to checkout, and event persistence in the database.
 
-1. **Scroll listeners sem throttle** — ScrollTypewriter, PixNotifications e useSequentialBulletProgress adicionam listeners de scroll que disparam a cada pixel, causando muitos recálculos
-2. **Componentes pesados carregados de uma vez** — VideoTestimonials (6 vídeos), WorkshopLearningSection e BonusSection são renderizados imediatamente mesmo fora da tela
-3. **Imagem do hero não tem lazy loading** — `pedroHeroImg` e `pedroPalcoDesktop` carregam imediatamente
-4. **Efeitos de blur pesados** — Múltiplos divs com `blur-[80px]` e `blur-[120px]` consomem GPU
-5. **Chamada de API externa no load** — `ipapi.co/json/` bloqueia rendering
-6. **Sem preconnect para CDN de vídeos** — os vídeos de `dunas.b-cdn.net` iniciam conexão tarde
+### Prerequisites (User Action Required)
+Before implementation, you need to add two secrets in **Settings → Cloud → Secrets**:
+- `META_PIXEL_ID` — your 15-digit Pixel ID from Events Manager
+- `META_ACCESS_TOKEN` — generated in Events Manager → Conversions API
 
-### Implementação
+The project currently has no Supabase/Cloud setup, so Lovable Cloud needs to be enabled first.
 
-#### 1. `index.html` — Adicionar preconnect e meta de performance
-- `<link rel="preconnect" href="https://dunas.b-cdn.net">`
-- `<link rel="dns-prefetch" href="https://ipapi.co">`
+---
 
-#### 2. `src/pages/Index.tsx` — Lazy loading de componentes pesados
-- Usar `React.lazy()` + `Suspense` para `VideoTestimonials` e `ScrollTypewriter`
-- Adicionar `loading="lazy"` nas imagens do hero que faltam (desktop)
+### Implementation Steps
 
-#### 3. `src/pages/Index.tsx` — Throttle nos scroll listeners
-- Criar um utilitário `throttle` simples (16ms ≈ 60fps)
-- Aplicar em `PixNotificationsSection`, `useSequentialBulletProgress` e `ScrollTypewriter`
+#### 1. Add Meta Pixel to `index.html`
+- Insert `fbq` script in `<head>` with `fbq('init', 'PIXEL_ID')` and `fbq('track', 'PageView')`
+- Add `<noscript>` fallback in `<body>`
+- Pixel ID will be hardcoded (it's a public/publishable ID)
 
-#### 4. `src/pages/Index.tsx` — Reduzir efeitos de blur
-- Diminuir tamanho dos divs de glow decorativos (de 500-600px para 300-400px)
-- Reduzir blur de 120px para 60px nos backgrounds decorativos
-- Remover `animate-pulse` dos glows de background (repaints constantes)
+#### 2. Create Database Table `pixel_events`
+- Migration with all fields: `event_name`, `event_id`, `event_time`, `page_url`, `client_ip`, `user_agent`, `external_id`, `fbp`, `fbc`, UTM fields, `custom_data`, `meta_response`, location fields, and **hashed values** (`hashed_em`, `hashed_ph`, `hashed_fn`, `hashed_ln`, `hashed_ct`, `hashed_st`, `hashed_zp`, `hashed_country`)
+- RLS: `INSERT` for anon, `SELECT` for authenticated
 
-#### 5. `src/pages/Index.tsx` — Otimizar countdown
-- Usar `requestAnimationFrame` ao invés de `setInterval` de 1s para o countdown (evita re-renders desnecessários quando tab está inativa)
+#### 3. Edge Function: `get-user-location`
+- Reads IP from `x-forwarded-for`
+- Calls `ip-api.com` for geolocation
+- Returns `{ country, state, city, zip_code }`
+- CORS headers included
 
-#### 6. `src/components/VideoTestimonials.tsx` — Otimizar vídeos
-- Trocar `preload="metadata"` por `preload="none"` — carregar metadata só quando o usuário interage
-- Adicionar `poster` attribute ou thumbnail placeholder
+#### 4. Edge Function: `meta-pixel-event`
+- Validates event name (PageView, ViewContent, InitiateCheckout, Purchase)
+- SHA-256 hashes PII fields per Meta spec (em, ph, fn, ln, ct, st, zp, country)
+- Sends to Meta CAPI (`graph.facebook.com/v21.0/{PIXEL_ID}/events`)
+- Saves all data + hash values to `pixel_events` table
+- Optional webhook forwarding (unhashed data)
 
-#### 7. `src/components/ScrollTypewriter.tsx` — Throttle scroll
-- Adicionar throttle de 16ms no handler de scroll
+#### 5. Create `src/lib/metaPixelUtils.ts`
+- `getExternalId()` — persistent UUID in localStorage
+- `generateEventId()` — unique ID for deduplication
+- `getUrlParams()` / `getStoredUtmParams()` — capture & persist UTMs
+- `getFbCookies()` — read `_fbp`/`_fbc`, generate `_fbc` from `fbclid`
+- `getClientInfo()` — user agent, page URL, title, referrer
+- `getEventTimeDetails()` — unix time, day, time interval
+- `saveLocationData()` / `getStoredLocationData()` — 24h cache
+- `wasSectionViewed()` / `markSectionViewed()` — session dedup
+- `buildCheckoutUrl()` — appends UTMs to CHECKOUT_URL
 
-### Resultado Esperado
-- First Contentful Paint mais rápido (menos recursos carregados inicialmente)
-- Scroll mais suave (menos trabalho por frame)
-- Menor consumo de GPU (menos blurs e animações constantes)
-- Vídeos não consomem banda até o usuário interagir
+#### 6. Create `src/hooks/useMetaPixel.ts`
+- Main hook: captures UTMs on mount, pre-fetches location
+- `sendEvent()`: generates eventId → fires `fbq('track')` with eventID → calls edge function with full payload
+- Exports: `trackPageView`, `trackViewContent`, `trackInitiateCheckout`, `trackPurchase`
+
+#### 7. Create `src/hooks/useSectionTracking.ts`
+- IntersectionObserver (threshold 0.2) to detect section visibility
+- Fires ViewContent once per session per section
+- Returns a ref to attach to `<section>`
+
+#### 8. Integrate in `src/pages/Index.tsx`
+- Call `trackPageView()` on mount
+- Attach `useSectionTracking` refs to key sections (Hero, Autoridade, Oferta, etc.)
+- Modify `GoldButton` / checkout links to call `trackInitiateCheckout` with product data (name: "Workshop Do Zero à Captação", value: 97.00, currency: BRL) and redirect to `buildCheckoutUrl()` (which appends UTMs)
+
+### Product Data (auto-detected from page)
+- **Product**: Workshop Do Zero à Captação
+- **Price**: R$ 97,00
+- **Currency**: BRL
+- **Checkout**: Greenn (payfast.greenn.com.br)
+
+### Technical Notes
+- Deduplication: same `event_id` sent to both browser `fbq` and server CAPI
+- Hash values stored in DB for audit/debugging
+- Location cached 24h in localStorage to minimize API calls
+- The existing `useUserState` hook (ipapi.co) will be replaced by the new location system via edge function
 
