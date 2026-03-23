@@ -738,9 +738,9 @@ export default function Index() {
                 }
 
                 return (
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-white/50">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                    <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
+                  <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
+                    <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+                    <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
                     <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
                   </div>
                 );
