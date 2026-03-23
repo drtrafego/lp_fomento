@@ -11,10 +11,33 @@ import {
   getStoredLocationData,
 } from "@/lib/metaPixelUtils";
 
+const PIXEL_ID = "1649493576054636";
+
 declare global {
   interface Window {
     fbq?: (...args: any[]) => void;
   }
+}
+
+function initAdvancedMatching(location: any) {
+  if (!window.fbq) return;
+  const externalId = getExternalId();
+  const { fbp, fbc } = getFbCookies();
+  
+  const advancedMatchingData: Record<string, string> = {
+    external_id: externalId,
+  };
+
+  // Add location-based data
+  if (location?.country) advancedMatchingData.country = location.country.toLowerCase().slice(0, 2);
+  if (location?.state) advancedMatchingData.st = location.state.toLowerCase().slice(0, 2);
+  if (location?.city) advancedMatchingData.ct = location.city.toLowerCase().replace(/\s/g, "");
+  if (location?.zip_code) advancedMatchingData.zp = location.zip_code.replace(/\D/g, "");
+  if (fbp) advancedMatchingData.fbp = fbp;
+  if (fbc) advancedMatchingData.fbc = fbc;
+
+  // Re-init pixel with Advanced Matching data
+  window.fbq("init", PIXEL_ID, advancedMatchingData);
 }
 
 export function useMetaPixel() {
@@ -28,10 +51,11 @@ export function useMetaPixel() {
     // Capture UTMs from URL
     getUrlParams();
 
-    // Pre-fetch location
+    // Pre-fetch location and enable Advanced Matching
     const cached = getStoredLocationData();
     if (cached) {
       locationRef.current = cached;
+      initAdvancedMatching(cached);
     } else {
       supabase.functions
         .invoke("get-user-location")
@@ -39,6 +63,7 @@ export function useMetaPixel() {
           if (data) {
             locationRef.current = data;
             saveLocationData(data);
+            initAdvancedMatching(data);
           }
         })
         .catch(console.error);
