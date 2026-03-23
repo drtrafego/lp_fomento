@@ -930,6 +930,13 @@ export default function Index() {
               ? <>Sua empresa <span className="underline decoration-[#d4a853]/60">no {userEstado}</span> pode estar a um passo de captar de R$ 39 mil a R$ 400 mil</>
               : "Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil"}
           </p>
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            {["Sem favores", 'Sem "indicações"', "Seu direito por lei"].map((b) => (
+              <span key={b} className="flex items-center gap-2 bg-[#0a1628]/80 border border-[#d4a853]/20 text-[#d4a853] text-sm font-semibold px-5 py-2.5 rounded-lg">
+                <span className="text-red-500 font-bold">✕</span> {b}
+              </span>
+            ))}
+          </div>
           <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
       </Section>
