@@ -899,14 +899,12 @@ export default function Index() {
                 <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" />
               </div>
 
-              <a
-                href={CHECKOUT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105"
+              <button
+                onClick={handleCheckoutClick}
+                className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
                 QUERO MEU INGRESSO →
-              </a>
+              </button>
             </div>
           </div>
 
