@@ -64,7 +64,7 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   className="w-full h-full object-cover"
                 />
                 {/* VSL Play Overlay */}

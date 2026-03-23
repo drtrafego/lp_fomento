@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { throttle } from "@/lib/throttle";
 
 interface ScrollTypewriterProps {
   text: string;
@@ -11,20 +12,19 @@ export function ScrollTypewriter({ text, className = "", progress }: ScrollTypew
   const ref = useRef<HTMLSpanElement>(null);
   const [selfProgress, setSelfProgress] = useState(0);
 
-  // Only use self-scroll tracking if no external progress provided
   useEffect(() => {
     if (progress !== undefined) return;
     const el = ref.current;
     if (!el) return;
 
-    const onScroll = () => {
+    const onScroll = throttle(() => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const start = vh * 0.85;
       const end = vh * 0.25;
       const p = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
       setSelfProgress(p);
-    };
+    }, 16);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -64,7 +64,6 @@ export function ScrollTypewriter({ text, className = "", progress }: ScrollTypew
 /**
  * Hook that tracks scroll progress for a card container,
  * distributing progress sequentially across N bullets.
- * Returns an array of per-bullet progress values (0-1).
  */
 export function useSequentialBulletProgress(
   containerRef: React.RefObject<HTMLElement | null>,
@@ -78,16 +77,13 @@ export function useSequentialBulletProgress(
     const el = containerRef.current;
     if (!el) return;
 
-    const onScroll = () => {
+    const onScroll = throttle(() => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Card starts typing when top enters 85% of viewport
-      // Card finishes all bullets when top reaches 15% of viewport
       const start = vh * 0.9;
       const end = vh * 0.3;
       const totalProgress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
 
-      // Distribute total progress across bullets sequentially
       const newProgresses: number[] = [];
       for (let i = 0; i < bulletCount; i++) {
         const bulletStart = i / bulletCount;
@@ -99,7 +95,7 @@ export function useSequentialBulletProgress(
         newProgresses.push(bulletProgress);
       }
       setProgresses(newProgresses);
-    };
+    }, 16);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();

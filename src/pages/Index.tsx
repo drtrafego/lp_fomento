@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 
 
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
@@ -22,7 +22,9 @@ import zoomIcon from "@/assets/zoom-icon.png";
 import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.png";
 import listaTopIcon from "@/assets/lista-top-icon.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
-import { VideoTestimonials } from "@/components/VideoTestimonials";
+import { throttle } from "@/lib/throttle";
+
+const VideoTestimonials = lazy(() => import("@/components/VideoTestimonials").then(m => ({ default: m.VideoTestimonials })));
 
 import caseBulldog from "@/assets/cases/bulldogburguer.jpeg";
 import caseRoys from "@/assets/cases/roysbrasil.jpeg";
@@ -80,8 +82,15 @@ function useCountdown() {
       });
     };
     tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    let rafId: number;
+    let lastSecond = -1;
+    const loop = () => {
+      const sec = Math.floor(Date.now() / 1000);
+      if (sec !== lastSecond) { lastSecond = sec; tick(); }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
   }, []);
   return timeLeft;
 }
@@ -607,17 +616,15 @@ function PixNotificationsSection({ uf }: { uf: string | null }) {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const onScroll = () => {
+    const onScroll = throttle(() => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // First notification appears when container top enters bottom 20% of viewport
-      // Last notification appears when container top reaches top 40% of viewport
       const start = vh * 0.8;
       const end = vh * 0.15;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
       const idx = Math.floor(progress * PIX_NOTIFICATIONS.length);
       setActiveIndex(Math.min(idx, PIX_NOTIFICATIONS.length - 1));
-    };
+    }, 16);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -827,8 +834,8 @@ export default function Index() {
       <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         {/* Golden glow background effects */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#d4a853]/5 blur-[120px]" />
-          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.08] blur-[80px] animate-pulse" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#d4a853]/5 blur-[60px]" />
+          <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.08] blur-[60px]" />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
@@ -942,8 +949,8 @@ export default function Index() {
       {/* ─── 5. O QUE VOCÊ VAI APRENDER ─── */}
       <section className="relative py-20 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-[#d4a853]/[0.03] blur-[100px]" />
-          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.05] blur-[80px]" />
+          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.03] blur-[60px]" />
+          <div className="absolute bottom-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.05] blur-[60px]" />
         </div>
         <WorkshopLearningSection />
       </section>
@@ -965,7 +972,9 @@ export default function Index() {
         <div className="text-center space-y-4">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>
-          <VideoTestimonials testimonials={testimonials} />
+          <Suspense fallback={<div className="h-96" />}>
+            <VideoTestimonials testimonials={testimonials} />
+          </Suspense>
           <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
         </div>
       </Section>
@@ -1068,9 +1077,9 @@ export default function Index() {
       {/* ─── 10. BÔNUS ─── */}
       <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#d4a853]/[0.04] blur-[120px]" />
-          <div className="absolute top-1/4 left-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.06] blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.04] blur-[60px]" />
+          <div className="absolute top-1/4 left-1/4 w-[150px] h-[150px] rounded-full bg-[#d4a853]/[0.06] blur-[60px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[150px] h-[150px] rounded-full bg-[#d4a853]/[0.06] blur-[60px]" />
         </div>
         <BonusSection />
       </section>
