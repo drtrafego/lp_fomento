@@ -678,7 +678,7 @@ export default function Index() {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
               <div className="flex flex-col items-center">
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
+                <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
                   <img
                     src={autoridadeImg}
                     alt="Pedro Diniz - Especialista em captação de recursos"
@@ -687,8 +687,8 @@ export default function Index() {
                   />
                 </div>
                 <div className="mt-3 text-center relative z-10">
-                  <h3 className="text-white font-bold text-base sm:text-lg tracking-widest uppercase">PEDRO DINIZ</h3>
-                  <p className="text-[#d4a853] text-xs sm:text-sm font-medium mt-1">+ de 50 milhões captados</p>
+                  <h3 className="text-white font-bold text-lg sm:text-xl tracking-widest uppercase">PEDRO DINIZ</h3>
+                  <p className="text-[#d4a853] text-sm sm:text-base font-medium mt-1">+ de 50 milhões captados</p>
                 </div>
               </div>
             </div>
