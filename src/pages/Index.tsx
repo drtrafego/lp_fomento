@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
-
+import { useMetaPixel } from "@/hooks/useMetaPixel";
+import { useSectionTracking } from "@/hooks/useSectionTracking";
+import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
 
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import {
@@ -185,16 +187,14 @@ const Section = ({ children, className = "", dark = false }: { children: React.R
   );
 };
 
-const GoldButton = ({ children, className = "", showGuarantee = true }: { children: React.ReactNode; className?: string; showGuarantee?: boolean }) => (
+const GoldButton = ({ children, className = "", showGuarantee = true, onClick }: { children: React.ReactNode; className?: string; showGuarantee?: boolean; onClick?: () => void }) => (
   <div className="flex flex-col items-center gap-2">
-    <a
-      href={CHECKOUT_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform ${className}`}
+    <button
+      onClick={onClick}
+      className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform cursor-pointer ${className}`}
     >
       {children}
-    </a>
+    </button>
     {showGuarantee && (
       <span className="flex items-center gap-1.5 text-white/45 text-xs">
         <Shield size={12} />
@@ -671,7 +671,28 @@ export default function Index() {
   const counter = useAnimatedCounter(42);
   const dayCountdown = useDayCountdown();
   const { estado: userEstado, uf: userUf } = useUserState();
-  
+  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+
+  // Section tracking refs
+  const heroRef = useSectionTracking({ sectionName: "Hero" });
+  const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
+  const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
+
+  // Track PageView on mount
+  useEffect(() => {
+    trackPageView();
+  }, [trackPageView]);
+
+  // Checkout handler with tracking
+  const handleCheckoutClick = useCallback(() => {
+    trackInitiateCheckout({}, {
+      content_ids: ["workshop-captacao"],
+      content_name: "Workshop Do Zero à Captação",
+      value: 97.00,
+      currency: "BRL",
+    });
+    window.open(buildCheckoutUrl(), "_blank");
+  }, [trackInitiateCheckout]);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
@@ -796,7 +817,7 @@ export default function Index() {
               ))}
             </ul>
             <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
-            <GoldButton className="w-full sm:w-auto">
+            <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
@@ -878,14 +899,12 @@ export default function Index() {
                 <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" />
               </div>
 
-              <a
-                href={CHECKOUT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105"
+              <button
+                onClick={handleCheckoutClick}
+                className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
                 QUERO MEU INGRESSO →
-              </a>
+              </button>
             </div>
           </div>
 
@@ -942,7 +961,7 @@ export default function Index() {
               </span>
             ))}
           </div>
-          <GoldButton>QUERO APRENDER A CAPTAR</GoldButton>
+          <GoldButton onClick={handleCheckoutClick}>QUERO APRENDER A CAPTAR</GoldButton>
         </div>
       </Section>
 
@@ -975,7 +994,7 @@ export default function Index() {
           <Suspense fallback={<div className="h-96" />}>
             <VideoTestimonials testimonials={testimonials} />
           </Suspense>
-          <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
+          <GoldButton onClick={handleCheckoutClick}>EU TAMBÉM QUERO CAPTAR</GoldButton>
         </div>
       </Section>
 
@@ -1050,7 +1069,7 @@ export default function Index() {
                   <span className="text-white/50 text-2xl font-bold">,00</span>
                 </div>
                 <p className="text-white/40 text-xs">Pagamento único · Acesso imediato</p>
-                <GoldButton className="w-full max-w-xs text-center" showGuarantee={false}>
+                <GoldButton className="w-full max-w-xs text-center" showGuarantee={false} onClick={handleCheckoutClick}>
                   GARANTIR MINHA VAGA AGORA
                   <ArrowRight className="inline ml-2" size={18} />
                 </GoldButton>
@@ -1141,7 +1160,7 @@ export default function Index() {
             Os Programas de Incentivos Federais podem liberar de{" "}
             <strong className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</strong> em poucos dias.
           </p>
-          <GoldButton className="text-xl px-10 py-5">
+          <GoldButton className="text-xl px-10 py-5" onClick={handleCheckoutClick}>
             QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
@@ -1159,14 +1178,12 @@ export default function Index() {
             </span>
             <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
-          <a
-            href={CHECKOUT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform"
+          <button
+            onClick={handleCheckoutClick}
+            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform cursor-pointer"
           >
             QUERO MEU INGRESSO
-          </a>
+          </button>
         </div>
       </div>
 
