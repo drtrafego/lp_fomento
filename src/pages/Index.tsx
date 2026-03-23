@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
-
+import { useMetaPixel } from "@/hooks/useMetaPixel";
+import { useSectionTracking } from "@/hooks/useSectionTracking";
+import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
 
 import { Play, CheckCircle, Clock, Users, Zap, Gift, Shield, ChevronDown, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import {
