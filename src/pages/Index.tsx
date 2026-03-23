@@ -1178,14 +1178,12 @@ export default function Index() {
             </span>
             <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
-          <a
-            href={CHECKOUT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform"
+          <button
+            onClick={handleCheckoutClick}
+            className="inline-block w-full sm:w-auto text-center relative overflow-hidden rounded-xl font-bold text-base sm:text-lg px-8 py-3.5 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform cursor-pointer"
           >
             QUERO MEU INGRESSO
-          </a>
+          </button>
         </div>
       </div>
 
