@@ -996,7 +996,7 @@ export default function Index() {
           <Suspense fallback={<div className="h-96" />}>
             <VideoTestimonials testimonials={testimonials} />
           </Suspense>
-          <GoldButton>EU TAMBÉM QUERO CAPTAR</GoldButton>
+          <GoldButton onClick={handleCheckoutClick}>EU TAMBÉM QUERO CAPTAR</GoldButton>
         </div>
       </Section>
 
