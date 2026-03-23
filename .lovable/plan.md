@@ -1,45 +1,37 @@
 
 
-## Corrigir Valor do Produto e Parâmetros Dinâmicos no Meta Pixel
+## Simplificar ViewContent e Esclarecer Pixel Helper
 
-### Problema
-O `handleCheckoutClick` está enviando `value: 97.00` hardcoded, mas o preço real na página é **R$ 47,00** (De R$ 97 por R$ 47). Além disso, parâmetros como IP, cidade, estado, país, fbp, fbc, etc. já são dinâmicos — o problema é apenas o valor do produto.
+### 1. Reduzir ViewContent para 2 eventos
 
-### Correção em `src/pages/Index.tsx`
+Atualmente existem 3 `useSectionTracking` (Hero, Autoridade, Oferta). Vamos reduzir para 2:
 
-Alterar o `handleCheckoutClick` (linha 687-695):
+- **Meio da página**: "Autoridade" (seção de credibilidade/prova social)
+- **Final da página**: "Oferta" (seção de preço/CTA final)
 
-**De:**
-```typescript
-trackInitiateCheckout({}, {
-  content_ids: ["workshop-captacao"],
-  content_name: "Workshop Do Zero à Captação",
-  value: 97.00,
-  currency: "BRL",
-});
-```
+Remover o tracking do "Hero" — o PageView já cobre a chegada na página.
 
-**Para:**
-```typescript
-trackInitiateCheckout({}, {
-  content_ids: ["workshop-captacao"],
-  content_name: "Workshop Do Zero à Captação",
-  value: 47.00,
-  currency: "BRL",
-});
-```
+**Arquivo**: `src/pages/Index.tsx` (linhas 677-679)
+- Remover `heroRef` e sua referência no JSX
+- Manter `autoridadeRef` e `ofertaRef`
 
-### Nota sobre os outros parâmetros
-Os seguintes parâmetros **já são capturados dinamicamente** por visitante:
-- **IP** → capturado no edge function via `x-forwarded-for`
-- **Cidade, Estado, País, ZIP** → via edge function `get-user-location` (ip-api.com)
-- **fbp** → lido do cookie `_fbp` (setado pelo Meta Pixel)
-- **fbc** → lido do cookie `_fbc` ou gerado a partir do `fbclid` na URL
-- **fbclid** → capturado da URL de entrada
-- **user_agent** → `navigator.userAgent`
-- **external_id** → UUID persistente no localStorage
-- **UTMs** → capturados da URL e persistidos no localStorage
-- **Hashes (em, ph, fn, ln, ct, st, zp, country)** → gerados no edge function a partir dos dados de localização
+### 2. Sobre o Pixel Helper
 
-Todos esses valores variam de visitante para visitante automaticamente. A única coisa hardcoded incorretamente era o valor do produto.
+O **Pixel Helper** mostra APENAS o que o `fbq()` do browser envia:
+- `event_name` (PageView, ViewContent, InitiateCheckout)
+- `eventID` (para deduplicação)
+- `custom_data` (content_name, value, currency)
+- Advanced Matching (`country`, `ct`, `st`, `zp`, `external_id`)
+
+Os seguintes dados **NÃO aparecem no Pixel Helper** porque são enviados pelo servidor (CAPI):
+- `client_ip` — capturado no edge function
+- `user_agent` — enviado via CAPI
+- `page_url`, `page_title`, `referrer` — enviados via CAPI
+- `created_at` — gerado no banco de dados
+- UTMs — enviados via CAPI e salvos no banco
+- Hashes (em, ph, fn, ln) — gerados no servidor
+
+Para ver esses dados, acesse o **Events Manager** do Meta (aba "Test Events") ou consulte a tabela `pixel_events` no banco de dados.
+
+Nenhuma mudança técnica é necessária para isso — o sistema já envia tudo corretamente via servidor.
 
