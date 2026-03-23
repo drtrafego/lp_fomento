@@ -43,6 +43,48 @@ function initAdvancedMatching(location: any) {
 export function useMetaPixel() {
   const locationRef = useRef<any>(null);
   const initialized = useRef(false);
+  const advancedMatchingReady = useRef(false);
+  const pendingPageView = useRef(false);
+
+  const firePageViewIfReady = useCallback(() => {
+    if (advancedMatchingReady.current && pendingPageView.current) {
+      pendingPageView.current = false;
+      const eventId = generateEventId();
+      const externalId = getExternalId();
+      const { fbp, fbc } = getFbCookies();
+      const clientInfo = getClientInfo();
+      const utms = getStoredUtmParams();
+      const location = locationRef.current || getStoredLocationData() || {};
+
+      if (window.fbq) {
+        window.fbq("track", "PageView", {}, { eventID: eventId });
+      }
+
+      supabase.functions.invoke("meta-pixel-event", {
+        body: {
+          event_name: "PageView",
+          event_id: eventId,
+          page_url: clientInfo.page_url,
+          page_title: clientInfo.page_title,
+          referrer: clientInfo.referrer,
+          user_agent: clientInfo.user_agent,
+          external_id: externalId,
+          fbp, fbc,
+          country: location.country || "",
+          state: location.state || "",
+          city: location.city || "",
+          zip_code: location.zip_code || "",
+          utm_source: utms.utm_source || "",
+          utm_medium: utms.utm_medium || "",
+          utm_campaign: utms.utm_campaign || "",
+          utm_content: utms.utm_content || "",
+          utm_term: utms.utm_term || "",
+          fbclid: utms.fbclid || "",
+          custom_data: {},
+        },
+      }).catch(console.error);
+    }
+  }, []);
 
   useEffect(() => {
     if (initialized.current) return;
@@ -56,6 +98,8 @@ export function useMetaPixel() {
     if (cached) {
       locationRef.current = cached;
       initAdvancedMatching(cached);
+      advancedMatchingReady.current = true;
+      firePageViewIfReady();
     } else {
       supabase.functions
         .invoke("get-user-location")
@@ -65,10 +109,16 @@ export function useMetaPixel() {
             saveLocationData(data);
             initAdvancedMatching(data);
           }
+          advancedMatchingReady.current = true;
+          firePageViewIfReady();
         })
-        .catch(console.error);
+        .catch((e) => {
+          console.error(e);
+          advancedMatchingReady.current = true;
+          firePageViewIfReady();
+        });
     }
-  }, []);
+  }, [firePageViewIfReady]);
 
   const sendEvent = useCallback(
     async (
