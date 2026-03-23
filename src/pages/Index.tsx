@@ -12,17 +12,17 @@ import {
 } from "@/components/ui/accordion";
 
 
-import seloGarantia from "@/assets/selo-garantia.png";
-import autoridadeImg from "@/assets/pedro-palco.png";
-import pedroHeroImg from "@/assets/pedro-hero.png";
-import mapaOrgaos from "@/assets/mapa-orgaos.png";
+import seloGarantia from "@/assets/selo-garantia.webp";
+import autoridadeImg from "@/assets/pedro-palco.webp";
+import pedroHeroImg from "@/assets/pedro-hero.webp";
+import mapaOrgaos from "@/assets/mapa-orgaos.webp";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
-import pedroIgorImg from "@/assets/pedro-igor.png";
-import leiDecreto from "@/assets/lei-decreto.png";
-import zoomLogo from "@/assets/zoom-logo.png";
-import zoomIcon from "@/assets/zoom-icon.png";
-import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.png";
-import listaTopIcon from "@/assets/lista-top-icon.png";
+import pedroIgorImg from "@/assets/pedro-igor.webp";
+import leiDecreto from "@/assets/lei-decreto.webp";
+import zoomLogo from "@/assets/zoom-logo.webp";
+import zoomIcon from "@/assets/zoom-icon.webp";
+import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.webp";
+import listaTopIcon from "@/assets/lista-top-icon.webp";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
 
