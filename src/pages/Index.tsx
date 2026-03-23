@@ -187,16 +187,14 @@ const Section = ({ children, className = "", dark = false }: { children: React.R
   );
 };
 
-const GoldButton = ({ children, className = "", showGuarantee = true }: { children: React.ReactNode; className?: string; showGuarantee?: boolean }) => (
+const GoldButton = ({ children, className = "", showGuarantee = true, onClick }: { children: React.ReactNode; className?: string; showGuarantee?: boolean; onClick?: () => void }) => (
   <div className="flex flex-col items-center gap-2">
-    <a
-      href={CHECKOUT_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform ${className}`}
+    <button
+      onClick={onClick}
+      className={`inline-block relative overflow-hidden rounded-lg font-bold text-lg md:text-xl px-8 py-4 bg-[#d4a853] text-[#0a1628] shimmer-btn active:scale-[0.97] transition-transform cursor-pointer ${className}`}
     >
       {children}
-    </a>
+    </button>
     {showGuarantee && (
       <span className="flex items-center gap-1.5 text-white/45 text-xs">
         <Shield size={12} />
