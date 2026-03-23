@@ -82,8 +82,15 @@ function useCountdown() {
       });
     };
     tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    let rafId: number;
+    let lastSecond = -1;
+    const loop = () => {
+      const sec = Math.floor(Date.now() / 1000);
+      if (sec !== lastSecond) { lastSecond = sec; tick(); }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
   }, []);
   return timeLeft;
 }
