@@ -2,16 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useRef, useEffect, useState } from "react";
 
-const CANVAS_WIDTH = 400;
 const SCREENSHOT_URL = "/page-screenshot.png";
+const MOBILE_BREAKPOINT = 768;
+
+type DeviceType = "desktop" | "mobile";
 
 export default function HeatmapTab() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
-  const [canvasHeight, setCanvasHeight] = useState(800);
   const [opacity, setOpacity] = useState(0.4);
+  const [device, setDevice] = useState<DeviceType>("desktop");
 
-  const { data: clicks } = useQuery({
+  const canvasWidth = device === "mobile" ? 280 : 400;
+
+  const { data: allClicks } = useQuery({
     queryKey: ["heatmap-clicks"],
     queryFn: async () => {
       const { data } = await supabase
@@ -22,85 +26,126 @@ export default function HeatmapTab() {
     },
   });
 
+  const clicks = allClicks?.filter(c => {
+    if (!c.viewport_width) return device === "desktop";
+    return device === "mobile"
+      ? c.viewport_width < MOBILE_BREAKPOINT
+      : c.viewport_width >= MOBILE_BREAKPOINT;
+  }) || [];
+
+  const desktopCount = allClicks?.filter(c => !c.viewport_width || c.viewport_width >= MOBILE_BREAKPOINT).length || 0;
+  const mobileCount = allClicks?.filter(c => c.viewport_width && c.viewport_width < MOBILE_BREAKPOINT).length || 0;
+
   // Load screenshot background
   useEffect(() => {
     const img = new Image();
-    img.onload = () => {
-      const aspect = img.height / img.width;
-      setCanvasHeight(Math.round(CANVAS_WIDTH * aspect));
-      setBgImage(img);
-    };
+    img.onload = () => setBgImage(img);
     img.src = SCREENSHOT_URL;
   }, []);
 
+  const canvasHeight = bgImage
+    ? Math.round(canvasWidth * (bgImage.height / bgImage.width))
+    : device === "mobile" ? 1200 : 800;
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !bgImage) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Draw screenshot background
-    ctx.clearRect(0, 0, CANVAS_WIDTH, canvasHeight);
-    ctx.drawImage(bgImage, 0, 0, CANVAS_WIDTH, canvasHeight);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    // Darken slightly for contrast
-    ctx.fillStyle = `rgba(10, 22, 40, ${1 - opacity})`;
-    ctx.fillRect(0, 0, CANVAS_WIDTH, canvasHeight);
+    // Draw background
+    if (bgImage) {
+      ctx.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);
+      ctx.fillStyle = `rgba(10, 22, 40, ${1 - opacity})`;
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    } else {
+      ctx.fillStyle = "#0a1628";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    }
 
-    if (!clicks?.length) return;
+    if (!clicks.length) return;
 
     // Draw heatmap dots
     ctx.globalCompositeOperation = "screen";
+    const dotRadius = device === "mobile" ? 18 : 22;
+
     clicks.forEach(click => {
       if (!click.viewport_x || !click.viewport_y || !click.viewport_width) return;
 
       const pageH = click.page_height || click.viewport_height || canvasHeight;
-      const nx = (click.viewport_x / click.viewport_width) * CANVAS_WIDTH;
+      const nx = (click.viewport_x / click.viewport_width) * canvasWidth;
       const ny = (click.viewport_y / pageH) * canvasHeight;
 
-      const gradient = ctx.createRadialGradient(nx, ny, 0, nx, ny, 22);
+      const gradient = ctx.createRadialGradient(nx, ny, 0, nx, ny, dotRadius);
       gradient.addColorStop(0, "rgba(212, 168, 83, 0.6)");
       gradient.addColorStop(0.4, "rgba(212, 168, 83, 0.25)");
       gradient.addColorStop(1, "rgba(212, 168, 83, 0)");
 
       ctx.beginPath();
       ctx.fillStyle = gradient;
-      ctx.arc(nx, ny, 22, 0, Math.PI * 2);
+      ctx.arc(nx, ny, dotRadius, 0, Math.PI * 2);
       ctx.fill();
     });
 
     ctx.globalCompositeOperation = "source-over";
-  }, [clicks, bgImage, canvasHeight, opacity]);
+  }, [clicks, bgImage, canvasWidth, canvasHeight, opacity, device]);
 
   return (
     <div className="space-y-6">
       <div className="bg-[#0f1d32] border border-[#1a2d4a] rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-white font-semibold">Mapa de Calor de Cliques</h3>
-          <span className="text-white/40 text-xs">{clicks?.length || 0} cliques registrados</span>
+          <span className="text-white/40 text-xs">{clicks.length} cliques registrados</span>
         </div>
 
-        {/* Opacity control */}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-white/50 text-xs">Imagem de fundo:</span>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.1}
-            value={opacity}
-            onChange={e => setOpacity(Number(e.target.value))}
-            className="w-32 accent-[#d4a853]"
-          />
-          <span className="text-white/40 text-xs">{Math.round(opacity * 100)}%</span>
+        {/* Device toggle + opacity */}
+        <div className="flex flex-wrap items-center gap-4 mb-4">
+          <div className="flex rounded-lg border border-[#1a2d4a] overflow-hidden">
+            <button
+              onClick={() => setDevice("desktop")}
+              className={`px-4 py-1.5 text-xs font-medium transition-colors ${
+                device === "desktop"
+                  ? "bg-[#d4a853] text-[#0a1628]"
+                  : "text-white/50 hover:text-white/80"
+              }`}
+            >
+              🖥 Desktop ({desktopCount})
+            </button>
+            <button
+              onClick={() => setDevice("mobile")}
+              className={`px-4 py-1.5 text-xs font-medium transition-colors ${
+                device === "mobile"
+                  ? "bg-[#d4a853] text-[#0a1628]"
+                  : "text-white/50 hover:text-white/80"
+              }`}
+            >
+              📱 Mobile ({mobileCount})
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-white/50 text-xs">Fundo:</span>
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.1}
+              value={opacity}
+              onChange={e => setOpacity(Number(e.target.value))}
+              className="w-24 accent-[#d4a853]"
+            />
+            <span className="text-white/40 text-xs">{Math.round(opacity * 100)}%</span>
+          </div>
         </div>
 
         <div className="flex justify-center">
           <div className="border border-[#1a2d4a] rounded-lg overflow-hidden">
             <canvas
               ref={canvasRef}
-              width={CANVAS_WIDTH}
+              width={canvasWidth}
               height={canvasHeight}
               className="block max-h-[70vh] w-auto"
             />
