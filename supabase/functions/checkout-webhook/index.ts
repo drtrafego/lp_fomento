@@ -7,45 +7,99 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+/**
+ * Map Zouti payload to a meaningful event_type.
+ * Zouti sends two types of webhooks:
+ * - Order: id starts with "ord_", has `status` like AWAITING_PAYMENT, PAID, REFUNDED, etc.
+ * - Subscription: id starts with "sub_", has `status` like INCOMPLETE, ACTIVE, CANCELED, etc.
+ */
+function resolveEventType(body: Record<string, any>): string {
+  const status = (body.status || "").toUpperCase();
+  const id = body.id || "";
+  const paymentMethod = body.payment?.method || body.payment_method || "";
+
+  // Subscription events
+  if (id.startsWith("sub_")) {
+    switch (status) {
+      case "ACTIVE": return "subscription_active";
+      case "INCOMPLETE": return "subscription_incomplete";
+      case "CANCELED": return "subscription_canceled";
+      case "PAST_DUE": return "subscription_past_due";
+      default: return `subscription_${status.toLowerCase() || "unknown"}`;
+    }
+  }
+
+  // Order events
+  switch (status) {
+    case "AWAITING_PAYMENT":
+      if (paymentMethod === "PIX") return "pix_generated";
+      if (paymentMethod === "BOLETO") return "boleto_generated";
+      return "awaiting_payment";
+    case "PAID":
+    case "APPROVED":
+      return "purchase";
+    case "REFUNDED":
+      return "refunded";
+    case "CANCELED":
+    case "CANCELLED":
+      return "canceled";
+    case "EXPIRED":
+      return "expired";
+    case "CHARGEBACK":
+      return "chargeback";
+    case "PROCESSING":
+      return "processing";
+    default:
+      return status ? status.toLowerCase() : "unknown";
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-
     const body = await req.json();
     console.log("Webhook received:", JSON.stringify(body).substring(0, 500));
 
-    // Extract fields from Zouti payload - adapt to their format
-    const event_type = body.event_type || body.event || body.type || "unknown";
-    const order_id = body.order_id || body.id || body.transaction_id || null;
-    
-    // Customer info
-    const customer = body.customer || body.buyer || {};
-    const customer_email = customer.email || body.email || null;
-    const customer_name = customer.name || body.name || null;
-    const customer_phone = customer.phone || body.phone || null;
+    const event_type = resolveEventType(body);
 
-    // Payment info
-    const amount = body.amount || body.value || body.total || body.price || null;
+    // Order ID: for orders it's body.id (ord_...), for subscriptions use body.order_id
+    const order_id = body.order_id || body.id || null;
+
+    // Customer info — Zouti nests it under `customer`
+    const customer = body.customer || {};
+    const customer_email = customer.email || null;
+    const customer_name = customer.name || null;
+    const customer_phone = customer.phone || null;
+
+    // Payment info — Zouti nests under `payment`
+    const payment = body.payment || {};
+    const payment_method = payment.method || body.payment_method || null;
+    const payment_status = body.status || null;
+
+    // Amount — use amount_total_in_brl (reais) or convert from centavos
+    const amount = body.amount_total_in_brl
+      ?? body.amount_in_brl
+      ?? (body.amount_total ? body.amount_total / 100 : null);
     const currency = body.currency || "BRL";
-    const payment_method = body.payment_method || body.method || null;
-    const payment_status = body.payment_status || body.status || null;
 
-    // Products & order bumps
-    const products = body.products || body.items || null;
+    // Products
+    const products = body.items || body.line_items || null;
     const order_bumps = body.order_bumps || body.bumps || null;
 
-    // UTMs
-    const utm_source = body.utm_source || body.utms?.utm_source || null;
-    const utm_medium = body.utm_medium || body.utms?.utm_medium || null;
-    const utm_campaign = body.utm_campaign || body.utms?.utm_campaign || null;
-    const utm_content = body.utm_content || body.utms?.utm_content || null;
-    const utm_term = body.utm_term || body.utms?.utm_term || null;
-    const src = body.src || null;
+    // UTMs — Zouti puts them in `utm_data` object and src in `tracking`
+    const utmData = body.utm_data || {};
+    const tracking = body.tracking || {};
+    const utm_source = utmData.utm_source || null;
+    const utm_medium = utmData.utm_medium || null;
+    const utm_campaign = utmData.utm_campaign || null;
+    const utm_content = utmData.utm_content || null;
+    const utm_term = utmData.utm_term || null;
+    const src = tracking.src || null;
 
-    // Insert into checkout_events using service_role
+    // Insert into checkout_events
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -79,10 +133,11 @@ serve(async (req) => {
       );
     }
 
-    // If it's a purchase event, also fire Meta CAPI
-    if (event_type === "purchase" || event_type === "approved" || event_type === "paid") {
+    // Fire Meta CAPI for purchase events
+    if (event_type === "purchase") {
       const PIXEL_ID = Deno.env.get("META_PIXEL_ID");
       const ACCESS_TOKEN = Deno.env.get("META_ACCESS_TOKEN");
+      const navigator = body.navigator || {};
 
       if (PIXEL_ID && ACCESS_TOKEN) {
         try {
@@ -97,6 +152,10 @@ serve(async (req) => {
                 user_data: {
                   em: customer_email ? [await sha256(customer_email.toLowerCase().trim())] : undefined,
                   ph: customer_phone ? [await sha256(customer_phone.replace(/\D/g, ""))] : undefined,
+                  client_ip_address: navigator.ip_address || undefined,
+                  client_user_agent: navigator.user_agent || undefined,
+                  fbp: navigator.fbp || undefined,
+                  fbc: navigator.fbc || undefined,
                 },
                 custom_data: {
                   currency: currency || "BRL",

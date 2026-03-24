@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { lazy, Suspense } from "react";
+
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -16,6 +19,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Suspense fallback={<div className="min-h-screen bg-[#0a1628]" />}><Dashboard /></Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
