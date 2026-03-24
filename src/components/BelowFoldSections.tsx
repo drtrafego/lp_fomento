@@ -803,7 +803,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </Section>
 
       {/* ─── 12. FOOTER CTA ─── */}
-      <section className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
+      <section data-section="FooterCTA" className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ textWrap: "balance" as any }}>
             Seja você um <span className="text-[#d4a853]">empresário(a)</span> experiente ou alguém com apenas uma ideia na cabeça

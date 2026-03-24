@@ -127,7 +127,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 2. HERO ─── */}
-      <section className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
+      <section data-section="Hero" className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
         <div className="max-w-6xl mx-auto animate-fade-in lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
           {/* Coluna direita - Foto (aparece primeiro no mobile) */}
           <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
