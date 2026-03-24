@@ -746,7 +746,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </Section>
 
       {/* ─── 10. BÔNUS ─── */}
-      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+      <section data-section="Bonus" className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.04] blur-[60px]" />
           <div className="absolute top-1/4 left-1/4 w-[150px] h-[150px] rounded-full bg-[#d4a853]/[0.06] blur-[60px]" />
