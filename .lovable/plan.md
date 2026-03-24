@@ -1,57 +1,99 @@
 
 
-## Resultado do Teste de Performance
+## Plano: Dashboard de Métricas + Webhook de Checkout Zouti
 
-### Desktop (1440x900)
+### Parte 1: Webhook para Eventos do Checkout Zouti
 
-| Metrica | Valor | Status |
-|---------|-------|--------|
-| First Contentful Paint (FCP) | 6.0s | Ruim |
-| Full Page Load | 8.3s | Ruim |
-| CLS (Layout Shift) | 0.05 | Bom |
-| JS Heap | 13.3MB | Bom |
-| DOM Nodes | 3646 | OK |
+Uma Edge Function que recebe eventos POST do checkout Zouti (carrinho, pix gerado, purchase, order bumps, etc.) e armazena tudo no banco.
 
-### Mobile (375x812)
+**Nova tabela `checkout_events`:**
 
-| Metrica | Valor | Status |
-|---------|-------|--------|
-| First Contentful Paint (FCP) | 3.5s | Precisa melhorar |
-| Full Page Load | 5.7s | Precisa melhorar |
-| CLS (Layout Shift) | 0.02 | Bom |
-| JS Heap | 25.3MB | OK |
-| DOM Nodes | 7343 | Alto |
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| id | uuid | PK |
+| event_type | text | `cart`, `pix_generated`, `purchase`, `abandoned`, `order_bump`, etc. |
+| order_id | text | ID do pedido no Zouti |
+| customer_email | text | Email do comprador |
+| customer_name | text | Nome |
+| customer_phone | text | Telefone |
+| amount | numeric | Valor da transação |
+| currency | text | BRL |
+| payment_method | text | pix, credit_card, boleto |
+| payment_status | text | approved, pending, refunded |
+| products | jsonb | Produtos comprados (incluindo order bumps) |
+| order_bumps | jsonb | Order bumps convertidos |
+| utm_source | text | |
+| utm_medium | text | |
+| utm_campaign | text | |
+| utm_content | text | |
+| utm_term | text | |
+| src | text | Parâmetro src concatenado |
+| raw_payload | jsonb | Payload completo do Zouti para debug |
+| created_at | timestamptz | |
 
-### Problema Principal: Imagens Gigantes
+RLS: service_role ALL, authenticated SELECT.
 
-As imagens estão em formato PNG sem compressão e são responsáveis por ~90% do tempo de carregamento:
+**Nova Edge Function `checkout-webhook`:**
+- Recebe POST do Zouti com um token secreto de verificação (header ou query param)
+- Valida o token contra um secret `WEBHOOK_SECRET` (para segurança)
+- Extrai: event_type, order_id, customer info, amount, payment_method, products, order bumps, UTMs
+- Salva na tabela `checkout_events`
+- Opcionalmente dispara evento Meta CAPI de Purchase (com valor real)
+- Retorna 200 OK
 
-| Imagem | Tamanho | Tempo |
-|--------|---------|-------|
-| pedro-hero.png | **2.9 MB** | 1.7s |
-| pedro-palco-desktop.png | **2.3 MB** | 1.3s |
-| mapa-orgaos.png | **1.1 MB** | 2.2s |
-| lista-top-icon.png | **616 KB** | 2.0s |
-| selo-garantia.png | **387 KB** | 1.4s |
-| pedro-igor.png | **367 KB** | 2.3s |
+Você receberá a URL do webhook para colar no painel Zouti, no formato:
+`https://foxsxbhlsbxsceydldkb.supabase.co/functions/v1/checkout-webhook?token=SEU_TOKEN`
 
-**Total de imagens: ~7.7 MB** — isso é extremamente pesado.
+### Parte 2: Tabela de Analytics Comportamental
 
-### Plano de Otimizacao
+**Nova tabela `page_analytics`** para coletar scroll, cliques, saída e dados para mapa de calor.
 
-1. **Converter todas as imagens PNG para WebP** com qualidade 80-85%, reduzindo o tamanho total em ~70-80% (de ~7.7MB para ~1.5-2MB)
+**Novo hook `usePageAnalytics`** que coleta invisívelmente:
+- Profundidade de scroll (25/50/75/100%)
+- Cliques (posição x/y normalizada + seção)
+- Seção de saída e tempo na página
+- Batch insert a cada 5s ou no `beforeunload`
 
-2. **Adicionar `loading="lazy"`** em todas as imagens abaixo do fold (tudo exceto pedro-hero)
+### Parte 3: Dashboard com Login Google Restrito
 
-3. **Adicionar `fetchpriority="high"`** na imagem hero para priorizar seu carregamento
+**Autenticação:**
+- Google OAuth configurado via Lovable Cloud
+- Tabela `authorized_dashboard_users` com os 2 emails autorizados
+- Função `is_dashboard_user()` SECURITY DEFINER
+- RLS nas tabelas de métricas: SELECT apenas para emails autorizados
 
-4. **Redimensionar imagens** para o tamanho real de exibicao (pedro-hero.png provavelmente nao precisa ser maior que 800px de largura)
+**Rota `/dashboard`** com abas:
 
-5. **Adicionar `decoding="async"`** em imagens nao-criticas
+1. **Visão Geral** — Visitantes únicos, PageViews, funil de conversão (PageView → ViewContent → InitiateCheckout → Purchase)
+2. **Tráfego Pago** — UTM breakdown, eventos/dia, taxa de conversão por fonte
+3. **Checkout/Vendas** — Dados do webhook: carrinho, pix gerado, compras, order bumps, valor total, ticket médio
+4. **Comportamento** — Scroll depth, taxa de saída por seção, cliques por seção, tempo médio
+5. **Mapa de Calor** — Visualização de cliques via Canvas
+6. **SEO & Localização** — Referrers, estados/cidades, mobile vs desktop
 
-### Secao tecnica
+### Estrutura de arquivos
 
-- As imagens serao convertidas via script usando ferramentas de linha de comando
-- Os imports em `src/pages/Index.tsx` serao atualizados para apontar para os novos arquivos `.webp`
-- Nenhuma mudanca visual — apenas reducao de tamanho de arquivo
+```text
+supabase/functions/checkout-webhook/index.ts
+src/pages/Dashboard.tsx
+src/hooks/usePageAnalytics.ts
+src/hooks/useDashboardAuth.ts
+src/components/dashboard/
+  ├── DashboardLogin.tsx
+  ├── OverviewTab.tsx
+  ├── TrafficTab.tsx
+  ├── CheckoutTab.tsx
+  ├── BehaviorTab.tsx
+  ├── HeatmapTab.tsx
+  └── SeoTab.tsx
+```
+
+### Sequência de implementação
+
+1. Criar tabelas (`checkout_events`, `page_analytics`, `authorized_dashboard_users`) + RLS
+2. Criar Edge Function `checkout-webhook` + secret `WEBHOOK_SECRET`
+3. Configurar Google OAuth + inserir emails autorizados
+4. Criar hook `usePageAnalytics` e integrar no `Index.tsx`
+5. Construir página Dashboard com todas as abas
+6. Adicionar rota `/dashboard` no `App.tsx`
 
