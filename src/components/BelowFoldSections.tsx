@@ -527,7 +527,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
   return (
     <>
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
+      <section data-section="NaoEmprestimo" className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#d4a853]/5 blur-[60px]" />
           <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.08] blur-[60px]" />
