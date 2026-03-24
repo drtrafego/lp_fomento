@@ -13,18 +13,6 @@ serve(async (req) => {
   }
 
   try {
-    // Validate webhook token
-    const url = new URL(req.url);
-    const token = url.searchParams.get("token");
-    const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET");
-
-    if (!WEBHOOK_SECRET || token !== WEBHOOK_SECRET) {
-      console.error("Invalid or missing webhook token");
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
 
     const body = await req.json();
     console.log("Webhook received:", JSON.stringify(body).substring(0, 500));
