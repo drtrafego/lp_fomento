@@ -14,6 +14,150 @@ export type Database = {
   }
   public: {
     Tables: {
+      authorized_dashboard_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      checkout_events: {
+        Row: {
+          amount: number | null
+          created_at: string
+          currency: string | null
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          event_type: string
+          id: string
+          order_bumps: Json | null
+          order_id: string | null
+          payment_method: string | null
+          payment_status: string | null
+          products: Json | null
+          raw_payload: Json | null
+          src: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          event_type: string
+          id?: string
+          order_bumps?: Json | null
+          order_id?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          products?: Json | null
+          raw_payload?: Json | null
+          src?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          event_type?: string
+          id?: string
+          order_bumps?: Json | null
+          order_id?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          products?: Json | null
+          raw_payload?: Json | null
+          src?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
+      page_analytics: {
+        Row: {
+          click_target: string | null
+          created_at: string
+          event_type: string
+          external_id: string | null
+          id: string
+          page_height: number | null
+          referrer: string | null
+          scroll_percent: number | null
+          section_name: string | null
+          session_id: string | null
+          time_on_page: number | null
+          user_agent: string | null
+          viewport_height: number | null
+          viewport_width: number | null
+          viewport_x: number | null
+          viewport_y: number | null
+        }
+        Insert: {
+          click_target?: string | null
+          created_at?: string
+          event_type: string
+          external_id?: string | null
+          id?: string
+          page_height?: number | null
+          referrer?: string | null
+          scroll_percent?: number | null
+          section_name?: string | null
+          session_id?: string | null
+          time_on_page?: number | null
+          user_agent?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+          viewport_x?: number | null
+          viewport_y?: number | null
+        }
+        Update: {
+          click_target?: string | null
+          created_at?: string
+          event_type?: string
+          external_id?: string | null
+          id?: string
+          page_height?: number | null
+          referrer?: string | null
+          scroll_percent?: number | null
+          section_name?: string | null
+          session_id?: string | null
+          time_on_page?: number | null
+          user_agent?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+          viewport_x?: number | null
+          viewport_y?: number | null
+        }
+        Relationships: []
+      }
       pixel_events: {
         Row: {
           city: string | null
@@ -124,7 +268,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_dashboard_user: { Args: { user_email: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
