@@ -113,7 +113,7 @@ export function usePageAnalytics() {
       enqueue({
         event_type: "click",
         viewport_x: e.clientX,
-        viewport_y: e.clientY,
+        viewport_y: e.clientY + window.scrollY,
         click_target: `${tag}:${text}`,
         section_name: section,
       });
