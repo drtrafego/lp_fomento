@@ -527,7 +527,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
   return (
     <>
       {/* ─── 3. NÃO É EMPRÉSTIMO ─── */}
-      <section className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
+      <section data-section="NaoEmprestimo" className="relative py-16 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#d4a853]/5 blur-[60px]" />
           <div className="absolute top-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.08] blur-[60px]" />
@@ -627,7 +627,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </Section>
 
       {/* ─── 5. O QUE VOCÊ VAI APRENDER ─── */}
-      <section ref={autoridadeRef as any} className="relative py-20 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
+      <section data-section="Aprender" ref={autoridadeRef as any} className="relative py-20 md:py-32 px-4 bg-[#0f1d32] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.03] blur-[60px]" />
           <div className="absolute bottom-0 right-1/4 w-[200px] h-[200px] rounded-full bg-[#d4a853]/[0.05] blur-[60px]" />
@@ -746,7 +746,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </Section>
 
       {/* ─── 10. BÔNUS ─── */}
-      <section className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
+      <section data-section="Bonus" className="relative py-20 md:py-32 px-4 bg-[#0a1628] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#d4a853]/[0.04] blur-[60px]" />
           <div className="absolute top-1/4 left-1/4 w-[150px] h-[150px] rounded-full bg-[#d4a853]/[0.06] blur-[60px]" />
@@ -803,7 +803,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </Section>
 
       {/* ─── 12. FOOTER CTA ─── */}
-      <section className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
+      <section data-section="FooterCTA" className="bg-[#0a1628] border-t border-[#d4a853]/15 py-16 md:py-24 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ textWrap: "balance" as any }}>
             Seja você um <span className="text-[#d4a853]">empresário(a)</span> experiente ou alguém com apenas uma ideia na cabeça
