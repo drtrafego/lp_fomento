@@ -26,9 +26,10 @@ export function useDashboardAuth() {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
-      if (u?.email) {
-        const { data } = await supabase.rpc("is_dashboard_user", { user_email: u.email });
-        setAuthorized(!!data);
+        if (u?.email) {
+          const { data, error } = await supabase.rpc("is_dashboard_user", { user_email: u.email });
+          console.log("[Dashboard Auth] getSession email:", u.email, "authorized:", data, "error:", error);
+          setAuthorized(!!data);
       }
       setLoading(false);
     });
