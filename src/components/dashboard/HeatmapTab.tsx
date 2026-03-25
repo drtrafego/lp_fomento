@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { type DateRange, getDateFrom } from "./DateFilter";
+import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 
 const DESKTOP_SCREENSHOT_URL = "/page-screenshot.png";
 const MOBILE_SCREENSHOT_URL = "/page-screenshot-mobile.png";
@@ -13,12 +14,15 @@ interface Props { dateRange: DateRange; }
 
 export default function HeatmapTab({ dateRange }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [desktopImage, setDesktopImage] = useState<HTMLImageElement | null>(null);
   const [mobileImage, setMobileImage] = useState<HTMLImageElement | null>(null);
   const [opacity, setOpacity] = useState(0.4);
   const [device, setDevice] = useState<DeviceType>("desktop");
+  const [containerWidth, setContainerWidth] = useState(500);
+  const [zoom, setZoom] = useState(1);
 
-  const canvasWidth = device === "mobile" ? 390 : 500;
   const dateFrom = getDateFrom(dateRange);
 
   const { data: allClicks } = useQuery({
@@ -53,11 +57,25 @@ export default function HeatmapTab({ dateRange }: Props) {
     mImg.src = MOBILE_SCREENSHOT_URL;
   }, []);
 
+  // Track container width
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   const bgImage = device === "mobile" ? mobileImage : desktopImage;
 
+  const canvasWidth = containerWidth;
   const canvasHeight = bgImage
     ? Math.round(canvasWidth * (bgImage.height / bgImage.width))
-    : device === "mobile" ? 1200 : 800;
+    : device === "mobile" ? 2400 : 1600;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -100,6 +118,17 @@ export default function HeatmapTab({ dateRange }: Props) {
 
     ctx.globalCompositeOperation = "source-over";
   }, [clicks, bgImage, canvasWidth, canvasHeight, opacity, device]);
+
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      setZoom(prev => Math.min(3, Math.max(0.5, prev - e.deltaY * 0.002)));
+    }
+  }, []);
+
+  const zoomIn = () => setZoom(prev => Math.min(3, prev + 0.25));
+  const zoomOut = () => setZoom(prev => Math.max(0.5, prev - 0.25));
+  const resetZoom = () => setZoom(1);
 
   return (
     <div className="space-y-6">
@@ -146,18 +175,40 @@ export default function HeatmapTab({ dateRange }: Props) {
             />
             <span className="text-white/40 text-xs">{Math.round(opacity * 100)}%</span>
           </div>
-        </div>
 
-        <div className="flex justify-center">
-          <div className="border border-[#1a2d4a] rounded-lg overflow-hidden">
-            <canvas
-              ref={canvasRef}
-              width={canvasWidth}
-              height={canvasHeight}
-              className="block max-h-[70vh] w-auto"
-            />
+          <div className="flex items-center gap-1">
+            <button onClick={zoomOut} className="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white transition-colors">
+              <ZoomOut size={16} />
+            </button>
+            <span className="text-white/50 text-xs w-12 text-center">{Math.round(zoom * 100)}%</span>
+            <button onClick={zoomIn} className="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white transition-colors">
+              <ZoomIn size={16} />
+            </button>
+            {zoom !== 1 && (
+              <button onClick={resetZoom} className="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white transition-colors ml-1">
+                <RotateCcw size={14} />
+              </button>
+            )}
           </div>
         </div>
+
+        <div ref={containerRef} className="w-full">
+          <div
+            ref={scrollRef}
+            onWheel={handleWheel}
+            className="border border-[#1a2d4a] rounded-lg overflow-auto max-h-[70vh]"
+          >
+            <div style={{ transform: `scale(${zoom})`, transformOrigin: "top left", width: `${canvasWidth}px` }}>
+              <canvas
+                ref={canvasRef}
+                width={canvasWidth}
+                height={canvasHeight}
+                className="block"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center justify-center gap-4 mt-4 text-xs text-white/40">
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-full bg-[#d4a853]/20" />
@@ -167,6 +218,7 @@ export default function HeatmapTab({ dateRange }: Props) {
             <div className="w-3 h-3 rounded-full bg-[#d4a853]/60" />
             Maior concentração
           </div>
+          <span className="text-white/30">Ctrl + Scroll = Zoom</span>
         </div>
       </div>
     </div>
