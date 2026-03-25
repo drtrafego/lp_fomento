@@ -104,7 +104,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { error: dbError } = await supabase.from("checkout_events").insert({
+    const { error: dbError } = await supabase.from("checkout_events").upsert({
       event_type,
       order_id,
       customer_email,
@@ -123,7 +123,7 @@ serve(async (req) => {
       utm_term,
       src,
       raw_payload: body,
-    });
+    }, { onConflict: "order_id,event_type", ignoreDuplicates: true });
 
     if (dbError) {
       console.error("DB insert error:", dbError);
