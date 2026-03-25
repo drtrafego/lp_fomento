@@ -600,7 +600,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
 
           <div className="relative mx-auto max-w-2xl">
             <div className="absolute inset-0 rounded-2xl bg-[#d4a853]/5 blur-2xl" />
-            <img src={mapaOrgaos} alt="Mapa dos órgãos de fomento no Brasil" className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl" loading="lazy" decoding="async" width={1000} height={684} />
+            <img src={mapaOrgaos} alt="Mapa dos órgãos de fomento no Brasil" className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl" loading="lazy" decoding="async" width={700} height={478} />
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 pt-4">
