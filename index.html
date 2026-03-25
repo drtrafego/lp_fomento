@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://dunas.b-cdn.net" crossorigin>
-    <link rel="dns-prefetch" href="https://dunas.b-cdn.net">
     <link rel="dns-prefetch" href="https://ipapi.co">
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code — deferred load -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    // Stub fbq immediately so calls queue up before the script loads
+    !function(f){if(f.fbq)return;var n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!1;n.version='2.0';
+    n.queue=[]}(window);
     fbq('init', '1649493576054636');
-    // PageView is fired from useMetaPixel after Advanced Matching data is loaded
+    // Defer the heavy fbevents.js download by 2.5s to free the main thread for LCP
+    setTimeout(function(){
+      var t=document.createElement('script');t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(t);
+    },2500);
     </script>
     <!-- End Meta Pixel Code -->
     <link rel="icon" href="/favicon.png" type="image/png">

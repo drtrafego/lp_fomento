@@ -558,7 +558,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </p>
 
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 bg-white mt-2">
-                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" loading="lazy" decoding="async" />
+                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" loading="lazy" decoding="async" width={768} height={273} />
               </div>
 
               <p className="text-white/50 text-sm italic">
@@ -566,7 +566,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </p>
 
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 mt-2">
-                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" />
+                <img src={reuniaoFomento} alt="Lançamento de editais de fomento à ciência, tecnologia e inovação" className="w-full object-cover" loading="lazy" decoding="async" width={768} height={277} />
               </div>
 
               <button
@@ -600,7 +600,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
 
           <div className="relative mx-auto max-w-2xl">
             <div className="absolute inset-0 rounded-2xl bg-[#d4a853]/5 blur-2xl" />
-            <img src={mapaOrgaos} alt="Mapa dos órgãos de fomento no Brasil" className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl" loading="lazy" decoding="async" />
+            <img src={mapaOrgaos} alt="Mapa dos órgãos de fomento no Brasil" className="relative w-full rounded-2xl border border-[#d4a853]/15 shadow-xl" loading="lazy" decoding="async" width={1000} height={684} />
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 pt-4">
@@ -665,7 +665,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
             <p className="text-white/60 text-sm">Empresários e Sócios da Dunas Capital</p>
             <div className="flex justify-center pt-2">
-              <img src={pedroIgorImg} alt="Pedro Diniz e Igor Abreu" className="w-72 max-w-full rounded-2xl border-2 border-[#d4a853]/30 shadow-lg" loading="lazy" decoding="async" />
+              <img src={pedroIgorImg} alt="Pedro Diniz e Igor Abreu" className="w-72 max-w-full rounded-2xl border-2 border-[#d4a853]/30 shadow-lg" loading="lazy" decoding="async" width={288} height={288} />
             </div>
             <p className="text-white/70 leading-relaxed">
               Especialistas em Programas de Incentivos Federais para projetos de R$ 39 mil a R$ 400 mil.
@@ -705,7 +705,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                   ))}
                 </ul>
                 <div className="pt-4 flex items-center gap-4">
-                  <img src={seloGarantia} alt="Garantia 30 dias" className="w-20 h-20 object-contain" />
+                  <img src={seloGarantia} alt="Garantia 30 dias" className="w-20 h-20 object-contain" width={80} height={80} />
                   <div>
                     <p className="text-white/80 text-sm font-semibold">Garantia de 30 dias</p>
                     <p className="text-white/50 text-xs">Risco zero. Não gostou, devolvemos 100%.</p>
@@ -759,7 +759,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       <Section dark={false}>
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="flex justify-center">
-            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" loading="lazy" decoding="async" />
+            <img src={seloGarantia} alt="Garantia incondicional de 30 dias" className="w-48 sm:w-56" loading="lazy" decoding="async" width={224} height={224} />
           </div>
           <div className="space-y-5">
             <h2 className="text-2xl sm:text-3xl font-bold">Garantia Incondicional de 30 Dias</h2>

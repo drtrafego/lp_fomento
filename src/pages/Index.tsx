@@ -16,15 +16,23 @@ function useUserState() {
   const [estado, setEstado] = useState<string | null>(null);
   const [uf, setUf] = useState<string | null>(null);
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
-      .then(r => r.json())
-      .then(data => {
-        if (data.country_code === "BR" && data.region) {
-          setEstado(data.region);
-          setUf(data.region_code || null);
-        }
-      })
-      .catch(() => {});
+    const doFetch = () => {
+      fetch("https://ipapi.co/json/")
+        .then(r => r.json())
+        .then(data => {
+          if (data.country_code === "BR" && data.region) {
+            setEstado(data.region);
+            setUf(data.region_code || null);
+          }
+        })
+        .catch(() => {});
+    };
+    // Defer to after first paint so it doesn't block LCP
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(doFetch, { timeout: 3000 });
+    } else {
+      setTimeout(doFetch, 3000);
+    }
   }, []);
   return { estado, uf };
 }
@@ -143,6 +151,8 @@ export default function Index() {
                     alt="Pedro Diniz - Especialista em captação de recursos"
                     className="w-full h-full object-cover"
                     fetchPriority="high"
+                    width={224}
+                    height={224}
                   />
                 </div>
                 <div className="mt-3 text-center relative z-10">
