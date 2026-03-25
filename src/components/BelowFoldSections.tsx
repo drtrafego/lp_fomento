@@ -273,7 +273,7 @@ function WorkshopLearningSection() {
                 }}
               >
                 <span
-                  className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/10 select-none leading-none transition-all duration-700"
+                  className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/25 select-none leading-none transition-all duration-700"
                   style={{
                     transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
                     opacity: numberZoomed[i] ? 1 : 0,
