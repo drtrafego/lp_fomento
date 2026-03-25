@@ -18,7 +18,7 @@ export default function HeatmapTab({ dateRange }: Props) {
   const [opacity, setOpacity] = useState(0.4);
   const [device, setDevice] = useState<DeviceType>("desktop");
 
-  const canvasWidth = device === "mobile" ? 280 : 400;
+  const canvasWidth = device === "mobile" ? 390 : 500;
   const dateFrom = getDateFrom(dateRange);
 
   const { data: allClicks } = useQuery({
