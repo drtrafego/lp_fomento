@@ -665,7 +665,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
             <h2 className="text-2xl sm:text-3xl font-bold">Pedro Diniz e Igor Abreu</h2>
             <p className="text-white/60 text-sm">Empresários e Sócios da Dunas Capital</p>
             <div className="flex justify-center pt-2">
-              <img src={pedroIgorImg} alt="Pedro Diniz e Igor Abreu" className="w-72 max-w-full rounded-2xl border-2 border-[#d4a853]/30 shadow-lg" loading="lazy" decoding="async" />
+              <img src={pedroIgorImg} alt="Pedro Diniz e Igor Abreu" className="w-72 max-w-full rounded-2xl border-2 border-[#d4a853]/30 shadow-lg" loading="lazy" decoding="async" width={288} height={288} />
             </div>
             <p className="text-white/70 leading-relaxed">
               Especialistas em Programas de Incentivos Federais para projetos de R$ 39 mil a R$ 400 mil.
