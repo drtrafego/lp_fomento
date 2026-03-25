@@ -3,7 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRef, useEffect, useState } from "react";
 import { type DateRange, getDateFrom } from "./DateFilter";
 
-const SCREENSHOT_URL = "/page-screenshot.png";
+const DESKTOP_SCREENSHOT_URL = "/page-screenshot.png";
+const MOBILE_SCREENSHOT_URL = "/page-screenshot-mobile.png";
 const MOBILE_BREAKPOINT = 768;
 
 type DeviceType = "desktop" | "mobile";
@@ -12,7 +13,8 @@ interface Props { dateRange: DateRange; }
 
 export default function HeatmapTab({ dateRange }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [desktopImage, setDesktopImage] = useState<HTMLImageElement | null>(null);
+  const [mobileImage, setMobileImage] = useState<HTMLImageElement | null>(null);
   const [opacity, setOpacity] = useState(0.4);
   const [device, setDevice] = useState<DeviceType>("desktop");
 
@@ -43,10 +45,15 @@ export default function HeatmapTab({ dateRange }: Props) {
   const mobileCount = allClicks?.filter(c => c.viewport_width && c.viewport_width < MOBILE_BREAKPOINT).length || 0;
 
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => setBgImage(img);
-    img.src = SCREENSHOT_URL;
+    const dImg = new Image();
+    dImg.onload = () => setDesktopImage(dImg);
+    dImg.src = DESKTOP_SCREENSHOT_URL;
+    const mImg = new Image();
+    mImg.onload = () => setMobileImage(mImg);
+    mImg.src = MOBILE_SCREENSHOT_URL;
   }, []);
+
+  const bgImage = device === "mobile" ? mobileImage : desktopImage;
 
   const canvasHeight = bgImage
     ? Math.round(canvasWidth * (bgImage.height / bgImage.width))
