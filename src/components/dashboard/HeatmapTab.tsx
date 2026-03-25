@@ -1,27 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useRef, useEffect, useState } from "react";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
 const SCREENSHOT_URL = "/page-screenshot.png";
 const MOBILE_BREAKPOINT = 768;
 
 type DeviceType = "desktop" | "mobile";
 
-export default function HeatmapTab() {
+interface Props { dateRange: DateRange; }
+
+export default function HeatmapTab({ dateRange }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const [opacity, setOpacity] = useState(0.4);
   const [device, setDevice] = useState<DeviceType>("desktop");
 
   const canvasWidth = device === "mobile" ? 280 : 400;
+  const dateFrom = getDateFrom(dateRange);
 
   const { data: allClicks } = useQuery({
-    queryKey: ["heatmap-clicks"],
+    queryKey: ["heatmap-clicks", dateRange],
     queryFn: async () => {
-      const { data } = await supabase
+      let q = supabase
         .from("page_analytics")
         .select("viewport_x, viewport_y, viewport_width, viewport_height, page_height")
         .eq("event_type", "click");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
@@ -36,7 +42,6 @@ export default function HeatmapTab() {
   const desktopCount = allClicks?.filter(c => !c.viewport_width || c.viewport_width >= MOBILE_BREAKPOINT).length || 0;
   const mobileCount = allClicks?.filter(c => c.viewport_width && c.viewport_width < MOBILE_BREAKPOINT).length || 0;
 
-  // Load screenshot background
   useEffect(() => {
     const img = new Image();
     img.onload = () => setBgImage(img);
@@ -50,13 +55,11 @@ export default function HeatmapTab() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    // Draw background
     if (bgImage) {
       ctx.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);
       ctx.fillStyle = `rgba(10, 22, 40, ${1 - opacity})`;
@@ -68,13 +71,11 @@ export default function HeatmapTab() {
 
     if (!clicks.length) return;
 
-    // Draw heatmap dots
     ctx.globalCompositeOperation = "screen";
     const dotRadius = device === "mobile" ? 18 : 22;
 
     clicks.forEach(click => {
       if (!click.viewport_x || !click.viewport_y || !click.viewport_width) return;
-
       const pageH = click.page_height || click.viewport_height || canvasHeight;
       const nx = (click.viewport_x / click.viewport_width) * canvasWidth;
       const ny = (click.viewport_y / pageH) * canvasHeight;
@@ -101,7 +102,6 @@ export default function HeatmapTab() {
           <span className="text-white/40 text-xs">{clicks.length} cliques registrados</span>
         </div>
 
-        {/* Device toggle + opacity */}
         <div className="flex flex-wrap items-center gap-4 mb-4">
           <div className="flex rounded-lg border border-[#1a2d4a] overflow-hidden">
             <button

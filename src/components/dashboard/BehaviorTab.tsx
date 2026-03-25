@@ -1,12 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
-export default function BehaviorTab() {
+interface Props { dateRange: DateRange; }
+
+export default function BehaviorTab({ dateRange }: Props) {
+  const dateFrom = getDateFrom(dateRange);
+
   const { data: analytics } = useQuery({
-    queryKey: ["behavior-analytics"],
+    queryKey: ["behavior-analytics", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("page_analytics").select("*");
+      let q = supabase.from("page_analytics").select("*");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
@@ -15,7 +22,6 @@ export default function BehaviorTab() {
   const exitEvents = analytics?.filter(e => e.event_type === "exit") || [];
   const clickEvents = analytics?.filter(e => e.event_type === "click") || [];
 
-  // Scroll depth distribution
   const scrollMap = new Map<number, number>();
   scrollEvents.forEach(e => {
     const p = e.scroll_percent || 0;
@@ -26,7 +32,6 @@ export default function BehaviorTab() {
     count: scrollMap.get(p) || 0,
   }));
 
-  // Exit section distribution
   const exitMap = new Map<string, number>();
   exitEvents.forEach(e => {
     const s = e.section_name || "(desconhecida)";
@@ -36,7 +41,6 @@ export default function BehaviorTab() {
     .map(([section, count]) => ({ section, count }))
     .sort((a, b) => b.count - a.count);
 
-  // Clicks per section
   const clickMap = new Map<string, number>();
   clickEvents.forEach(e => {
     const s = e.section_name || "(desconhecida)";
@@ -46,7 +50,6 @@ export default function BehaviorTab() {
     .map(([section, count]) => ({ section, count }))
     .sort((a, b) => b.count - a.count);
 
-  // Average time on page
   const times = exitEvents.map(e => e.time_on_page || 0).filter(t => t > 0);
   const avgTime = times.length > 0 ? Math.round(times.reduce((a, b) => a + b, 0) / times.length) : 0;
   const totalSessions = new Set(analytics?.map(e => e.session_id)).size;
