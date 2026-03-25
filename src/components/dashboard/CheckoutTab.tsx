@@ -1,12 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
-export default function CheckoutTab() {
+interface Props { dateRange: DateRange; }
+
+export default function CheckoutTab({ dateRange }: Props) {
+  const dateFrom = getDateFrom(dateRange);
+
   const { data: events } = useQuery({
-    queryKey: ["checkout-events"],
+    queryKey: ["checkout-events", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("checkout_events").select("*");
+      let q = supabase.from("checkout_events").select("*");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
@@ -18,7 +25,6 @@ export default function CheckoutTab() {
   const totalRevenue = purchases.reduce((s, e) => s + (e.amount || 0), 0);
   const avgTicket = purchases.length > 0 ? totalRevenue / purchases.length : 0;
 
-  // Daily revenue
   const dayMap = new Map<string, number>();
   purchases.forEach(e => {
     const day = e.created_at.substring(0, 10);
@@ -28,7 +34,6 @@ export default function CheckoutTab() {
     .map(([day, revenue]) => ({ day, revenue }))
     .sort((a, b) => a.day.localeCompare(b.day));
 
-  // Event type breakdown
   const typeMap = new Map<string, number>();
   events?.forEach(e => {
     typeMap.set(e.event_type, (typeMap.get(e.event_type) || 0) + 1);
@@ -83,7 +88,6 @@ export default function CheckoutTab() {
         </div>
       </div>
 
-      {/* Recent orders */}
       <div className="bg-[#0f1d32] border border-[#1a2d4a] rounded-xl p-6">
         <h3 className="text-white font-semibold mb-4">Últimos Eventos</h3>
         <div className="overflow-x-auto">

@@ -1,19 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
 const COLORS = ["#3b82f6", "#6366f1", "#d4a853", "#22c55e", "#ef4444", "#f59e0b", "#ec4899"];
 
-export default function TrafficTab() {
+interface Props { dateRange: DateRange; }
+
+export default function TrafficTab({ dateRange }: Props) {
+  const dateFrom = getDateFrom(dateRange);
+
   const { data: events } = useQuery({
-    queryKey: ["traffic-pixel"],
+    queryKey: ["traffic-pixel", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("pixel_events").select("utm_source, utm_medium, utm_campaign, event_name, created_at");
+      let q = supabase.from("pixel_events").select("utm_source, utm_medium, utm_campaign, event_name, created_at");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
 
-  // UTM Source breakdown
   const sourceMap = new Map<string, number>();
   events?.forEach(e => {
     const src = e.utm_source || "(direto)";
@@ -24,7 +30,6 @@ export default function TrafficTab() {
     .sort((a, b) => b.value - a.value)
     .slice(0, 10);
 
-  // Events per day
   const dayMap = new Map<string, number>();
   events?.forEach(e => {
     const day = e.created_at.substring(0, 10);
@@ -34,7 +39,6 @@ export default function TrafficTab() {
     .map(([day, count]) => ({ day, count }))
     .sort((a, b) => a.day.localeCompare(b.day));
 
-  // Campaign breakdown
   const campMap = new Map<string, { views: number; checkouts: number }>();
   events?.forEach(e => {
     const camp = e.utm_campaign || "(sem campanha)";
@@ -45,9 +49,7 @@ export default function TrafficTab() {
   });
   const campData = Array.from(campMap.entries())
     .map(([name, { views, checkouts }]) => ({
-      name,
-      views,
-      checkouts,
+      name, views, checkouts,
       conversion: views > 0 ? ((checkouts / views) * 100).toFixed(1) + "%" : "0%",
     }))
     .sort((a, b) => b.views - a.views);

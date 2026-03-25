@@ -1,19 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
 const COLORS = ["#3b82f6", "#6366f1", "#d4a853", "#22c55e", "#ef4444", "#f59e0b", "#ec4899"];
 
-export default function SeoTab() {
+interface Props { dateRange: DateRange; }
+
+export default function SeoTab({ dateRange }: Props) {
+  const dateFrom = getDateFrom(dateRange);
+
   const { data: pixelEvents } = useQuery({
-    queryKey: ["seo-pixel"],
+    queryKey: ["seo-pixel", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("pixel_events").select("referrer, user_agent, state, city, country");
+      let q = supabase.from("pixel_events").select("referrer, user_agent, state, city, country");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
 
-  // Referrer breakdown
   const refMap = new Map<string, number>();
   pixelEvents?.forEach(e => {
     let ref = "(direto)";
@@ -27,7 +33,6 @@ export default function SeoTab() {
     .sort((a, b) => b.value - a.value)
     .slice(0, 8);
 
-  // Device type
   const deviceMap = { mobile: 0, desktop: 0, tablet: 0 };
   pixelEvents?.forEach(e => {
     const ua = (e.user_agent || "").toLowerCase();
@@ -41,7 +46,6 @@ export default function SeoTab() {
     { name: "Tablet", value: deviceMap.tablet },
   ].filter(d => d.value > 0);
 
-  // State breakdown
   const stateMap = new Map<string, number>();
   pixelEvents?.forEach(e => {
     const st = e.state || "(desconhecido)";
@@ -52,7 +56,6 @@ export default function SeoTab() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
 
-  // City breakdown
   const cityMap = new Map<string, number>();
   pixelEvents?.forEach(e => {
     const c = e.city || "(desconhecida)";

@@ -1,20 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, FunnelChart, Funnel, LabelList } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { type DateRange, getDateFrom } from "./DateFilter";
 
-export default function OverviewTab() {
+interface Props { dateRange: DateRange; }
+
+export default function OverviewTab({ dateRange }: Props) {
+  const dateFrom = getDateFrom(dateRange);
+
   const { data: pixelEvents } = useQuery({
-    queryKey: ["overview-pixel"],
+    queryKey: ["overview-pixel", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("pixel_events").select("event_name, event_id, created_at");
+      let q = supabase.from("pixel_events").select("event_name, event_id, created_at");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });
 
   const { data: checkoutEvents } = useQuery({
-    queryKey: ["overview-checkout"],
+    queryKey: ["overview-checkout", dateRange],
     queryFn: async () => {
-      const { data } = await supabase.from("checkout_events").select("event_type, amount, created_at");
+      let q = supabase.from("checkout_events").select("event_type, amount, created_at");
+      if (dateFrom) q = q.gte("created_at", dateFrom);
+      const { data } = await q;
       return data || [];
     },
   });

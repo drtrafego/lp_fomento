@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDashboardAuth } from "@/hooks/useDashboardAuth";
 import DashboardLogin from "@/components/dashboard/DashboardLogin";
+import DateFilter, { type DateRange } from "@/components/dashboard/DateFilter";
 import { lazy, Suspense } from "react";
 
 const OverviewTab = lazy(() => import("@/components/dashboard/OverviewTab"));
@@ -24,6 +25,7 @@ type TabId = (typeof TABS)[number]["id"];
 export default function Dashboard() {
   const { user, loading, authorized, signIn, signOut } = useDashboardAuth();
   const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const [dateRange, setDateRange] = useState<DateRange>("all");
 
   if (loading) {
     return (
@@ -67,34 +69,39 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Tabs */}
+      {/* Tabs + Date Filter */}
       <nav className="border-b border-[#1a2d4a] px-4 overflow-x-auto">
-        <div className="max-w-7xl mx-auto flex gap-1">
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                activeTab === tab.id
-                  ? "border-[#d4a853] text-[#d4a853]"
-                  : "border-transparent text-white/50 hover:text-white/80"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex gap-1">
+            {TABS.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
+                  activeTab === tab.id
+                    ? "border-[#d4a853] text-[#d4a853]"
+                    : "border-transparent text-white/50 hover:text-white/80"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex-shrink-0 py-2">
+            <DateFilter value={dateRange} onChange={setDateRange} />
+          </div>
         </div>
       </nav>
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
         <Suspense fallback={<div className="flex justify-center py-12"><div className="w-6 h-6 border-2 border-[#d4a853] border-t-transparent rounded-full animate-spin" /></div>}>
-          {activeTab === "overview" && <OverviewTab />}
-          {activeTab === "traffic" && <TrafficTab />}
-          {activeTab === "checkout" && <CheckoutTab />}
-          {activeTab === "behavior" && <BehaviorTab />}
-          {activeTab === "heatmap" && <HeatmapTab />}
-          {activeTab === "seo" && <SeoTab />}
+          {activeTab === "overview" && <OverviewTab dateRange={dateRange} />}
+          {activeTab === "traffic" && <TrafficTab dateRange={dateRange} />}
+          {activeTab === "checkout" && <CheckoutTab dateRange={dateRange} />}
+          {activeTab === "behavior" && <BehaviorTab dateRange={dateRange} />}
+          {activeTab === "heatmap" && <HeatmapTab dateRange={dateRange} />}
+          {activeTab === "seo" && <SeoTab dateRange={dateRange} />}
         </Suspense>
       </main>
     </div>
