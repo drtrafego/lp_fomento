@@ -558,7 +558,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </p>
 
               <div className="rounded-lg overflow-hidden border border-[#d4a853]/20 bg-white mt-2">
-                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" loading="lazy" decoding="async" />
+                <img src={leiDecreto} alt="Decreto-Lei nº 719 de 31 de Julho de 1969" className="w-full object-contain" loading="lazy" decoding="async" width={768} height={273} />
               </div>
 
               <p className="text-white/50 text-sm italic">
