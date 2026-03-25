@@ -116,6 +116,13 @@ function useAnimatedCounter(end: number, duration = 2000) {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+        } else if (!entry.isIntersecting && started.current) {
+          started.current = false;
+          setCount(0);
+          return;
+        }
+        if (!entry.isIntersecting) return;
+        {
           const startTime = performance.now();
           const animate = (now: number) => {
             const elapsed = now - startTime;
