@@ -116,6 +116,13 @@ function useAnimatedCounter(end: number, duration = 2000) {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+        } else if (!entry.isIntersecting && started.current) {
+          started.current = false;
+          setCount(0);
+          return;
+        }
+        if (!entry.isIntersecting) return;
+        {
           const startTime = performance.now();
           const animate = (now: number) => {
             const elapsed = now - startTime;
@@ -126,7 +133,7 @@ function useAnimatedCounter(end: number, duration = 2000) {
           requestAnimationFrame(animate);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -266,7 +273,7 @@ function WorkshopLearningSection() {
                 }}
               >
                 <span
-                  className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/10 select-none leading-none transition-all duration-700"
+                  className="absolute -top-4 -left-2 text-7xl font-black text-[#d4a853]/25 select-none leading-none transition-all duration-700"
                   style={{
                     transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
                     opacity: numberZoomed[i] ? 1 : 0,
@@ -304,7 +311,7 @@ function WorkshopLearningSection() {
             <div key={card.num}>
               <div className="text-center mb-2">
                 <span
-                  className="inline-block text-8xl font-black text-[#d4a853]/15 select-none leading-none transition-all duration-700 ease-out"
+                  className="inline-block text-8xl font-black text-[#d4a853]/30 select-none leading-none transition-all duration-700 ease-out"
                   style={{
                     transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
                     opacity: numberZoomed[i] ? 1 : 0,
