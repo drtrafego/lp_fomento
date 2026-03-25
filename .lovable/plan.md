@@ -1,30 +1,28 @@
 
 
-# Correções: Contador, Typewriter e Números 01/02/03
+# Corrigir Screenshot Mobile no Mapa de Calor
 
-## Problemas Identificados
+## Problema
 
-1. **Contador parado em 0**: O `useAnimatedCounter` usa `threshold: 0.3` no IntersectionObserver. Se o elemento não atingir 30% de visibilidade (ou se o scroll já passou), o contador nunca dispara. Precisa reduzir o threshold e permitir re-trigger ao scrollar de volta.
+O heatmap usa um único screenshot (`/page-screenshot.png`) para ambas as visualizações Desktop e Mobile. Por isso, ao selecionar "Mobile", o fundo mostra a versão desktop da página (com 6 vídeos), quando deveria mostrar a versão mobile (com 3 vídeos).
 
-2. **Texto cortado no ScrollTypewriter**: O texto não-revelado usa `text-white/10` + `blur(4px)`, ficando praticamente invisível. Quando o progresso está no meio, o usuário vê fragmentos como "el.", "ia.", "é." — o resto está oculto. Precisa tornar o texto não-revelado mais legível (menos blur, mais opacidade).
+## Solução
 
-3. **Números 01, 02, 03 muito apagados**: Atualmente usam `text-[#d4a853]/15` — quase invisível. Aumentar para `/30` ou `/35`.
+Usar dois screenshots separados — um para desktop e outro para mobile — e alternar conforme o device selecionado.
 
-## Alterações
+### Alterações em `src/components/dashboard/HeatmapTab.tsx`
 
-### 1. `src/components/BelowFoldSections.tsx`
+1. Adicionar uma segunda constante de URL:
+   - `DESKTOP_SCREENSHOT_URL = "/page-screenshot.png"`
+   - `MOBILE_SCREENSHOT_URL = "/page-screenshot-mobile.png"`
 
-- **Contador** (`useAnimatedCounter`): Reduzir threshold de `0.3` para `0.1` e resetar `started.current = false` quando o elemento sai da viewport para permitir re-trigger ao scrollar de volta.
+2. Carregar ambas as imagens no `useEffect` de carregamento e manter dois states (`desktopImage` e `mobileImage`).
 
-- **Números 01/02/03 mobile** (linha ~307): Mudar `text-[#d4a853]/15` para `text-[#d4a853]/30`.
+3. No `useEffect` de renderização do canvas, selecionar a imagem correta baseado no `device` ativo.
 
-- **Números 01/02/03 desktop** (linha ~269): Mudar `text-[#d4a853]/10` para `text-[#d4a853]/25`.
+### Screenshot Mobile
 
-### 2. `src/components/ScrollTypewriter.tsx`
+É necessário gerar/capturar um screenshot da landing page em viewport mobile (ex: 390px de largura) e salvá-lo como `public/page-screenshot-mobile.png`. Isso pode ser feito manualmente tirando um print da página no modo mobile do navegador, ou via script automatizado.
 
-- **Texto não-revelado**: Mudar de `text-white/10` + `blur(4px)` para `text-white/25` + `blur(2px)` — texto parcialmente visível mas ainda com efeito de revelação.
-
-- **Texto borda de revelação**: Mudar de `text-white/50` + `blur(1px)` para `text-white/60` + sem blur.
-
-Estas alterações garantem que o texto completo dos bullets seja legível mesmo antes de ser "revelado", o contador anime corretamente, e os números de seção fiquem mais visíveis.
+**Importante**: Sem o arquivo `page-screenshot-mobile.png`, o heatmap mobile ficará sem fundo (apenas os pontos de calor sobre fundo escuro), o que ainda é funcional mas menos útil visualmente.
 
