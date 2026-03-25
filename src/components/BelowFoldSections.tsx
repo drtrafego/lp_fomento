@@ -705,7 +705,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                   ))}
                 </ul>
                 <div className="pt-4 flex items-center gap-4">
-                  <img src={seloGarantia} alt="Garantia 30 dias" className="w-20 h-20 object-contain" />
+                  <img src={seloGarantia} alt="Garantia 30 dias" className="w-20 h-20 object-contain" width={80} height={80} />
                   <div>
                     <p className="text-white/80 text-sm font-semibold">Garantia de 30 dias</p>
                     <p className="text-white/50 text-xs">Risco zero. Não gostou, devolvemos 100%.</p>
