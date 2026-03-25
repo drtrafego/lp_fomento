@@ -45,10 +45,15 @@ export default function HeatmapTab({ dateRange }: Props) {
   const mobileCount = allClicks?.filter(c => c.viewport_width && c.viewport_width < MOBILE_BREAKPOINT).length || 0;
 
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => setBgImage(img);
-    img.src = SCREENSHOT_URL;
+    const dImg = new Image();
+    dImg.onload = () => setDesktopImage(dImg);
+    dImg.src = DESKTOP_SCREENSHOT_URL;
+    const mImg = new Image();
+    mImg.onload = () => setMobileImage(mImg);
+    mImg.src = MOBILE_SCREENSHOT_URL;
   }, []);
+
+  const bgImage = device === "mobile" ? mobileImage : desktopImage;
 
   const canvasHeight = bgImage
     ? Math.round(canvasWidth * (bgImage.height / bgImage.width))
