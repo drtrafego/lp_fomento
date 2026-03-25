@@ -250,7 +250,7 @@ export default function Index() {
               para sua empresa ou ideia de negócio
             </h1>
             <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto lg:mx-0">
-              {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento"].map((t) => (
+              {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento", "Usando o que é direito seu por lei"].map((t) => (
                 <li key={t} className="flex items-center gap-2 md:gap-3">
                   <CheckCircle className="text-[#d4a853] shrink-0" size={18} />
                   {t}
