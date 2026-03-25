@@ -101,22 +101,30 @@ export function useMetaPixel() {
       advancedMatchingReady.current = true;
       firePageViewIfReady();
     } else {
-      supabase.functions
-        .invoke("get-user-location")
-        .then(({ data }) => {
-          if (data) {
-            locationRef.current = data;
-            saveLocationData(data);
-            initAdvancedMatching(data);
-          }
-          advancedMatchingReady.current = true;
-          firePageViewIfReady();
-        })
-        .catch((e) => {
-          console.error(e);
-          advancedMatchingReady.current = true;
-          firePageViewIfReady();
-        });
+      const fetchLocation = () => {
+        supabase.functions
+          .invoke("get-user-location")
+          .then(({ data }) => {
+            if (data) {
+              locationRef.current = data;
+              saveLocationData(data);
+              initAdvancedMatching(data);
+            }
+            advancedMatchingReady.current = true;
+            firePageViewIfReady();
+          })
+          .catch((e) => {
+            console.error(e);
+            advancedMatchingReady.current = true;
+            firePageViewIfReady();
+          });
+      };
+      // Defer location fetch so it doesn't block LCP
+      if ("requestIdleCallback" in window) {
+        (window as any).requestIdleCallback(fetchLocation, { timeout: 3000 });
+      } else {
+        setTimeout(fetchLocation, 3000);
+      }
     }
   }, [firePageViewIfReady]);
 

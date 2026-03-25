@@ -151,6 +151,8 @@ export default function Index() {
                     alt="Pedro Diniz - Especialista em captação de recursos"
                     className="w-full h-full object-cover"
                     fetchPriority="high"
+                    width={224}
+                    height={224}
                   />
                 </div>
                 <div className="mt-3 text-center relative z-10">
