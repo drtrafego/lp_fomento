@@ -311,7 +311,7 @@ function WorkshopLearningSection() {
             <div key={card.num}>
               <div className="text-center mb-2">
                 <span
-                  className="inline-block text-8xl font-black text-[#d4a853]/15 select-none leading-none transition-all duration-700 ease-out"
+                  className="inline-block text-8xl font-black text-[#d4a853]/30 select-none leading-none transition-all duration-700 ease-out"
                   style={{
                     transform: numberZoomed[i] ? "scale(1)" : "scale(3)",
                     opacity: numberZoomed[i] ? 1 : 0,

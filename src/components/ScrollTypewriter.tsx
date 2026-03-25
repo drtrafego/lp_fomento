@@ -48,8 +48,8 @@ export function ScrollTypewriter({ text, className = "", progress }: ScrollTypew
         <span className="text-white/70">{text.slice(Math.max(0, chars - 3))}</span>
       )}
       <span
-        className="text-white/10 transition-all duration-300"
-        style={{ filter: "blur(4px)" }}
+        className="text-white/25 transition-all duration-300"
+        style={{ filter: "blur(2px)" }}
       >
         {text.slice(chars)}
       </span>
