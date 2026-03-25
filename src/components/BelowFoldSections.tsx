@@ -133,7 +133,7 @@ function useAnimatedCounter(end: number, duration = 2000) {
           requestAnimationFrame(animate);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
