@@ -3,7 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRef, useEffect, useState } from "react";
 import { type DateRange, getDateFrom } from "./DateFilter";
 
-const SCREENSHOT_URL = "/page-screenshot.png";
+const DESKTOP_SCREENSHOT_URL = "/page-screenshot.png";
+const MOBILE_SCREENSHOT_URL = "/page-screenshot-mobile.png";
 const MOBILE_BREAKPOINT = 768;
 
 type DeviceType = "desktop" | "mobile";
@@ -12,7 +13,8 @@ interface Props { dateRange: DateRange; }
 
 export default function HeatmapTab({ dateRange }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [desktopImage, setDesktopImage] = useState<HTMLImageElement | null>(null);
+  const [mobileImage, setMobileImage] = useState<HTMLImageElement | null>(null);
   const [opacity, setOpacity] = useState(0.4);
   const [device, setDevice] = useState<DeviceType>("desktop");
 
