@@ -109,7 +109,7 @@ export default function Index() {
   const countdown = useCountdown();
   const dayCountdown = useDayCountdown();
   const { estado: userEstado, uf: userUf } = useUserState();
-  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
   // Section tracking refs (2 ViewContent events: mid-page + end)
