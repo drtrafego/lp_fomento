@@ -1,23 +1,19 @@
 
 
-# Remover InitiateCheckout da página
-
-## O que muda
-
-O evento `InitiateCheckout` será removido do disparo client-side (Pixel + CAPI), já que o tracking agora é feito pela Zouti no checkout. Os dados históricos no dashboard continuam visíveis.
+# Ocultar botão da hero + barra fixa só na segunda dobra
 
 ## Alterações
 
-### 1. `src/pages/Index.tsx`
-- Remover import de `trackInitiateCheckout` do hook `useMetaPixel`
-- Simplificar `handleCheckoutClick` para apenas abrir a URL, sem tracking
+### 1. `src/pages/Index.tsx` — Ocultar GoldButton da hero (sem excluir)
+- Comentar o bloco do `<GoldButton>` (linhas 255-258) para preservar o código para uso futuro
 
-### 2. `src/hooks/useMetaPixel.ts`
-- Remover a função `trackInitiateCheckout` e seu export
+### 2. `src/pages/Index.tsx` — Barra fixa aparece só ao rolar para segunda dobra
+- Adicionar um estado `showBottomBar` (começa `false`)
+- Usar `useEffect` com `IntersectionObserver` no `<section data-section="Hero">` — quando o hero **sai** da viewport, mostrar a barra; quando volta, esconder
+- Aplicar classe condicional de visibilidade (`translate-y-full` + `opacity-0` quando escondida, transição suave ao aparecer)
 
-### 3. Dashboard (manter)
-- Os componentes `OverviewTab` e `TrafficTab` continuam exibindo dados históricos de `InitiateCheckout` vindos do banco — sem alteração
-
-### 4. Edge function (manter)
-- `meta-pixel-event` continua aceitando `InitiateCheckout` na lista de eventos válidos para não quebrar dados antigos — sem alteração
+### Detalhes técnicos
+- Criar um `ref` para a seção Hero
+- Observer com `threshold: 0` detecta quando hero sai de vista
+- Barra recebe `transition-transform duration-300` para animação suave de entrada/saída
 
