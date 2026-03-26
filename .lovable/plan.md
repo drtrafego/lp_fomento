@@ -1,28 +1,23 @@
 
 
-# Heatmap: Full-width scrollável + Zoom interativo
+# Remover InitiateCheckout da página
 
-## Problema
-O canvas está comprimido com `max-h-[70vh]`, espremendo a página inteira numa área pequena. O usuário quer ver o screenshot em tamanho real (largura da tela), poder scrollar verticalmente para explorar toda a página, e fazer zoom com scroll do mouse.
+## O que muda
 
-## Solução
+O evento `InitiateCheckout` será removido do disparo client-side (Pixel + CAPI), já que o tracking agora é feito pela Zouti no checkout. Os dados históricos no dashboard continuam visíveis.
 
-### Alterações em `src/components/dashboard/HeatmapTab.tsx`
+## Alterações
 
-1. **Canvas full-width**: Remover largura fixa (`390`/`500`). Usar a largura real do container via `ResizeObserver` e calcular a altura proporcional à imagem. Remover `max-h-[70vh]`.
+### 1. `src/pages/Index.tsx`
+- Remover import de `trackInitiateCheckout` do hook `useMetaPixel`
+- Simplificar `handleCheckoutClick` para apenas abrir a URL, sem tracking
 
-2. **Container scrollável**: Envolver o canvas num div com `max-h-[70vh] overflow-y-auto` — o canvas terá altura total da página e o container é quem faz scroll.
+### 2. `src/hooks/useMetaPixel.ts`
+- Remover a função `trackInitiateCheckout` e seu export
 
-3. **Zoom interativo com scroll do mouse**:
-   - Adicionar state `zoom` (default `1`, min `0.5`, max `3`) e `panOffset` para posição.
-   - No `onWheel` do container: se `Ctrl` ou `Meta` pressionado, ajustar zoom; caso contrário, scroll normal.
-   - Aplicar `transform: scale(zoom)` + `transform-origin: top center` no canvas.
-   - Mostrar indicador de zoom atual e botão de reset.
+### 3. Dashboard (manter)
+- Os componentes `OverviewTab` e `TrafficTab` continuam exibindo dados históricos de `InitiateCheckout` vindos do banco — sem alteração
 
-4. **Controles de zoom**: Adicionar botões `+`, `-` e `Reset` ao lado dos controles existentes, e exibir porcentagem de zoom.
-
-### Resultado
-- Screenshot ocupa toda a largura disponível
-- Scroll vertical revela o conteúdo da página inteira
-- Ctrl+Scroll faz zoom in/out para inspecionar áreas específicas
+### 4. Edge function (manter)
+- `meta-pixel-event` continua aceitando `InitiateCheckout` na lista de eventos válidos para não quebrar dados antigos — sem alteração
 
