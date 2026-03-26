@@ -209,5 +209,5 @@ export function useMetaPixel() {
     [sendEvent]
   );
 
-  return { trackPageView, trackViewContent, trackInitiateCheckout, trackPurchase };
+  return { trackPageView, trackViewContent, trackPurchase };
 }
