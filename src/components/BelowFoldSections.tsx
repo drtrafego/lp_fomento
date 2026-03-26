@@ -262,7 +262,7 @@ function WorkshopLearningSection() {
 
         {/* Pedro photo between VIA ZOOM and steps */}
         <div className="flex justify-center mt-6 mb-2">
-          <div className="w-48 sm:w-56 md:w-64 rounded-2xl overflow-hidden border border-[#d4a853]/15 shadow-[0_0_30px_rgba(212,168,83,0.12)]">
+          <div className="w-72 sm:w-96 md:w-[500px] rounded-2xl overflow-hidden border border-[#d4a853]/15 shadow-[0_0_30px_rgba(212,168,83,0.12)]">
             <img
               src={pedroZoomInline}
               alt="Pedro Diniz ministrando workshop ao vivo"
