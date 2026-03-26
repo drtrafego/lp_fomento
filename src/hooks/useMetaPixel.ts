@@ -197,17 +197,11 @@ export function useMetaPixel() {
     [sendEvent]
   );
 
-  const trackInitiateCheckout = useCallback(
-    (userData: Record<string, any> = {}, productData: Record<string, any> = {}) =>
-      sendEvent("InitiateCheckout", userData, productData),
-    [sendEvent]
-  );
-
   const trackPurchase = useCallback(
     (userData: Record<string, any> = {}, purchaseData: Record<string, any> = {}) =>
       sendEvent("Purchase", userData, purchaseData),
     [sendEvent]
   );
 
-  return { trackPageView, trackViewContent, trackInitiateCheckout, trackPurchase };
+  return { trackPageView, trackViewContent, trackPurchase };
 }

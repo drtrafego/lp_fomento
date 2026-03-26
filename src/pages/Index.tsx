@@ -109,7 +109,7 @@ export default function Index() {
   const countdown = useCountdown();
   const dayCountdown = useDayCountdown();
   const { estado: userEstado, uf: userUf } = useUserState();
-  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
   // Section tracking refs (2 ViewContent events: mid-page + end)
@@ -123,14 +123,8 @@ export default function Index() {
 
   // Checkout handler with tracking
   const handleCheckoutClick = useCallback(() => {
-    trackInitiateCheckout({}, {
-      content_ids: ["workshop-captacao"],
-      content_name: "Workshop Do Zero à Captação",
-      value: 37.00,
-      currency: "BRL",
-    });
     window.open(buildCheckoutUrl(), "_blank");
-  }, [trackInitiateCheckout]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
