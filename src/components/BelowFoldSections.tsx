@@ -15,6 +15,7 @@ import leiDecreto from "@/assets/lei-decreto.webp";
 import zoomLogo from "@/assets/zoom-logo.webp";
 import listaTopIcon from "@/assets/lista-top-icon.webp";
 import autoridadeImg from "@/assets/pedro-palco.webp";
+import pedroZoomCall from "@/assets/pedro-zoom-call.png";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
 
@@ -259,14 +260,16 @@ function WorkshopLearningSection() {
       </div>
 
       {/* Desktop */}
-      <div className="hidden md:flex items-stretch gap-0">
-        {workshopCards.map((card, i) => {
-          const Icon = card.icon;
-          return (
-            <div key={card.num} className="flex items-stretch">
+      <div className="hidden md:grid md:grid-cols-[1fr_auto] gap-8 items-start">
+        {/* Left: stacked cards */}
+        <div className="space-y-4">
+          {workshopCards.map((card, i) => {
+            const Icon = card.icon;
+            return (
               <div
+                key={card.num}
                 ref={el => { desktopCardRefs.current[i] = el; }}
-                className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-8 flex-1 min-w-[280px] card-glow-hover transition-all duration-700"
+                className="relative bg-[#0a1628] border border-[#d4a853]/15 rounded-2xl p-7 card-glow-hover transition-all duration-700"
                 style={{
                   opacity: visibleCards[i] ? 1 : 0,
                   transform: visibleCards[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
@@ -291,16 +294,20 @@ function WorkshopLearningSection() {
                   <SequentialBullets bullets={card.bullets} iconSize={16} gap="gap-2.5" spacing="space-y-3" />
                 </div>
               </div>
-              {i < 2 && (
-                <div className="flex items-center px-3">
-                  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" className={arrowsVisible[i] ? "arrow-drawn" : "opacity-0"} style={{ animationDelay: `${i * 200}ms` }}>
-                    <path d="M2 12 L30 12 M24 5 L32 12 L24 19" stroke="#d4a853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              )}
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+
+        {/* Right: Pedro photo */}
+        <div className="sticky top-24 w-[340px] lg:w-[400px] rounded-2xl overflow-hidden border border-[#d4a853]/15 shadow-[0_0_40px_rgba(212,168,83,0.15)]">
+          <img
+            src={pedroZoomCall}
+            alt="Pedro Diniz ministrando workshop ao vivo"
+            className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
 
       {/* Mobile */}
