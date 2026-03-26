@@ -112,6 +112,20 @@ export default function Index() {
   const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
+  const heroRef = useRef<HTMLElement>(null);
+  const [showBottomBar, setShowBottomBar] = useState(false);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowBottomBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Section tracking refs (2 ViewContent events: mid-page + end)
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
@@ -129,7 +143,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
       {/* ─── 2. HERO ─── */}
-      <section data-section="Hero" className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
+      <section ref={heroRef} data-section="Hero" className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
         <div className="max-w-6xl mx-auto animate-fade-in lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
           {/* Coluna direita - Foto (aparece primeiro no mobile) */}
           <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
@@ -252,10 +266,12 @@ export default function Index() {
               ))}
             </ul>
             <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
+            {/* GoldButton temporariamente oculto — não excluir
             <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
+            */}
           </div>
         </div>
       </section>
@@ -272,7 +288,7 @@ export default function Index() {
       </Suspense>
 
       {/* ─── FIXED BOTTOM BAR — GLASSMORPHISM ─── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4">
+      <div className={`fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4 transition-all duration-300 ${showBottomBar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'}`}>
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
