@@ -112,6 +112,20 @@ export default function Index() {
   const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
+  const heroRef = useRef<HTMLElement>(null);
+  const [showBottomBar, setShowBottomBar] = useState(false);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowBottomBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Section tracking refs (2 ViewContent events: mid-page + end)
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
