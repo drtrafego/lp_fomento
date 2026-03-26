@@ -288,7 +288,7 @@ export default function Index() {
       </Suspense>
 
       {/* ─── FIXED BOTTOM BAR — GLASSMORPHISM ─── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4">
+      <div className={`fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a1628]/60 border-t border-[#d4a853]/20 py-3 px-4 transition-all duration-300 ${showBottomBar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'}`}>
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
