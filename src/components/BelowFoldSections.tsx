@@ -601,7 +601,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </div>
 
               <button
-                onClick={handleCheckoutClick}
+                onClick={() => document.getElementById('resultados-reais')?.scrollIntoView({ behavior: 'smooth' })}
                 className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
                 QUERO MEU INGRESSO →
