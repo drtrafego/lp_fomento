@@ -142,11 +142,12 @@ function useAnimatedCounter(end: number, duration = 2000) {
   return { count, ref };
 }
 
-const Section = ({ children, className = "", dark = false }: { children: React.ReactNode; className?: string; dark?: boolean }) => {
+const Section = ({ children, className = "", dark = false, id }: { children: React.ReactNode; className?: string; dark?: boolean; id?: string }) => {
   const { ref, visible } = useScrollReveal();
   return (
     <section
       ref={ref}
+      id={id}
       className={`relative py-16 md:py-24 px-4 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} ${dark ? "bg-[#0a1628]" : "bg-[#0f1d32]"} ${className}`}
     >
       <div className="max-w-5xl mx-auto">{children}</div>
