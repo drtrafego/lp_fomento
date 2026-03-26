@@ -16,6 +16,7 @@ import zoomLogo from "@/assets/zoom-logo.webp";
 import listaTopIcon from "@/assets/lista-top-icon.webp";
 import autoridadeImg from "@/assets/pedro-palco.webp";
 import pedroZoomCall from "@/assets/pedro-zoom-call.png";
+import pedroZoomInline from "@/assets/pedro-zoom-inline.webp";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
 
