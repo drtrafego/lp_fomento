@@ -16,6 +16,7 @@ import zoomLogo from "@/assets/zoom-logo.webp";
 import listaTopIcon from "@/assets/lista-top-icon.webp";
 import autoridadeImg from "@/assets/pedro-palco.webp";
 import pedroZoomCall from "@/assets/pedro-zoom-call.png";
+import pedroZoomInline from "@/assets/pedro-zoom-inline.webp";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
 
@@ -256,6 +257,21 @@ function WorkshopLearningSection() {
           <div className="flex items-center gap-2 bg-[#2D8CFF]/15 border border-[#2D8CFF]/30 rounded-full px-4 py-1.5">
             <img src={zoomLogo} alt="Zoom" className="w-5 h-5 object-contain" />
             <span className="text-[#2D8CFF] text-xs font-semibold uppercase tracking-wider">via Zoom</span>
+          </div>
+        </div>
+
+        {/* Pedro photo between VIA ZOOM and steps */}
+        <div className="flex justify-center mt-6 mb-2">
+          <div className="w-48 sm:w-56 md:w-64 rounded-2xl overflow-hidden border border-[#d4a853]/15 shadow-[0_0_30px_rgba(212,168,83,0.12)]">
+            <img
+              src={pedroZoomInline}
+              alt="Pedro Diniz ministrando workshop ao vivo"
+              className="w-full h-auto object-cover"
+              loading="lazy"
+              decoding="async"
+              width={400}
+              height={383}
+            />
           </div>
         </div>
       </div>
