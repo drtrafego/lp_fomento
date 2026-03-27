@@ -34,7 +34,7 @@ const faqItems = [
   { q: "Qual é a Taxa de Juros?", a: "Não é empréstimo, portanto você não pagará nenhum centavo de juros. Os programas de incentivo não cobram juros nem exigem a devolução do valor liberado." },
   { q: "É apenas para empresas grandes?", a: "Não. Existem diversos programas de incentivo para micro e pequenas empresas. Ou até mesmo para ideias que ainda nem se tornaram negócios." },
   { q: "Existe dinheiro de graça para financiar minha empresa ou ideia?", a: "Existem mais de 40 Programas de Incentivo para todo tipo de ideia e negócio. Diversos destes não cobram juros e nem exigem devolução do valor liberado." },
-  { q: "Quando será o Workshop?", a: "Quinta-feira às 20h, AO VIVO no ZOOM. Você receberá o acesso assim que se inscrever." },
+  { q: "Quando será o Workshop?", a: "Terça-feira dia 31/03 às 20h, AO VIVO no ZOOM. Você receberá o acesso assim que se inscrever." },
   { q: "O Workshop ficará gravado?", a: "Sim, você terá a possibilidade de obter a gravação." },
   { q: "E se eu não gostar, posso pedir reembolso?", a: "Sim. Você pode assistir o workshop, baixar os materiais, e se mesmo assim achar que não valeu a pena, tem 30 dias de garantia total para solicitar 100% do valor pago." },
 ];
