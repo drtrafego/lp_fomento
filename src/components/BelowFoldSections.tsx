@@ -751,31 +751,32 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </div>
 
               <div className="flex-1 p-8 sm:p-10 flex flex-col items-center justify-center space-y-6 bg-[#0a1628]/40">
-                <span className="bg-red-500/15 text-red-400 font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
-                  Vagas limitadas
+                <span className="bg-[#d4a853] text-[#0a1628] font-extrabold text-xs px-5 py-2 rounded-full uppercase tracking-wider">
+                  🔥 Vagas limitadas
                 </span>
-                <div className="text-center space-y-1">
-                  <p className="text-white/40 text-sm">De <span className="line-through">R$ 97,00</span></p>
-                  <p className="text-white/60 text-xs uppercase tracking-widest">por</p>
+                <div className="text-center space-y-2">
+                  <p className="text-red-400 text-lg font-semibold"><span className="line-through decoration-red-500 decoration-2">De R$ 97,00</span></p>
+                  <div className="w-12 h-px bg-white/20 mx-auto" />
+                  <p className="text-white/60 text-sm uppercase tracking-[0.25em] font-medium">por apenas</p>
                 </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-white/50 text-2xl font-bold">R$</span>
-                  <span className="text-6xl sm:text-7xl font-extrabold text-[#d4a853]">37</span>
-                  <span className="text-white/50 text-2xl font-bold">,00</span>
+                <div className="flex items-baseline gap-1 animate-scale-in" style={{ filter: 'drop-shadow(0 0 20px rgba(212,168,83,0.4))' }}>
+                  <span className="text-white/60 text-3xl font-bold">R$</span>
+                  <span className="text-7xl sm:text-8xl font-extrabold text-[#d4a853]">37</span>
+                  <span className="text-white/60 text-3xl font-bold">,00</span>
                 </div>
-                <p className="text-white/40 text-xs">Pagamento único · Acesso imediato</p>
+                <p className="text-emerald-400 text-xs font-medium">✓ Pagamento único · ✓ Acesso imediato</p>
                 <GoldButton className="w-full max-w-xs text-center" showGuarantee={false} onClick={handleCheckoutClick}>
                   GARANTIR MINHA VAGA AGORA
                   <ArrowRight className="inline ml-2" size={18} />
                 </GoldButton>
                 <div className="flex items-center gap-3 pt-2">
-                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1a1f71">VISA</text></svg>
-                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="8" fill="#eb001b" opacity="0.8"/><circle cx="29" cy="16" r="8" fill="#f79e1b" opacity="0.8"/></svg>
-                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#000">ELO</text></svg>
-                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#2e77bb">AMEX</text></svg>
-                  <svg viewBox="0 0 48 32" className="h-6 opacity-40"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#32bcad">PIX</text></svg>
+                  <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1a1f71">VISA</text></svg>
+                  <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="8" fill="#eb001b" opacity="0.8"/><circle cx="29" cy="16" r="8" fill="#f79e1b" opacity="0.8"/></svg>
+                  <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#000">ELO</text></svg>
+                  <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#2e77bb">AMEX</text></svg>
+                  <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#32bcad">PIX</text></svg>
                 </div>
-                <p className="text-white/30 text-[10px]">Ambiente seguro · Dados criptografados</p>
+                <p className="text-white/30 text-[10px]">🔒 Ambiente seguro · Dados criptografados</p>
               </div>
             </div>
           </div>
