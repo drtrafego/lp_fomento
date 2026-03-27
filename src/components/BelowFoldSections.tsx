@@ -590,11 +590,15 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               </div>
 
               <button
-                onClick={() => document.getElementById('resultados-reais')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={handleCheckoutClick}
                 className="inline-block mt-4 shimmer-btn bg-[#d4a853] hover:bg-[#c4983f] text-[#0a1628] font-extrabold text-lg px-8 py-4 rounded-xl shadow-lg shadow-[#d4a853]/25 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
                 QUERO MEU INGRESSO →
               </button>
+              <span className="flex items-center justify-center gap-1.5 text-white/45 text-xs mt-2">
+                <Shield size={12} />
+                Garantia de 30 dias · Compra segura
+              </span>
             </div>
           </div>
         </div>
