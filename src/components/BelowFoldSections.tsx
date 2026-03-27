@@ -634,9 +634,27 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
               ? <>Sua empresa <span className="underline decoration-[#d4a853]/60">no {userEstado}</span> pode estar a um passo de captar de R$ 39 mil a R$ 400 mil</>
               : "Sua empresa pode estar a um passo de captar de R$ 39 mil a R$ 400 mil"}
           </p>
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
-            {["Sem favores", 'Sem "indicações"', "Seu direito por lei"].map((b) => (
-              <span key={b} className="flex items-center gap-2 bg-[#0a1628]/80 border border-[#d4a853]/20 text-[#d4a853] text-sm font-semibold px-5 py-2.5 rounded-lg">
+          <div className="flex flex-col items-center gap-3 pt-2">
+            {["Sem favores", 'Sem "indicações"', "Seu direito por lei"].map((b, i) => (
+              <span
+                key={b}
+                className="flex items-center gap-2 bg-[#0a1628]/80 border border-[#d4a853]/20 text-[#d4a853] text-sm font-semibold px-5 py-2.5 rounded-lg opacity-0 translate-y-4 transition-all duration-500"
+                style={{ transitionDelay: `${i * 200}ms` }}
+                ref={(el) => {
+                  if (!el) return;
+                  const observer = new IntersectionObserver(
+                    ([entry]) => {
+                      if (entry.isIntersecting) {
+                        el.classList.remove('opacity-0', 'translate-y-4');
+                        el.classList.add('opacity-100', 'translate-y-0');
+                        observer.disconnect();
+                      }
+                    },
+                    { threshold: 0.5 }
+                  );
+                  observer.observe(el);
+                }}
+              >
                 <span className="text-red-500 font-bold">✕</span> {b}
               </span>
             ))}
