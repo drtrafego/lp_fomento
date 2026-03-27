@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { type DateRange, getDateFrom } from "./DateFilter";
+import { filterRealCheckouts } from "./filterTestData";
 
 interface Props { dateRange: DateRange; }
 
@@ -14,7 +15,7 @@ export default function CheckoutTab({ dateRange }: Props) {
       let q = supabase.from("checkout_events").select("*");
       if (dateFrom) q = q.gte("created_at", dateFrom);
       const { data } = await q;
-      return data || [];
+      return filterRealCheckouts(data || []);
     },
   });
 

@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { type DateRange, getDateFrom } from "./DateFilter";
 import { useMemo } from "react";
+import { filterRealCheckouts } from "./filterTestData";
 
 interface Props {
   dateRange: DateRange;
@@ -55,10 +56,10 @@ export default function ClicksTab({ dateRange }: Props) {
   const { data: checkouts } = useQuery({
     queryKey: ["clicks-checkouts", dateRange],
     queryFn: async () => {
-      let q = supabase.from("checkout_events").select("event_type, amount, created_at");
+      let q = supabase.from("checkout_events").select("event_type, amount, customer_email, created_at");
       if (dateFrom) q = q.gte("created_at", dateFrom);
       const { data } = await q;
-      return data || [];
+      return filterRealCheckouts(data || []);
     },
   });
 
