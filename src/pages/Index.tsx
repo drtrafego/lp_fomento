@@ -70,10 +70,13 @@ function useCountdown() {
 }
 
 function useDayCountdown() {
-  const day = new Date().getDay();
-  if (day === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
-  if (day === 3) return { show: true, label: "É amanhã!", progress: 66 };
-  if (day === 4) return { show: true, label: "É HOJE!", progress: 100 };
+  const now = new Date();
+  const workshop = getWorkshopDate();
+  const diffMs = workshop.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffMs / 86400000);
+  if (diffDays === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
+  if (diffDays === 1) return { show: true, label: "É amanhã!", progress: 66 };
+  if (diffDays <= 0 && diffDays > -1) return { show: true, label: "É HOJE!", progress: 100 };
   return { show: false, label: "", progress: 0 };
 }
 
