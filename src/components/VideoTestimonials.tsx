@@ -71,6 +71,7 @@ export const VideoTestimonials = ({ testimonials }: { testimonials: Testimonial[
                 {!activatedVideos.has(i) && (
                   <div
                     onClick={() => handlePlay(i)}
+                    aria-label={`▶ ${t.handle}`}
                     className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 cursor-pointer group/play"
                   >
                     <div className="relative">
