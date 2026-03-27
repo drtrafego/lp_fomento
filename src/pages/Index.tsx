@@ -236,6 +236,28 @@ export default function Index() {
               <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
               para sua empresa ou ideia de negócio
             </h1>
+
+            {/* Mobile: CTA + urgency between headline and bullets */}
+            <div className="lg:hidden">
+              <GoldButton className="w-full" onClick={handleCheckoutClick}>
+                GARANTIR MINHA VAGA
+                <ArrowRight className="inline ml-2" size={18} />
+              </GoldButton>
+              <div className="max-w-xs mx-auto space-y-2 mt-2">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                  <span className="text-[#d4a853] font-bold">96%</span>
+                </div>
+                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: "96%", background: "linear-gradient(90deg, #22c55e, #eab308, #ef4444)" }} />
+                </div>
+                <div className="flex justify-between items-center text-[10px]">
+                  <span className="text-white/40">Restam poucas vagas — garanta a sua!</span>
+                  <span className="text-white/30">Data da virada de lote: {new Date().toLocaleDateString("pt-BR")}</span>
+                </div>
+              </div>
+            </div>
+
             <ul className="space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto lg:mx-0">
               {["Sem pagar juros", "Sem precisar devolver o dinheiro", "Sem comprovar grande faturamento", "Usando o que é direito seu por lei"].map((t) => (
                 <li key={t} className="flex items-center gap-2 md:gap-3">
@@ -245,22 +267,25 @@ export default function Index() {
               ))}
             </ul>
             <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
-            <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
-              GARANTIR MINHA VAGA
-              <ArrowRight className="inline ml-2" size={18} />
-            </GoldButton>
-            {/* Urgency / scarcity bar */}
-            <div className="max-w-xs mx-auto lg:mx-0 space-y-2 mt-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
-                <span className="text-[#d4a853] font-bold">96%</span>
-              </div>
-              <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: "96%", background: "linear-gradient(90deg, #22c55e, #eab308, #ef4444)" }} />
-              </div>
-              <div className="flex justify-between items-center text-[10px]">
-                <span className="text-white/40">Restam poucas vagas — garanta a sua!</span>
-                <span className="text-white/30">Data da virada de lote: {new Date().toLocaleDateString("pt-BR")}</span>
+
+            {/* Desktop: CTA + urgency after bullets */}
+            <div className="hidden lg:block">
+              <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
+                GARANTIR MINHA VAGA
+                <ArrowRight className="inline ml-2" size={18} />
+              </GoldButton>
+              <div className="max-w-xs lg:mx-0 space-y-2 mt-2">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                  <span className="text-[#d4a853] font-bold">96%</span>
+                </div>
+                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: "96%", background: "linear-gradient(90deg, #22c55e, #eab308, #ef4444)" }} />
+                </div>
+                <div className="flex justify-between items-center text-[10px]">
+                  <span className="text-white/40">Restam poucas vagas — garanta a sua!</span>
+                  <span className="text-white/30">Data da virada de lote: {new Date().toLocaleDateString("pt-BR")}</span>
+                </div>
               </div>
             </div>
           </div>
