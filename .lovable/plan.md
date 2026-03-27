@@ -1,18 +1,15 @@
 
 
-# Reativar botão de compra na Hero
+# Adicionar barra de lote promocional abaixo do botão da Hero
 
-## Alteração em `src/pages/Index.tsx` (linhas 256-261)
+## Alteração em `src/pages/Index.tsx` (após linha 259)
 
-Descomentar o `GoldButton` que já existe, removendo o bloco de comentário `{/* ... */}` ao redor dele. O botão já chama `handleCheckoutClick` que redireciona para o checkout da Zouti com UTMs.
+Adicionar o mesmo bloco de urgência/escassez que já existe na seção de oferta (`BelowFoldSections.tsx` linhas 792-809), logo após o `GoldButton` na hero. O bloco inclui:
 
-```jsx
-// Remover comentário, deixando:
-<GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
-  GARANTIR MINHA VAGA
-  <ArrowRight className="inline ml-2" size={18} />
-</GoldButton>
-```
+- Linha "🔥 Ingressos vendidos à R$37" com "96%" à direita
+- Barra de progresso com gradiente verde→amarelo→vermelho
+- Texto "Restam poucas vagas — garanta a sua!"
+- Data dinâmica da virada de lote (dia atual)
 
-Nenhum outro arquivo precisa ser alterado — o `GoldButton` já inclui o selo "Garantia de 30 dias · Compra segura" automaticamente.
+O código será uma cópia direta do bloco existente em `BelowFoldSections.tsx`, posicionado entre o `</GoldButton>` e o `</div>` que fecha a coluna de texto (linha 260), com `max-w-xs mx-auto lg:mx-0` para alinhar à esquerda no desktop.
 
