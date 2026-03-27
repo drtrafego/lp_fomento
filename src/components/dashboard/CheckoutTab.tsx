@@ -15,7 +15,7 @@ export default function CheckoutTab({ dateRange }: Props) {
       let q = supabase.from("checkout_events").select("*");
       if (dateFrom) q = q.gte("created_at", dateFrom);
       const { data } = await q;
-      return data || [];
+      return filterRealCheckouts(data || []);
     },
   });
 
