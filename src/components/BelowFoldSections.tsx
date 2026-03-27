@@ -793,8 +793,6 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                       style={{
                         width: '96%',
                         background: 'linear-gradient(90deg, #22c55e 0%, #22c55e 60%, #eab308 80%, #ef4444 95%, #dc2626 100%)',
-                        backgroundSize: '200% 100%',
-                        animation: 'shimmer-bar 2s linear infinite',
                       }}
                     />
                   </div>
