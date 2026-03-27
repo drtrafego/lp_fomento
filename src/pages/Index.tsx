@@ -37,19 +37,8 @@ function useUserState() {
   return { estado, uf };
 }
 
-function getNextThursday8pm() {
-  const now = new Date();
-  const day = now.getDay();
-  let daysUntilThursday = (4 - day + 7) % 7;
-  if (daysUntilThursday === 0) {
-    const target = new Date(now);
-    target.setHours(20, 0, 0, 0);
-    if (now >= target) daysUntilThursday = 7;
-  }
-  const next = new Date(now);
-  next.setDate(now.getDate() + daysUntilThursday);
-  next.setHours(20, 0, 0, 0);
-  return next;
+function getWorkshopDate() {
+  return new Date(2026, 2, 31, 20, 0, 0); // 31/03/2026 às 20h
 }
 
 function useCountdown() {
