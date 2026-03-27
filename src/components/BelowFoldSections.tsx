@@ -780,13 +780,13 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                     <div className="w-full max-w-xs space-y-2 mt-1">
                       <div className="flex justify-between items-center text-xs">
                         <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
-                        <span className="text-emerald-400 font-bold">98%</span>
+                        <span className="text-emerald-400 font-bold">96%</span>
                       </div>
-                      <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
+                      <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{
-                            width: '98%',
+                            width: '96%',
                             background: 'linear-gradient(90deg, #22c55e, #4ade80, #22c55e)',
                             backgroundSize: '200% 100%',
                             animation: 'shimmer-bar 2s linear infinite',
