@@ -772,7 +772,8 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                 <div className="relative animate-scale-in" style={{ filter: 'drop-shadow(0 0 25px rgba(212,168,83,0.35))' }}>
                   <div className="flex items-start justify-center">
                     <span className="text-[#d4a853] text-2xl sm:text-3xl font-extrabold mt-2 sm:mt-3 mr-1">R$</span>
-                    <span className="text-8xl sm:text-9xl font-black text-[#d4a853] leading-none tracking-tight">37</span>
+                    <span className="text-9xl sm:text-[10rem] font-black text-[#d4a853] leading-none tracking-tight">37</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-[#d4a853] self-start mt-4 sm:mt-6">,00</span>
                   </div>
                   <p className="text-white/40 text-xs text-center -mt-1">pagamento único</p>
                 </div>
