@@ -37,25 +37,14 @@ function useUserState() {
   return { estado, uf };
 }
 
-function getNextThursday8pm() {
-  const now = new Date();
-  const day = now.getDay();
-  let daysUntilThursday = (4 - day + 7) % 7;
-  if (daysUntilThursday === 0) {
-    const target = new Date(now);
-    target.setHours(20, 0, 0, 0);
-    if (now >= target) daysUntilThursday = 7;
-  }
-  const next = new Date(now);
-  next.setDate(now.getDate() + daysUntilThursday);
-  next.setHours(20, 0, 0, 0);
-  return next;
+function getWorkshopDate() {
+  return new Date(2026, 2, 31, 20, 0, 0); // 31/03/2026 às 20h
 }
 
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   useEffect(() => {
-    const target = getNextThursday8pm();
+    const target = getWorkshopDate();
     const tick = () => {
       const diff = target.getTime() - Date.now();
       if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -81,10 +70,13 @@ function useCountdown() {
 }
 
 function useDayCountdown() {
-  const day = new Date().getDay();
-  if (day === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
-  if (day === 3) return { show: true, label: "É amanhã!", progress: 66 };
-  if (day === 4) return { show: true, label: "É HOJE!", progress: 100 };
+  const now = new Date();
+  const workshop = getWorkshopDate();
+  const diffMs = workshop.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffMs / 86400000);
+  if (diffDays === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
+  if (diffDays === 1) return { show: true, label: "É amanhã!", progress: 66 };
+  if (diffDays <= 0 && diffDays > -1) return { show: true, label: "É HOJE!", progress: 100 };
   return { show: false, label: "", progress: 0 };
 }
 
@@ -193,23 +185,18 @@ export default function Index() {
               </span>
               {(() => {
                 const now = new Date();
-                const dayOfWeek = now.getDay();
-                const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
-                const nextThursday = new Date(now);
-                nextThursday.setDate(now.getDate() + daysUntilThursday);
-                const dd = String(nextThursday.getDate()).padStart(2, '0');
-                const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
-                const yy = String(nextThursday.getFullYear()).slice(-2);
-                const dateStr = `${dd}/${mm}/${yy}`;
-                const isToday = dayOfWeek === 4;
-                const isTomorrow = dayOfWeek === 3;
+                const workshop = getWorkshopDate();
+                const diffMs = workshop.getTime() - now.getTime();
+                const diffDays = Math.ceil(diffMs / 86400000);
+                const isToday = diffDays <= 0 && diffDays > -1;
+                const isTomorrow = diffDays === 1;
 
                 if (isToday) {
                   return (
                     <div className="flex items-center gap-2 text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-3 py-1.5 animate-pulse">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
                       <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs sm:text-sm">HOJE · Quinta-feira às 20h</span>
+                      <span className="text-xs sm:text-sm">HOJE · Terça-feira às 20h</span>
                     </div>
                   );
                 }
@@ -218,7 +205,7 @@ export default function Index() {
                   <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
                     <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                     <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
+                    <span>{isTomorrow ? `Amanhã · Terça-feira dia 31/03/26 às 20h` : `Terça-feira dia 31/03/26 às 20h`}</span>
                   </div>
                 );
               })()}
@@ -245,9 +232,9 @@ export default function Index() {
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                  <span>Terça</span>
-                  <span>Quarta</span>
-                  <span>Quinta 20h</span>
+                  <span>Domingo</span>
+                  <span>Segunda</span>
+                  <span>Terça 20h</span>
                 </div>
               </div>
             )}
@@ -293,7 +280,7 @@ export default function Index() {
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
               <Clock size={14} className="text-[#d4a853]" />
-              Quinta-feira às 20h · Online ao vivo
+              Terça-feira às 20h · Online ao vivo
             </span>
             <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
