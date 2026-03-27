@@ -253,12 +253,10 @@ export default function Index() {
               ))}
             </ul>
             <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
-            {/* GoldButton temporariamente oculto — não excluir
             <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
-            */}
           </div>
         </div>
       </section>
