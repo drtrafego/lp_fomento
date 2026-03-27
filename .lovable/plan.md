@@ -1,23 +1,9 @@
 
-# Duplicar barra "AO VIVO" entre o título e o card de preço
 
-## Alteração em `src/components/BelowFoldSections.tsx` (entre linhas 726 e 727)
+# Adicionar ",00" pequeno ao lado do 37 e aumentar o tamanho
 
-Inserir uma cópia da barra de evento (indicador vermelho pulsante + ícone Zoom + data) centralizada, logo após o `<h2>Workshop Do Zero à Captação</h2>` e antes do card `<div className="bg-[#0f1d32] border-2...">`.
+## Alteração em `src/components/BelowFoldSections.tsx` (linhas 774-776)
 
-### Código a inserir
+- Aumentar o "37" de `text-8xl sm:text-9xl` para `text-9xl sm:text-[10rem]`
+- Adicionar `<span className="text-2xl sm:text-3xl font-bold text-[#d4a853] self-start mt-4 sm:mt-6">,00</span>` logo após o "37", alinhado ao topo
 
-```tsx
-<div className="flex items-center justify-center gap-3 text-sm flex-wrap">
-  <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
-    AO VIVO
-  </span>
-  <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
-    <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
-    <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" loading="lazy" />
-    <span>Terça-feira dia 31/03/26 às 20h</span>
-  </div>
-</div>
-```
-
-Será necessário importar `zoomIcon` no componente (verificar se já está importado).
