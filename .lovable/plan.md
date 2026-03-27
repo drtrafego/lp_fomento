@@ -1,14 +1,23 @@
 
+# Duplicar barra "AO VIVO" entre o título e o card de preço
 
-# Gradiente de urgência na barra de lote (96% → vermelho no final)
+## Alteração em `src/components/BelowFoldSections.tsx` (entre linhas 726 e 727)
 
-## Alteração em `src/components/BelowFoldSections.tsx` (linhas 779-788)
+Inserir uma cópia da barra de evento (indicador vermelho pulsante + ícone Zoom + data) centralizada, logo após o `<h2>Workshop Do Zero à Captação</h2>` e antes do card `<div className="bg-[#0f1d32] border-2...">`.
 
-Trocar o gradiente verde uniforme por um gradiente que vai de verde (início) para amarelo (meio) e vermelho/laranja no final (nos últimos ~10%), criando a sensação visual de que está prestes a esgotar.
+### Código a inserir
 
-### Detalhes técnicos
+```tsx
+<div className="flex items-center justify-center gap-3 text-sm flex-wrap">
+  <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+    AO VIVO
+  </span>
+  <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
+    <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+    <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" loading="lazy" />
+    <span>Terça-feira dia 31/03/26 às 20h</span>
+  </div>
+</div>
+```
 
-- **Gradiente**: `linear-gradient(90deg, #22c55e 0%, #22c55e 60%, #eab308 80%, #ef4444 95%, #dc2626 100%)`
-- Manter o shimmer animado por cima
-- Manter `bg-white/15` no fundo para os 4% restantes continuarem visíveis
-
+Será necessário importar `zoomIcon` no componente (verificar se já está importado).
