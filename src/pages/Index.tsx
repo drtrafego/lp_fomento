@@ -185,23 +185,18 @@ export default function Index() {
               </span>
               {(() => {
                 const now = new Date();
-                const dayOfWeek = now.getDay();
-                const daysUntilThursday = (4 - dayOfWeek + 7) % 7 || (dayOfWeek === 4 ? 0 : 7);
-                const nextThursday = new Date(now);
-                nextThursday.setDate(now.getDate() + daysUntilThursday);
-                const dd = String(nextThursday.getDate()).padStart(2, '0');
-                const mm = String(nextThursday.getMonth() + 1).padStart(2, '0');
-                const yy = String(nextThursday.getFullYear()).slice(-2);
-                const dateStr = `${dd}/${mm}/${yy}`;
-                const isToday = dayOfWeek === 4;
-                const isTomorrow = dayOfWeek === 3;
+                const workshop = getWorkshopDate();
+                const diffMs = workshop.getTime() - now.getTime();
+                const diffDays = Math.ceil(diffMs / 86400000);
+                const isToday = diffDays <= 0 && diffDays > -1;
+                const isTomorrow = diffDays === 1;
 
                 if (isToday) {
                   return (
                     <div className="flex items-center gap-2 text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-3 py-1.5 animate-pulse">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
                       <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs sm:text-sm">HOJE · Quinta-feira às 20h</span>
+                      <span className="text-xs sm:text-sm">HOJE · Terça-feira às 20h</span>
                     </div>
                   );
                 }
@@ -210,7 +205,7 @@ export default function Index() {
                   <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
                     <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                     <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateStr} às 20h` : `Quinta-feira dia ${dateStr} às 20h`}</span>
+                    <span>{isTomorrow ? `Amanhã · Terça-feira dia 31/03/26 às 20h` : `Terça-feira dia 31/03/26 às 20h`}</span>
                   </div>
                 );
               })()}
