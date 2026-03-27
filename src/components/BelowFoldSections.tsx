@@ -786,7 +786,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                         <div
                           className="h-full rounded-full"
                           style={{
-                            width: '98%',
+                            width: '96%',
                             background: 'linear-gradient(90deg, #22c55e, #4ade80, #22c55e)',
                             backgroundSize: '200% 100%',
                             animation: 'shimmer-bar 2s linear infinite',
