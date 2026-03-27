@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 
 import seloGarantia from "@/assets/selo-garantia.webp";
+import zoomIcon from "@/assets/zoom-icon.webp";
 import mapaOrgaos from "@/assets/mapa-orgaos.webp";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import pedroIgorImg from "@/assets/pedro-igor.webp";
@@ -724,6 +725,16 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center">
             Workshop Do Zero à Captação
           </h2>
+          <div className="flex items-center justify-center gap-3 text-sm flex-wrap">
+            <span className="bg-red-500/20 text-red-400 font-bold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-red-500/30">
+              AO VIVO
+            </span>
+            <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
+              <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+              <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" loading="lazy" />
+              <span>Terça-feira dia 31/03/26 às 20h</span>
+            </div>
+          </div>
           <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl overflow-hidden">
             <div className="flex flex-col md:flex-row">
               <div className="flex-1 p-8 sm:p-10 space-y-5 border-b md:border-b-0 md:border-r border-[#d4a853]/15">
