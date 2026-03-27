@@ -139,27 +139,19 @@ export default function Index() {
         <div className="max-w-6xl mx-auto animate-fade-in lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
           {/* Coluna direita - Foto (aparece primeiro no mobile) */}
           <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
-            {/* Mobile: foto circular */}
-            <div className="lg:hidden relative py-4">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] rounded-full border border-[#d4a853]/20" style={{ animation: "spin 20s linear infinite" }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[310px] h-[310px] sm:w-[360px] sm:h-[360px] rounded-full border border-[#d4a853]/10" style={{ animation: "spin 30s linear infinite reverse" }} />
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#d4a853]/15 blur-[80px] rounded-full" />
-              <div className="flex flex-col items-center">
-                <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden border-2 border-[#d4a853]/30 shadow-[0_0_40px_rgba(212,168,83,0.3)] bg-[#1a2a4a]">
-                  <img
-                    src={pedroHeroImg}
-                    alt="Pedro Diniz - Especialista em captação de recursos"
-                    className="w-full h-full object-cover"
-                    fetchPriority="high"
-                    width={512}
-                    height={390}
-                  />
-                </div>
-                <div className="mt-3 text-center relative z-10">
-                  <h3 className="text-white font-bold text-lg sm:text-xl tracking-widest uppercase">PEDRO DINIZ</h3>
-                  <p className="text-[#d4a853] text-sm sm:text-base font-medium mt-1">+ de 50 milhões captados</p>
-                </div>
+            {/* Mobile: headline banner */}
+            <div className="lg:hidden flex flex-col items-center text-center py-4 space-y-1">
+              <span className="bg-white text-[#0a1628] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-sm">Workshop</span>
+              <div className="flex items-center gap-3 mt-2">
+                <span className="text-2xl">🖥️</span>
+                <h2 className="text-white font-black text-xl sm:text-2xl uppercase leading-tight">
+                  Como captar <span className="text-[#d4a853]">$</span> com
+                </h2>
+                <span className="text-2xl">💰</span>
               </div>
+              <p className="text-white font-black text-2xl sm:text-3xl uppercase leading-tight">
+                Programas de Incentivo<br />Federais
+              </p>
             </div>
 
             {/* Desktop: foto full com degradê */}
