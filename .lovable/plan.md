@@ -1,9 +1,8 @@
 
 
-# Adicionar ",00" pequeno ao lado do 37 e aumentar o tamanho
+# Deslocar ",00" para baixo
 
-## Alteração em `src/components/BelowFoldSections.tsx` (linhas 774-776)
+## Alteração em `src/components/BelowFoldSections.tsx` (linha 776)
 
-- Aumentar o "37" de `text-8xl sm:text-9xl` para `text-9xl sm:text-[10rem]`
-- Adicionar `<span className="text-2xl sm:text-3xl font-bold text-[#d4a853] self-start mt-4 sm:mt-6">,00</span>` logo após o "37", alinhado ao topo
+Trocar `self-start mt-4 sm:mt-6` por `self-end mb-6 sm:mb-8` para alinhar o ",00" à parte inferior do "37" em vez do topo.
 
