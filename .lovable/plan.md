@@ -1,55 +1,33 @@
 
 
-# Nova aba "Cliques & Botões" no Dashboard
+# Ranking de Cliques em Vídeos (Mobile vs Desktop)
 
-## Objetivo
-Criar uma aba dedicada à análise de cliques em botões, com insights sobre conversão, impacto da remoção do botão da hero, e performance de cada CTA.
+## Problema atual
+Os cliques nos vídeos são todos registrados com o mesmo `click_target` ("div: Toque para ouvir"), impossibilitando identificar qual vídeo específico foi clicado. Precisamos de duas mudanças: uma para rastrear corretamente e outra para exibir no dashboard.
 
-## Estrutura da aba
+## Alterações
 
-### 1. Cards de métricas principais (topo)
-- **Total de Cliques em CTAs** (filtrar `click_target` que contenha botão/link relevante)
-- **Clique → Checkout (taxa)** (cruzar cliques em CTAs com `checkout_events`)
-- **Clique → Compra (taxa)** (cruzar com purchases)
-- **Botão mais clicado** (nome + contagem)
+### 1. `src/components/VideoTestimonials.tsx`
+Adicionar o `handle` do depoimento no texto capturado pelo click tracker. No overlay de play (div com `onClick`), adicionar um atributo `data-video` com o handle do depoimento. Também ajustar o texto do span para incluir o handle, de forma que o click_target registrado seja algo como `"div:▶ @bulldogburguer"` em vez de `"div: Toque para ouvir"` genérico.
 
-### 2. Ranking de botões (tabela)
-Agrupar cliques por `click_target` filtrando por elementos de ação (`button`, `a`, e textos conhecidos como "GARANTIR", "QUERO MEU INGRESSO", etc.). Mostrar:
-- Nome/texto do botão
-- Seção onde aparece (`section_name`)
-- Total de cliques
-- % do total
+Concretamente: trocar o conteúdo do span "Toque para ouvir" para incluir um `data-click-label` ou simplesmente mudar o texto capturado usando um atributo no div pai que o tracker já captura (tag:textContent).
 
-### 3. Análise: Hero com botão vs sem botão (antes/depois)
-O botão da hero foi comentado (removido). Comparar períodos:
-- **Com botão**: dados antes da remoção
-- **Sem botão**: dados depois da remoção
-- Métricas: taxa de checkout, taxa de compra, scroll depth médio
-- Mostrar se a remoção melhorou ou piorou conversão
+Abordagem mais limpa: adicionar um `aria-label` com o handle no div clicável, e no `usePageAnalytics.ts`, usar `aria-label` quando disponível como `click_target`.
 
-### 4. Gráfico: Cliques por seção (bar chart horizontal)
-Cliques agrupados por `section_name` para ver onde os usuários mais interagem.
+### 2. `src/hooks/usePageAnalytics.ts`
+No handleClick, priorizar `aria-label` ou `data-click-label` do elemento clicado (ou ancestral próximo) para o `click_target`, para que cliques em vídeos capturem o nome do depoimento.
 
-### 5. Gráfico: Botão de vídeo / prova social
-Filtrar cliques em elementos de vídeo (`click_target` contendo "video", "play", "depoimento") para medir engajamento com prova social.
+### 3. `src/components/dashboard/ClicksTab.tsx`
+Adicionar uma nova seção **"🎬 Ranking de Vídeos"** com:
+- Tabela rankeando cliques por vídeo (usando o handle como identificador)
+- Duas colunas: **Mobile** (os 3 primeiros) e **Desktop** (todos os 6)
+- Filtrar usando `viewport_width` já buscado na query: `< 768` = mobile, `≥ 768` = desktop
+- Incluir contagem de cliques e % do total para cada vídeo
+- Posicionar entre a seção de "Prova Social / Vídeos" existente e o funil
 
-### 6. Funil por botão
-Para cada CTA principal, mostrar: Cliques → Checkouts → Compras (com taxas de conversão).
+### 4. `src/components/BelowFoldSections.tsx` (linha 688)
+Adicionar `data-section="ProvaSocial"` na Section de vídeos para que os cliques nessa área também tenham `section_name` preenchido.
 
-## Detalhes técnicos
-
-### Novo arquivo: `src/components/dashboard/ClicksTab.tsx`
-- Query `page_analytics` filtrando `event_type = 'click'`
-- Query `checkout_events` para cruzar conversões
-- Identificar CTAs por padrões no `click_target`: `button:GARANTIR`, `button:QUERO MEU INGRESSO`, etc.
-- Usar recharts para gráficos (já instalado)
-- Aceita prop `dateRange` como as outras abas
-
-### Alteração: `src/pages/Dashboard.tsx`
-- Adicionar `{ id: "clicks", label: "Cliques & Botões" }` ao array `TABS`
-- Lazy import do `ClicksTab`
-- Renderizar no switch de abas
-
-### Bug fix incluído: viewport_y decimal
-Os network requests mostram erros `invalid input syntax for type integer: "3956.75"` porque `e.clientY + window.scrollY` produz decimais. Corrigir em `usePageAnalytics.ts` aplicando `Math.round()` nos valores de `viewport_x` e `viewport_y`.
+## Nota importante
+Os dados históricos não terão a identificação por vídeo (todos aparecerão como "Toque para ouvir"). A partir da implementação, novos cliques serão rastreados com o nome correto. No dashboard, mostrar os dados disponíveis e indicar que o tracking detalhado é a partir da data de deploy.
 
