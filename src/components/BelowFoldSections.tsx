@@ -779,7 +779,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                   return (
                     <div className="w-full max-w-xs space-y-2 mt-1">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-white/60">🔥 Ingressos vendidos à R$29</span>
+                        <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
                         <span className="text-emerald-400 font-bold">98%</span>
                       </div>
                       <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
