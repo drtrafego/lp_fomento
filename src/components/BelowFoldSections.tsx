@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 
 import seloGarantia from "@/assets/selo-garantia.webp";
+import zoomIcon from "@/assets/zoom-icon.webp";
 import mapaOrgaos from "@/assets/mapa-orgaos.webp";
 import reuniaoFomento from "@/assets/reuniao-fomento.webp";
 import pedroIgorImg from "@/assets/pedro-igor.webp";
