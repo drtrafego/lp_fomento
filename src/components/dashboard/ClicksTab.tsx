@@ -2,12 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { type DateRange, getDateFrom } from "./DateFilter";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { filterRealCheckouts } from "./filterTestData";
 
 interface Props {
   dateRange: DateRange;
 }
+
+type DeviceFilter = "all" | "desktop" | "mobile";
 
 const CTA_PATTERNS = [
   "button:", "a:GARANTIR", "a:QUERO", "a:COMPRAR", "a:INGRESSO",
@@ -15,7 +17,7 @@ const CTA_PATTERNS = [
   "a:Garantir", "a:Quero", "a:Comprar",
 ];
 
-const VIDEO_PATTERNS = ["video", "play", "depoimento", "prova", "assistir"];
+const VIDEO_PATTERNS = ["video", "play", "depoimento", "prova", "assistir", "▶"];
 
 function isCta(target: string | null): boolean {
   if (!target) return false;
@@ -35,18 +37,23 @@ function extractLabel(target: string): string {
   return parts.length > 1 ? parts.slice(1).join(":").trim().slice(0, 40) : target.slice(0, 40);
 }
 
-// Hero button was removed ~2025-03-20 (approximate)
 const HERO_REMOVAL_DATE = "2025-03-20T00:00:00Z";
-
 const SECTION_COLORS = ["#3b82f6", "#6366f1", "#d4a853", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
+
+function filterByDevice<T extends { viewport_width?: number | null }>(data: T[], device: DeviceFilter): T[] {
+  if (device === "all") return data;
+  if (device === "mobile") return data.filter(d => d.viewport_width != null && d.viewport_width < 768);
+  return data.filter(d => d.viewport_width != null && d.viewport_width >= 768);
+}
 
 export default function ClicksTab({ dateRange }: Props) {
   const dateFrom = getDateFrom(dateRange);
+  const [deviceFilter, setDeviceFilter] = useState<DeviceFilter>("all");
 
   const { data: clicks, isLoading: loadingClicks } = useQuery({
     queryKey: ["clicks-all", dateRange],
     queryFn: async () => {
-      let q = supabase.from("page_analytics").select("click_target, section_name, created_at, session_id").eq("event_type", "click");
+      let q = supabase.from("page_analytics").select("click_target, section_name, created_at, session_id, viewport_width").eq("event_type", "click");
       if (dateFrom) q = q.gte("created_at", dateFrom);
       const { data } = await q.order("created_at", { ascending: false }).limit(1000);
       return data || [];
@@ -66,7 +73,7 @@ export default function ClicksTab({ dateRange }: Props) {
   const { data: scrollData } = useQuery({
     queryKey: ["clicks-scroll", dateRange],
     queryFn: async () => {
-      let q = supabase.from("page_analytics").select("scroll_percent, created_at, session_id").eq("event_type", "scroll");
+      let q = supabase.from("page_analytics").select("scroll_percent, created_at, session_id, viewport_width").eq("event_type", "scroll");
       if (dateFrom) q = q.gte("created_at", dateFrom);
       const { data } = await q.limit(1000);
       return data || [];
@@ -76,7 +83,10 @@ export default function ClicksTab({ dateRange }: Props) {
   const analysis = useMemo(() => {
     if (!clicks) return null;
 
-    const ctaClicks = clicks.filter(c => isCta(c.click_target));
+    const filteredClicks = filterByDevice(clicks, deviceFilter);
+    const filteredScroll = filterByDevice(scrollData || [], deviceFilter);
+
+    const ctaClicks = filteredClicks.filter(c => isCta(c.click_target));
     const totalCtaClicks = ctaClicks.length;
 
     const totalCheckouts = checkouts?.filter(e => ["checkout", "pix_generated"].includes(e.event_type)).length || 0;
@@ -90,11 +100,8 @@ export default function ClicksTab({ dateRange }: Props) {
     ctaClicks.forEach(c => {
       const key = c.click_target || "unknown";
       const existing = buttonMap.get(key);
-      if (existing) {
-        existing.count++;
-      } else {
-        buttonMap.set(key, { count: 1, section: c.section_name });
-      }
+      if (existing) existing.count++;
+      else buttonMap.set(key, { count: 1, section: c.section_name });
     });
 
     const buttonRanking = Array.from(buttonMap.entries())
@@ -111,7 +118,7 @@ export default function ClicksTab({ dateRange }: Props) {
 
     // Clicks per section
     const sectionMap = new Map<string, number>();
-    clicks.forEach(c => {
+    filteredClicks.forEach(c => {
       const section = c.section_name || "Sem seção";
       sectionMap.set(section, (sectionMap.get(section) || 0) + 1);
     });
@@ -120,7 +127,7 @@ export default function ClicksTab({ dateRange }: Props) {
       .sort((a, b) => b.value - a.value);
 
     // Video / social proof
-    const videoClicks = clicks.filter(c => isVideoRelated(c.click_target));
+    const videoClicks = filteredClicks.filter(c => isVideoRelated(c.click_target));
     const videoTotal = videoClicks.length;
     const videoBySection = new Map<string, number>();
     videoClicks.forEach(c => {
@@ -131,20 +138,33 @@ export default function ClicksTab({ dateRange }: Props) {
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
 
-    // Hero analysis (before/after removal)
-    const clicksBefore = clicks.filter(c => c.created_at < HERO_REMOVAL_DATE);
-    const clicksAfter = clicks.filter(c => c.created_at >= HERO_REMOVAL_DATE);
+    // Video ranking by handle (new tracking with aria-label "▶ @handle")
+    const videoByHandle = new Map<string, { mobile: number; desktop: number; total: number }>();
+    clicks.filter(c => c.click_target && c.click_target.includes("▶")).forEach(c => {
+      const handle = extractLabel(c.click_target!).replace("▶ ", "").trim();
+      if (!handle) return;
+      const existing = videoByHandle.get(handle) || { mobile: 0, desktop: 0, total: 0 };
+      existing.total++;
+      if (c.viewport_width != null && c.viewport_width < 768) existing.mobile++;
+      else existing.desktop++;
+      videoByHandle.set(handle, existing);
+    });
+    const videoRanking = Array.from(videoByHandle.entries())
+      .map(([handle, stats]) => ({ handle, ...stats }))
+      .sort((a, b) => b.total - a.total);
+
+    // Hero analysis
+    const clicksBefore = filteredClicks.filter(c => c.created_at < HERO_REMOVAL_DATE);
+    const clicksAfter = filteredClicks.filter(c => c.created_at >= HERO_REMOVAL_DATE);
     const checkoutsBefore = checkouts?.filter(e => e.created_at < HERO_REMOVAL_DATE) || [];
     const checkoutsAfter = checkouts?.filter(e => e.created_at >= HERO_REMOVAL_DATE) || [];
-    const scrollBefore = scrollData?.filter(s => s.created_at < HERO_REMOVAL_DATE) || [];
-    const scrollAfter = scrollData?.filter(s => s.created_at >= HERO_REMOVAL_DATE) || [];
+    const scrollBefore = filteredScroll.filter(s => s.created_at < HERO_REMOVAL_DATE);
+    const scrollAfter = filteredScroll.filter(s => s.created_at >= HERO_REMOVAL_DATE);
 
     const sessionsBefore = new Set(clicksBefore.map(c => c.session_id)).size || 1;
     const sessionsAfter = new Set(clicksAfter.map(c => c.session_id)).size || 1;
-
     const purchasesBefore = checkoutsBefore.filter(e => e.event_type === "purchase").length;
     const purchasesAfter = checkoutsAfter.filter(e => e.event_type === "purchase").length;
-
     const convBefore = ((purchasesBefore / sessionsBefore) * 100).toFixed(1);
     const convAfter = ((purchasesAfter / sessionsAfter) * 100).toFixed(1);
 
@@ -161,9 +181,6 @@ export default function ClicksTab({ dateRange }: Props) {
       improved: parseFloat(convAfter) >= parseFloat(convBefore),
     };
 
-    // Funnel per top buttons
-    const topButtons = buttonRanking.slice(0, 5);
-
     return {
       totalCtaClicks,
       clickToCheckoutRate,
@@ -173,12 +190,12 @@ export default function ClicksTab({ dateRange }: Props) {
       sectionData,
       videoTotal,
       videoData,
+      videoRanking,
       heroAnalysis,
-      topButtons,
       totalCheckouts,
       totalPurchases,
     };
-  }, [clicks, checkouts, scrollData]);
+  }, [clicks, checkouts, scrollData, deviceFilter]);
 
   if (loadingClicks) {
     return (
@@ -192,6 +209,27 @@ export default function ClicksTab({ dateRange }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Device Sub-tabs */}
+      <div className="flex gap-1 bg-[#0f1d32] border border-[#1a2d4a] rounded-xl p-1 w-fit">
+        {([
+          { id: "all" as const, label: "📊 Tudo" },
+          { id: "desktop" as const, label: "🖥️ Desktop" },
+          { id: "mobile" as const, label: "📱 Mobile" },
+        ]).map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setDeviceFilter(tab.id)}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              deviceFilter === tab.id
+                ? "bg-[#d4a853]/20 text-[#d4a853] border border-[#d4a853]/30"
+                : "text-white/50 hover:text-white/80"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       {/* Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard label="Total Cliques CTAs" value={analysis.totalCtaClicks} color="text-blue-400" />
@@ -234,6 +272,45 @@ export default function ClicksTab({ dateRange }: Props) {
         </div>
       </div>
 
+      {/* Video Ranking */}
+      <div className="bg-[#0f1d32] border border-[#1a2d4a] rounded-2xl p-6">
+        <h3 className="text-white font-semibold mb-2">🎬 Ranking de Vídeos</h3>
+        <p className="text-white/40 text-xs mb-4">
+          Cliques no play por depoimento — Mobile (3 visíveis) vs Desktop (6 visíveis)
+        </p>
+        {analysis.videoRanking.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-white/40 border-b border-[#1a2d4a]">
+                  <th className="text-left py-2 pr-4">#</th>
+                  <th className="text-left py-2 pr-4">Vídeo</th>
+                  <th className="text-right py-2 pr-4">📱 Mobile</th>
+                  <th className="text-right py-2 pr-4">🖥️ Desktop</th>
+                  <th className="text-right py-2">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {analysis.videoRanking.map((v, i) => (
+                  <tr key={v.handle} className="border-b border-[#1a2d4a]/50">
+                    <td className="py-2 pr-4 text-white/30">{i + 1}</td>
+                    <td className="py-2 pr-4 text-white/90 font-medium">{v.handle}</td>
+                    <td className="py-2 pr-4 text-right text-blue-400 font-mono">{v.mobile}</td>
+                    <td className="py-2 pr-4 text-right text-purple-400 font-mono">{v.desktop}</td>
+                    <td className="py-2 text-right text-[#d4a853] font-bold font-mono">{v.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-6">
+            <p className="text-white/30 text-sm">Nenhum dado de vídeo com tracking individual ainda.</p>
+            <p className="text-white/20 text-xs mt-1">O tracking por vídeo começa a partir do deploy desta versão.</p>
+          </div>
+        )}
+      </div>
+
       {/* Hero Before/After Analysis */}
       <div className="bg-[#0f1d32] border border-[#1a2d4a] rounded-2xl p-6">
         <h3 className="text-white font-semibold mb-4">🔬 Hero: Com Botão vs Sem Botão</h3>
@@ -244,43 +321,19 @@ export default function ClicksTab({ dateRange }: Props) {
           <div className="bg-[#0a1628] rounded-xl p-4 border border-[#1a2d4a]">
             <div className="text-white/50 text-xs mb-2">COM botão (antes)</div>
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Sessões</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.before.sessions}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Compras</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.before.purchases}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Taxa Conversão</span>
-                <span className="text-[#d4a853] font-mono">{analysis.heroAnalysis.before.convRate}%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Scroll Médio</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.before.avgScroll}%</span>
-              </div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Sessões</span><span className="text-white font-mono">{analysis.heroAnalysis.before.sessions}</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Compras</span><span className="text-white font-mono">{analysis.heroAnalysis.before.purchases}</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Taxa Conversão</span><span className="text-[#d4a853] font-mono">{analysis.heroAnalysis.before.convRate}%</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Scroll Médio</span><span className="text-white font-mono">{analysis.heroAnalysis.before.avgScroll}%</span></div>
             </div>
           </div>
           <div className="bg-[#0a1628] rounded-xl p-4 border border-[#1a2d4a]">
             <div className="text-white/50 text-xs mb-2">SEM botão (depois)</div>
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Sessões</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.after.sessions}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Compras</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.after.purchases}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Taxa Conversão</span>
-                <span className="text-[#d4a853] font-mono">{analysis.heroAnalysis.after.convRate}%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60 text-sm">Scroll Médio</span>
-                <span className="text-white font-mono">{analysis.heroAnalysis.after.avgScroll}%</span>
-              </div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Sessões</span><span className="text-white font-mono">{analysis.heroAnalysis.after.sessions}</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Compras</span><span className="text-white font-mono">{analysis.heroAnalysis.after.purchases}</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Taxa Conversão</span><span className="text-[#d4a853] font-mono">{analysis.heroAnalysis.after.convRate}%</span></div>
+              <div className="flex justify-between"><span className="text-white/60 text-sm">Scroll Médio</span><span className="text-white font-mono">{analysis.heroAnalysis.after.avgScroll}%</span></div>
             </div>
           </div>
         </div>
@@ -304,9 +357,7 @@ export default function ClicksTab({ dateRange }: Props) {
               <BarChart data={analysis.sectionData} layout="vertical" margin={{ left: 10, right: 20 }}>
                 <XAxis type="number" tick={{ fill: "#ffffff60", fontSize: 11 }} />
                 <YAxis type="category" dataKey="name" width={120} tick={{ fill: "#ffffff80", fontSize: 11 }} />
-                <Tooltip
-                  contentStyle={{ background: "#0f1d32", border: "1px solid #1a2d4a", borderRadius: 8, color: "#fff" }}
-                />
+                <Tooltip contentStyle={{ background: "#0f1d32", border: "1px solid #1a2d4a", borderRadius: 8, color: "#fff" }} />
                 <Bar dataKey="value" name="Cliques" radius={[0, 6, 6, 0]}>
                   {analysis.sectionData.map((_, i) => (
                     <Cell key={i} fill={SECTION_COLORS[i % SECTION_COLORS.length]} />
@@ -329,9 +380,7 @@ export default function ClicksTab({ dateRange }: Props) {
               <BarChart data={analysis.videoData} layout="vertical" margin={{ left: 10, right: 20 }}>
                 <XAxis type="number" tick={{ fill: "#ffffff60", fontSize: 11 }} />
                 <YAxis type="category" dataKey="name" width={120} tick={{ fill: "#ffffff80", fontSize: 11 }} />
-                <Tooltip
-                  contentStyle={{ background: "#0f1d32", border: "1px solid #1a2d4a", borderRadius: 8, color: "#fff" }}
-                />
+                <Tooltip contentStyle={{ background: "#0f1d32", border: "1px solid #1a2d4a", borderRadius: 8, color: "#fff" }} />
                 <Bar dataKey="value" name="Cliques" fill="#8b5cf6" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -341,7 +390,7 @@ export default function ClicksTab({ dateRange }: Props) {
         </div>
       </div>
 
-      {/* Funnel per Button */}
+      {/* Funnel */}
       <div className="bg-[#0f1d32] border border-[#1a2d4a] rounded-2xl p-6">
         <h3 className="text-white font-semibold mb-4">🔄 Funil Geral: Cliques → Checkout → Compra</h3>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-4">
