@@ -257,6 +257,20 @@ export default function Index() {
               GARANTIR MINHA VAGA
               <ArrowRight className="inline ml-2" size={18} />
             </GoldButton>
+            {/* Urgency / scarcity bar */}
+            <div className="max-w-xs mx-auto lg:mx-0 space-y-2 mt-2">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                <span className="text-[#d4a853] font-bold">96%</span>
+              </div>
+              <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full rounded-full" style={{ width: "96%", background: "linear-gradient(90deg, #22c55e, #eab308, #ef4444)" }} />
+              </div>
+              <div className="flex justify-between items-center text-[10px]">
+                <span className="text-white/40">Restam poucas vagas — garanta a sua!</span>
+                <span className="text-white/30">Data da virada de lote: {new Date().toLocaleDateString("pt-BR")}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
