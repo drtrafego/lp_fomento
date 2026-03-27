@@ -754,15 +754,16 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                 <span className="bg-[#d4a853] text-[#0a1628] font-extrabold text-xs px-5 py-2 rounded-full uppercase tracking-wider">
                   🔥 Vagas limitadas
                 </span>
-                <div className="text-center space-y-2">
-                  <p className="text-red-400 text-lg font-semibold"><span className="line-through decoration-red-500 decoration-2">De R$ 97,00</span></p>
-                  <div className="w-12 h-px bg-white/20 mx-auto" />
-                  <p className="text-white/60 text-sm uppercase tracking-[0.25em] font-medium">por apenas</p>
+                <div className="text-center space-y-1">
+                  <p className="text-red-400 text-base sm:text-lg font-semibold"><span className="line-through decoration-red-500 decoration-2">De R$ 97,00</span></p>
+                  <p className="text-white/50 text-xs uppercase tracking-[0.3em] font-medium">por apenas</p>
                 </div>
-                <div className="flex items-baseline gap-1 animate-scale-in" style={{ filter: 'drop-shadow(0 0 20px rgba(212,168,83,0.4))' }}>
-                  <span className="text-white/60 text-3xl font-bold">R$</span>
-                  <span className="text-7xl sm:text-8xl font-extrabold text-[#d4a853]">37</span>
-                  <span className="text-white/60 text-3xl font-bold">,00</span>
+                <div className="relative animate-scale-in" style={{ filter: 'drop-shadow(0 0 25px rgba(212,168,83,0.35))' }}>
+                  <div className="flex items-start justify-center">
+                    <span className="text-[#d4a853] text-2xl sm:text-3xl font-extrabold mt-2 sm:mt-3 mr-1">R$</span>
+                    <span className="text-8xl sm:text-9xl font-black text-[#d4a853] leading-none tracking-tight">37</span>
+                  </div>
+                  <p className="text-white/40 text-xs text-center -mt-1">pagamento único</p>
                 </div>
                 <p className="text-emerald-400 text-xs font-medium">✓ Pagamento único · ✓ Acesso imediato</p>
                 <GoldButton className="w-full max-w-xs text-center" showGuarantee={false} onClick={handleCheckoutClick}>
