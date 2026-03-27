@@ -10,11 +10,13 @@ const CheckoutTab = lazy(() => import("@/components/dashboard/CheckoutTab"));
 const BehaviorTab = lazy(() => import("@/components/dashboard/BehaviorTab"));
 const HeatmapTab = lazy(() => import("@/components/dashboard/HeatmapTab"));
 const SeoTab = lazy(() => import("@/components/dashboard/SeoTab"));
+const ClicksTab = lazy(() => import("@/components/dashboard/ClicksTab"));
 
 const TABS = [
   { id: "overview", label: "Visão Geral" },
   { id: "traffic", label: "Tráfego" },
   { id: "checkout", label: "Checkout/Vendas" },
+  { id: "clicks", label: "Cliques & Botões" },
   { id: "behavior", label: "Comportamento" },
   { id: "heatmap", label: "Mapa de Calor" },
   { id: "seo", label: "SEO & Localização" },
