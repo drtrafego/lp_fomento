@@ -685,7 +685,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
       </div>
 
       {/* ─── 8. PROVA SOCIAL — 6 VÍDEOS ─── */}
-      <Section dark className="!pt-6 sm:!pt-16" id="resultados-reais">
+      <Section dark className="!pt-6 sm:!pt-16" id="resultados-reais" data-section="ProvaSocial">
         <div className="text-center space-y-4">
           <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Resultados reais</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Assista pessoas reais que captaram recursos</h2>

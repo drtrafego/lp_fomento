@@ -106,15 +106,18 @@ export function usePageAnalytics() {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const tag = target.tagName.toLowerCase();
-      const text = (target.textContent || "").slice(0, 50).trim();
       const closest = target.closest("section[data-section]");
       const section = closest ? (closest as HTMLElement).dataset.section : null;
+
+      // Prefer aria-label or data-click-label from clicked element or ancestors
+      const labelEl = target.closest("[aria-label]") || target.closest("[data-click-label]");
+      const label = labelEl?.getAttribute("aria-label") || labelEl?.getAttribute("data-click-label") || (target.textContent || "").slice(0, 50).trim();
 
       enqueue({
         event_type: "click",
         viewport_x: Math.round(e.clientX),
         viewport_y: Math.round(e.clientY + window.scrollY),
-        click_target: `${tag}:${text}`,
+        click_target: `${tag}:${label}`,
         section_name: section,
       });
     };
