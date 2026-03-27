@@ -1,16 +1,9 @@
 
-# Remover foto do Pedro e centralizar cards no desktop
 
-## Alterações em `src/components/BelowFoldSections.tsx`
+# Aumentar foto do Pedro — mais próxima das bordas
 
-### 1. Remover a foto do Pedro no desktop (linhas 318-327)
-- Deletar o bloco `{/* Right: Pedro photo */}` com a `<div>` sticky e a `<img>` do `pedroZoomCall`
+## Alteração em `src/components/BelowFoldSections.tsx` (linha 265)
 
-### 2. Centralizar os cards no desktop (linha 280)
-- Trocar o grid `md:grid-cols-[1fr_auto]` por layout centralizado
-- Usar `max-w-2xl mx-auto` no container dos cards para centralizar horizontalmente
-- Simplificar de grid para flex/block column já que não há mais coluna direita
+- Trocar `w-72 sm:w-96 md:w-[500px]` por `w-80 sm:w-full md:w-[650px]`
+- Isso faz a foto ocupar quase toda a largura do container, ficando próxima das bordas
 
-### Resultado
-- Layout desktop: 3 cards empilhados e centralizados na página
-- Layout mobile: sem alteração
