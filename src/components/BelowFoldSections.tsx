@@ -771,37 +771,27 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                   <ArrowRight className="inline ml-2" size={18} />
                 </GoldButton>
                 {/* Barra de lote promocional */}
-                {(() => {
-                  const today = new Date();
-                  const fmt = (d: Date) => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
-                  const d2 = new Date(today); d2.setDate(d2.getDate() - 2);
-                  const d1 = new Date(today); d1.setDate(d1.getDate() - 1);
-                  return (
-                    <div className="w-full max-w-xs space-y-2 mt-1">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
-                        <span className="text-emerald-400 font-bold">96%</span>
-                      </div>
-                      <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: '96%',
-                            background: 'linear-gradient(90deg, #22c55e, #4ade80, #22c55e)',
-                            backgroundSize: '200% 100%',
-                            animation: 'shimmer-bar 2s linear infinite',
-                          }}
-                        />
-                      </div>
-                      <p className="text-emerald-400/80 text-[11px] text-center font-medium">Restam poucas vagas — garanta a sua!</p>
-                      <div className="flex justify-between text-[10px] text-white/40 px-1">
-                        <span>{fmt(d2)}</span>
-                        <span>{fmt(d1)}</span>
-                        <span className="text-emerald-400 font-bold">{fmt(today)} ★ Hoje</span>
-                      </div>
-                    </div>
-                  );
-                })()}
+                <div className="w-full max-w-xs space-y-2 mt-1">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                    <span className="text-emerald-400 font-bold">96%</span>
+                  </div>
+                  <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: '96%',
+                        background: 'linear-gradient(90deg, #22c55e, #4ade80, #22c55e)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shimmer-bar 2s linear infinite',
+                      }}
+                    />
+                  </div>
+                  <p className="text-emerald-400/80 text-[11px] text-center font-medium">Restam poucas vagas — garanta a sua!</p>
+                  <p className="text-center text-xs text-white/50 mt-1">
+                    Data da virada de lote: <span className="text-[#d4a853] font-bold">{`${String(new Date().getDate()).padStart(2,'0')}/${String(new Date().getMonth()+1).padStart(2,'0')}`}</span>
+                  </p>
+                </div>
                 <div className="flex items-center gap-3 pt-2">
                   <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><text x="24" y="20" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1a1f71">VISA</text></svg>
                   <svg viewBox="0 0 48 32" className="h-7 opacity-60"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="8" fill="#eb001b" opacity="0.8"/><circle cx="29" cy="16" r="8" fill="#f79e1b" opacity="0.8"/></svg>
