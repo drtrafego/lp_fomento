@@ -44,7 +44,7 @@ function getWorkshopDate() {
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   useEffect(() => {
-    const target = getNextThursday8pm();
+    const target = getWorkshopDate();
     const tick = () => {
       const diff = target.getTime() - Date.now();
       if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
