@@ -232,9 +232,9 @@ export default function Index() {
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                  <span>Terça</span>
-                  <span>Quarta</span>
-                  <span>Quinta 20h</span>
+                  <span>Domingo</span>
+                  <span>Segunda</span>
+                  <span>Terça 20h</span>
                 </div>
               </div>
             )}
