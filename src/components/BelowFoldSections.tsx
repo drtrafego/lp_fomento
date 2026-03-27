@@ -15,7 +15,7 @@ import leiDecreto from "@/assets/lei-decreto.webp";
 import zoomLogo from "@/assets/zoom-logo.webp";
 import listaTopIcon from "@/assets/lista-top-icon.webp";
 import autoridadeImg from "@/assets/pedro-palco.webp";
-import pedroZoomCall from "@/assets/pedro-zoom-call.png";
+
 import pedroZoomInline from "@/assets/pedro-zoom-inline.webp";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
@@ -277,8 +277,7 @@ function WorkshopLearningSection() {
       </div>
 
       {/* Desktop */}
-      <div className="hidden md:grid md:grid-cols-[1fr_auto] gap-8 items-start">
-        {/* Left: stacked cards */}
+      <div className="hidden md:block max-w-2xl mx-auto">
         <div className="space-y-4">
           {workshopCards.map((card, i) => {
             const Icon = card.icon;
@@ -313,17 +312,6 @@ function WorkshopLearningSection() {
               </div>
             );
           })}
-        </div>
-
-        {/* Right: Pedro photo */}
-        <div className="sticky top-24 w-[340px] lg:w-[400px] rounded-2xl overflow-hidden border border-[#d4a853]/15 shadow-[0_0_40px_rgba(212,168,83,0.15)]">
-          <img
-            src={pedroZoomCall}
-            alt="Pedro Diniz ministrando workshop ao vivo"
-            className="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
         </div>
       </div>
 
