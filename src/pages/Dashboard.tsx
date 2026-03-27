@@ -101,6 +101,7 @@ export default function Dashboard() {
           {activeTab === "overview" && <OverviewTab dateRange={dateRange} />}
           {activeTab === "traffic" && <TrafficTab dateRange={dateRange} />}
           {activeTab === "checkout" && <CheckoutTab dateRange={dateRange} />}
+          {activeTab === "clicks" && <ClicksTab dateRange={dateRange} />}
           {activeTab === "behavior" && <BehaviorTab dateRange={dateRange} />}
           {activeTab === "heatmap" && <HeatmapTab dateRange={dateRange} />}
           {activeTab === "seo" && <SeoTab dateRange={dateRange} />}
