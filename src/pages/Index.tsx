@@ -238,7 +238,7 @@ export default function Index() {
             </h1>
 
             {/* Mobile: CTA + urgency between headline and bullets */}
-            <div className="lg:hidden mt-4">
+            <div className="lg:hidden mt-8 mb-6">
               <GoldButton className="w-full" onClick={handleCheckoutClick}>
                 GARANTIR MINHA VAGA
                 <ArrowRight className="inline ml-2" size={18} />
