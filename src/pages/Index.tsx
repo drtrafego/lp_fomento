@@ -269,8 +269,8 @@ export default function Index() {
             <p className="text-white/60 text-xs sm:text-sm">Através de Programas de Incentivo Federais</p>
 
             {/* Mobile: Pedro Diniz photo + credibility */}
-            <div className="lg:hidden flex flex-col items-center mt-8 space-y-2">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#d4a853] shadow-[0_0_20px_rgba(212,168,83,0.3)]">
+            <div className="lg:hidden flex flex-col items-center mt-10 space-y-3">
+              <div className="relative w-36 h-36 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
                 <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
               </div>
               <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
