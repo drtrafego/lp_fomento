@@ -271,7 +271,7 @@ export default function Index() {
             {/* Mobile: Pedro Diniz photo + credibility */}
             <div className="lg:hidden flex flex-col items-center mt-8 space-y-2">
               <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#d4a853] shadow-[0_0_20px_rgba(212,168,83,0.3)]">
-                <img src="/pedro-palco-desktop.png" alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
+                <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
               </div>
               <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
               <span className="text-[#d4a853] text-xs font-semibold">+ de 50 milhões captados</span>
