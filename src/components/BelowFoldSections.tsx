@@ -727,7 +727,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
 
       {/* ─── 9. OFERTA / PRICING ─── */}
       <Section dark>
-        <div ref={ofertaRef as any} className="max-w-4xl mx-auto space-y-8">
+        <div id="oferta" ref={ofertaRef as any} className="max-w-4xl mx-auto space-y-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center">
             Workshop Do Zero à Captação
           </h2>

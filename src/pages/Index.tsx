@@ -239,7 +239,7 @@ export default function Index() {
 
             {/* Mobile: CTA + urgency between headline and bullets */}
             <div className="lg:hidden pt-8 mb-8">
-              <GoldButton className="w-full" onClick={handleCheckoutClick}>
+              <GoldButton className="w-full" onClick={() => document.getElementById('oferta')?.scrollIntoView({ behavior: 'smooth' })}>
                 GARANTIR MINHA VAGA
                 <ArrowRight className="inline ml-2" size={18} />
               </GoldButton>
