@@ -142,6 +142,14 @@ export default function Index() {
               <p className="text-white font-black text-2xl sm:text-3xl uppercase leading-tight">
                 Programas de Incentivo<br />Federais
               </p>
+              {/* Mobile: Pedro Diniz photo + credibility */}
+              <div className="flex flex-col items-center pt-4 space-y-3">
+                <div className="relative w-72 h-72 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
+                  <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
+                </div>
+                <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
+                <span className="text-[#d4a853] text-xs font-semibold">+ de 50 milhões captados</span>
+              </div>
             </div>
 
             {/* Desktop: foto full com degradê */}
