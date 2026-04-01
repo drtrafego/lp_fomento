@@ -1,15 +1,13 @@
 
 
-# Adicionar barra de lote promocional abaixo do botão da Hero
+## Mover foto do Pedro Diniz para logo abaixo do banner headline no mobile
 
-## Alteração em `src/pages/Index.tsx` (após linha 259)
+O bloco da foto circular do Pedro Diniz com nome e "+ de 50 milhões captados" (linhas 234-241) será movido para aparecer logo após o banner "Como captar $ com Programas de Incentivo Federais" (após linha 145), dentro da mesma div mobile do headline.
 
-Adicionar o mesmo bloco de urgência/escassez que já existe na seção de oferta (`BelowFoldSections.tsx` linhas 792-809), logo após o `GoldButton` na hero. O bloco inclui:
+### Alteração em `src/pages/Index.tsx`
 
-- Linha "🔥 Ingressos vendidos à R$37" com "96%" à direita
-- Barra de progresso com gradiente verde→amarelo→vermelho
-- Texto "Restam poucas vagas — garanta a sua!"
-- Data dinâmica da virada de lote (dia atual)
+1. **Remover** o bloco "Mobile: Pedro Diniz photo + credibility" da posição atual (linhas 234-241)
+2. **Inserir** esse mesmo bloco logo após a tag `</p>` de "Programas de Incentivo Federais" (linha 144), ainda dentro da div `lg:hidden` do headline banner
 
-O código será uma cópia direta do bloco existente em `BelowFoldSections.tsx`, posicionado entre o `</GoldButton>` e o `</div>` que fecha a coluna de texto (linha 260), com `max-w-xs mx-auto lg:mx-0` para alinhar à esquerda no desktop.
+Isso fará a ordem no mobile ser: badge Workshop → headline → foto Pedro → h1 → bullets → CTA.
 
