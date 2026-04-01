@@ -38,7 +38,7 @@ function useUserState() {
 }
 
 function getWorkshopDate() {
-  return new Date(2026, 2, 31, 20, 0, 0); // 31/03/2026 às 20h
+  return new Date(2026, 3, 9, 20, 0, 0); // 09/04/2026 às 20h
 }
 
 function useCountdown() {
@@ -173,7 +173,7 @@ export default function Index() {
                     <div className="flex items-center gap-2 text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-3 py-1.5 animate-pulse">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
                       <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs sm:text-sm">HOJE · Terça-feira às 20h</span>
+                      <span className="text-xs sm:text-sm"><span className="text-xs sm:text-sm">HOJE · Quinta-feira às 20h</span></span>
                     </div>
                   );
                 }
@@ -182,7 +182,7 @@ export default function Index() {
                   <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
                     <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                     <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Terça-feira dia 31/03/26 às 20h` : `Terça-feira dia 31/03/26 às 20h`}</span>
+                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia 09/04/26 às 20h` : `Quinta-feira dia 09/04/26 às 20h`}</span>
                   </div>
                 );
               })()}
@@ -268,7 +268,7 @@ export default function Index() {
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
               <Clock size={14} className="text-[#d4a853]" />
-              Terça-feira às 20h · Online ao vivo
+              Quinta-feira às 20h · Online ao vivo
             </span>
             <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
