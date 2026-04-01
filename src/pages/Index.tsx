@@ -173,7 +173,7 @@ export default function Index() {
                     <div className="flex items-center gap-2 text-white font-bold border border-red-500/50 bg-red-500/10 rounded-full px-3 py-1.5 animate-pulse">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
                       <img src={zoomIcon} alt="Zoom" className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs sm:text-sm">HOJE · Terça-feira às 20h</span>
+                      <span className="text-xs sm:text-sm"><span className="text-xs sm:text-sm">HOJE · Quinta-feira às 20h</span></span>
                     </div>
                   );
                 }
