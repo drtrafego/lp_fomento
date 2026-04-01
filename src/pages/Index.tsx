@@ -182,7 +182,7 @@ export default function Index() {
                   <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
                     <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                     <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Terça-feira dia 31/03/26 às 20h` : `Terça-feira dia 31/03/26 às 20h`}</span>
+                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia 09/04/26 às 20h` : `Quinta-feira dia 09/04/26 às 20h`}</span>
                   </div>
                 );
               })()}
