@@ -38,7 +38,7 @@ function useUserState() {
 }
 
 function getWorkshopDate() {
-  return new Date(2026, 2, 31, 20, 0, 0); // 31/03/2026 às 20h
+  return new Date(2026, 3, 9, 20, 0, 0); // 09/04/2026 às 20h
 }
 
 function useCountdown() {
