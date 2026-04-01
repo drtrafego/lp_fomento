@@ -1,19 +1,15 @@
 
 
-## Atualizar data do Workshop para Quinta-feira 09/04/2026 às 20h
+## Alterar título da seção de aprendizado
 
-Trocar todas as referências de "Terça-feira dia 31/03" para "Quinta-feira dia 09/04" em dois arquivos.
+O usuário quer trocar o título atual "O que você vai aprender no WORKSHOP AO VIVO do Zero à Captação" pelo texto mostrado na imagem: "O que você precisa para estar apto aos programas de incentivo." com um ícone de clipboard/checklist acima.
 
-### Alterações
+### Alterações em `src/components/BelowFoldSections.tsx`
 
-**`src/pages/Index.tsx`**
-1. Linha 41: `getWorkshopDate()` → `new Date(2026, 3, 9, 20, 0, 0)` (abril = mês 3)
-2. Linha 176: "HOJE · Terça-feira às 20h" → "HOJE · Quinta-feira às 20h"
-3. Linha 185: "Terça-feira dia 31/03/26" → "Quinta-feira dia 09/04/26" (ambas ocorrências no ternário)
-4. Linha 271: "Terça-feira às 20h" → "Quinta-feira às 20h"
+1. **Linhas 250-256** — Substituir o bloco de título:
+   - Adicionar um ícone de clipboard (ClipboardCheck do Lucide) centralizado acima do texto, em verde-claro (#a3e635)
+   - Trocar o título para: `1️⃣ O que você precisa para estar apto aos programas de incentivo.` — com "O que você precisa" destacado em verde-claro/lima e o restante em branco
+   - Remover o subtítulo "Em apenas 1 hora ao vivo"
 
-**`src/components/BelowFoldSections.tsx`**
-1. Linha 38 (FAQ): "Terça-feira dia 31/03" → "Quinta-feira dia 09/04"
-2. Linha 741: "Terça-feira dia 31/03/26" → "Quinta-feira dia 09/04/26"
-3. Linha 896: "Terça-feira às 20h" → "Quinta-feira às 20h"
+2. **Import** — Adicionar `ClipboardCheck` ao import de lucide-react no topo do arquivo
 
