@@ -203,9 +203,9 @@ export default function Index() {
 
 
             <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
-              Em <span className="text-red-500">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
-              <span className="text-[#d4a853]">R$ 39 mil a R$ 400 mil</span>{" "}
-              para sua empresa ou ideia de negócio
+              Crie um plano para captar de{" "}
+              <span className="text-[#d4a853]">39 a 400 mil</span>{" "}
+              para seu negócio.
             </h1>
 
             <ul className="mt-8 lg:mt-0 space-y-2 md:space-y-3 text-sm sm:text-base md:text-lg text-white/80 text-left max-w-md mx-auto lg:mx-0">
