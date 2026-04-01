@@ -239,14 +239,6 @@ export default function Index() {
               </div>
             </div>
 
-            {/* Mobile: Pedro Diniz photo + credibility */}
-            <div className="lg:hidden flex flex-col items-center pt-6 space-y-3">
-              <div className="relative w-72 h-72 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
-                <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
-              </div>
-              <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
-              <span className="text-[#d4a853] text-xs font-semibold">+ de 50 milhões captados</span>
-            </div>
 
             {/* Desktop: CTA + urgency after bullets */}
             <div className="hidden lg:block">
