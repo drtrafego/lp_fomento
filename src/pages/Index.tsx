@@ -203,33 +203,6 @@ export default function Index() {
               })()}
             </div>
 
-            {/* Day countdown bar - only Tue/Wed/Thu */}
-            {dayCountdown.show && (
-              <div className="bg-[#0f1d32] border border-[#d4a853]/20 rounded-xl p-3 md:p-4 space-y-2 max-w-md mx-auto lg:mx-0">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/60 text-xs sm:text-sm">Workshop ao vivo</span>
-                  <span className={`font-bold text-xs sm:text-sm ${dayCountdown.progress === 100 ? "text-green-400" : "text-[#d4a853]"}`}>
-                    {dayCountdown.label}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-[#0a1628] rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-1000 ease-out"
-                    style={{
-                      width: `${dayCountdown.progress}%`,
-                      background: dayCountdown.progress === 100
-                        ? "linear-gradient(90deg, #d4a853, #22c55e)"
-                        : "linear-gradient(90deg, #d4a853, #e8c778)",
-                    }}
-                  />
-                </div>
-                <div className="flex justify-between text-[10px] text-white/30 uppercase">
-                  <span>Domingo</span>
-                  <span>Segunda</span>
-                  <span>Terça 20h</span>
-                </div>
-              </div>
-            )}
 
             <h1 className="text-[1.75rem] sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] sm:leading-[1.1] text-white" style={{ textWrap: "balance" as any }}>
               Em <span className="text-red-500">1h ao vivo</span>, eu vou te mostrar o passo a passo de como você vai captar de{" "}
