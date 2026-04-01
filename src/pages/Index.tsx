@@ -69,16 +69,6 @@ function useCountdown() {
   return timeLeft;
 }
 
-function useDayCountdown() {
-  const now = new Date();
-  const workshop = getWorkshopDate();
-  const diffMs = workshop.getTime() - now.getTime();
-  const diffDays = Math.ceil(diffMs / 86400000);
-  if (diffDays === 2) return { show: true, label: "Faltam 2 dias", progress: 33 };
-  if (diffDays === 1) return { show: true, label: "É amanhã!", progress: 66 };
-  if (diffDays <= 0 && diffDays > -1) return { show: true, label: "É HOJE!", progress: 100 };
-  return { show: false, label: "", progress: 0 };
-}
 
 const GoldButton = ({ children, className = "", showGuarantee = true, onClick }: { children: React.ReactNode; className?: string; showGuarantee?: boolean; onClick?: () => void }) => (
   <div className="flex flex-col items-center gap-2">
