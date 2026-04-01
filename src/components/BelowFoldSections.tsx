@@ -893,7 +893,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
             QUERO MINHA VAGA
             <ArrowRight className="inline ml-2" size={20} />
           </GoldButton>
-          <p className="text-white/40 text-xs">Terça-feira às 20h · AO VIVO no Zoom</p>
+          <p className="text-white/40 text-xs"><p className="text-white/40 text-xs">Quinta-feira às 20h · AO VIVO no Zoom</p></p>
         </div>
       </section>
     </>

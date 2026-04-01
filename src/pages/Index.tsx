@@ -268,7 +268,7 @@ export default function Index() {
           <div className="hidden sm:flex flex-col text-sm">
             <span className="text-white/70 font-semibold flex items-center gap-2">
               <Clock size={14} className="text-[#d4a853]" />
-              Terça-feira às 20h · Online ao vivo
+              Quinta-feira às 20h · Online ao vivo
             </span>
             <span className="text-white/40 text-xs">100% online e ao vivo no Zoom</span>
           </div>
