@@ -132,7 +132,7 @@ export default function Index() {
             {/* Mobile: headline banner */}
             {/* Mobile: Pedro Diniz photo + credibility */}
             <div className="lg:hidden flex flex-col items-center text-center py-4 space-y-3">
-              <div className="relative w-72 h-72 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
+              <div className="relative w-56 h-56 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
                 <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
               </div>
               <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
