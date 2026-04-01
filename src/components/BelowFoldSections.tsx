@@ -247,12 +247,11 @@ function WorkshopLearningSection() {
 
   return (
     <div ref={sectionRef} className="max-w-6xl mx-auto relative z-10">
-      <div className="text-center mb-14 space-y-3">
-        <p className="text-[#d4a853] font-semibold uppercase tracking-wider text-sm">Em apenas 1 hora ao vivo</p>
+      <div className="text-center mb-14 space-y-4">
+        <ClipboardCheck className="mx-auto" size={48} color="#a3e635" />
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
-          O que você vai aprender no{" "}
-          <span className="text-[#d4a853]">WORKSHOP AO VIVO</span>{" "}
-          do Zero à Captação
+          1️⃣ <span className="text-[#a3e635]">O que você precisa</span>{" "}
+          para estar apto aos programas de incentivo.
         </h2>
         <div className="flex items-center justify-center gap-2 mt-3">
           <div className="flex items-center gap-2 bg-[#2D8CFF]/15 border border-[#2D8CFF]/30 rounded-full px-4 py-1.5">
