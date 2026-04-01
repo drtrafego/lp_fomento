@@ -89,7 +89,7 @@ const GoldButton = ({ children, className = "", showGuarantee = true, onClick }:
 
 export default function Index() {
   const countdown = useCountdown();
-  const dayCountdown = useDayCountdown();
+  
   const { estado: userEstado, uf: userUf } = useUserState();
   const { trackPageView } = useMetaPixel();
   usePageAnalytics();
