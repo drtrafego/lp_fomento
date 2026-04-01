@@ -130,26 +130,13 @@ export default function Index() {
           {/* Coluna direita - Foto (aparece primeiro no mobile) */}
           <div className="order-first lg:order-last flex justify-center mb-6 lg:mb-0">
             {/* Mobile: headline banner */}
-            <div className="lg:hidden flex flex-col items-center text-center py-4 space-y-1">
-              <span className="bg-white text-[#0a1628] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-sm">Workshop</span>
-              <div className="flex items-center gap-3 mt-2">
-                <span className="text-2xl">🖥️</span>
-                <h2 className="text-white font-black text-xl sm:text-2xl uppercase leading-tight">
-                  Como captar <span className="text-[#d4a853]">$</span> com
-                </h2>
-                <span className="text-2xl">💰</span>
+            {/* Mobile: Pedro Diniz photo + credibility */}
+            <div className="lg:hidden flex flex-col items-center text-center py-4 space-y-3">
+              <div className="relative w-72 h-72 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
+                <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
               </div>
-              <p className="text-white font-black text-2xl sm:text-3xl uppercase leading-tight">
-                Programas de Incentivo<br />Federais
-              </p>
-              {/* Mobile: Pedro Diniz photo + credibility */}
-              <div className="flex flex-col items-center pt-4 space-y-3">
-                <div className="relative w-72 h-72 rounded-full overflow-hidden border-[3px] border-[#d4a853] shadow-[0_0_30px_rgba(212,168,83,0.35)]">
-                  <img src={pedroHeroImg} alt="Pedro Diniz" className="w-full h-full object-cover object-top" />
-                </div>
-                <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
-                <span className="text-[#d4a853] text-xs font-semibold">+ de 50 milhões captados</span>
-              </div>
+              <span className="text-white font-bold text-sm tracking-wide">PEDRO DINIZ</span>
+              <span className="text-[#d4a853] text-xs font-semibold">+ de 50 milhões captados</span>
             </div>
 
             {/* Desktop: foto full com degradê */}
