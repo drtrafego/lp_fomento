@@ -738,7 +738,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
             <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
               <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
               <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" loading="lazy" />
-              <span>Terça-feira dia 31/03/26 às 20h</span>
+              <span><span>Quinta-feira dia 09/04/26 às 20h</span></span>
             </div>
           </div>
           <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl overflow-hidden">
