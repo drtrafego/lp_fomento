@@ -127,7 +127,7 @@ export default function Index() {
       {/* ─── 2. HERO ─── */}
       <section ref={heroRef} data-section="Hero" className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
         {/* Mobile top headline */}
-        <p className="lg:hidden text-center text-sm sm:text-base text-white/70 font-medium mb-4 leading-relaxed">
+        <p className="lg:hidden text-center text-base text-white/70 font-semibold mb-6 leading-relaxed px-4">
           🖥️ Como captar Recursos 💰<br />
           com Programas de Incentivo<br />
           Federais
