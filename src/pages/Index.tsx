@@ -243,7 +243,7 @@ export default function Index() {
             {/* Desktop: CTA + urgency after bullets */}
             <div className="hidden lg:block">
               <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
-                GARANTIR MINHA VAGA
+                COMECE AGORA POR R$ 37,00
                 <ArrowRight className="inline ml-2" size={18} />
               </GoldButton>
               <div className="max-w-xs lg:mx-0 space-y-2 mt-2">
