@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
-import { CheckCircle, Clock, Users, Zap, Gift, Shield, AlertTriangle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
+import { CheckCircle, Clock, Users, Zap, Gift, Shield, AlertTriangle, ArrowRight, MessageCircle, MapPin, ClipboardCheck } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
