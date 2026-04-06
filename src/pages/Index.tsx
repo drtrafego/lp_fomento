@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import { useLocation } from "react-router-dom";
 import { useMetaPixel } from "@/hooks/useMetaPixel";
 import { useSectionTracking } from "@/hooks/useSectionTracking";
 import { usePageAnalytics } from "@/hooks/usePageAnalytics";
-import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
+import { buildCheckoutUrl, buildCheckoutUrl27 } from "@/lib/metaPixelUtils";
 
 import { CheckCircle, Clock, Shield, ArrowRight } from "lucide-react";
 
@@ -88,6 +89,9 @@ const GoldButton = ({ children, className = "", showGuarantee = true, onClick }:
 );
 
 export default function Index() {
+  const location = useLocation();
+  const isTicket27 = location.pathname === "/27";
+  const ticketPrice = isTicket27 ? "27" : "37";
   const countdown = useCountdown();
   
   const { estado: userEstado, uf: userUf } = useUserState();
@@ -119,8 +123,8 @@ export default function Index() {
 
   // Checkout handler with tracking
   const handleCheckoutClick = useCallback(() => {
-    window.open(buildCheckoutUrl(), "_blank");
-  }, []);
+    window.open(isTicket27 ? buildCheckoutUrl27() : buildCheckoutUrl(), "_blank");
+  }, [isTicket27]);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
@@ -214,12 +218,12 @@ export default function Index() {
             {/* Mobile: CTA + urgency */}
             <div className="lg:hidden pt-8 mb-8">
               <GoldButton className="w-full" onClick={() => document.getElementById('oferta')?.scrollIntoView({ behavior: 'smooth' })}>
-                COMECE AGORA POR R$ 37,00
+                COMECE AGORA POR R$ {ticketPrice},00
                 <ArrowRight className="inline ml-2" size={18} />
               </GoldButton>
               <div className="max-w-xs mx-auto space-y-2 mt-2">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                   <span className="text-white/60">🔥 Ingressos vendidos à R${ticketPrice}</span>
                   <span className="text-[#d4a853] font-bold">96%</span>
                 </div>
                 <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
@@ -236,12 +240,12 @@ export default function Index() {
             {/* Desktop: CTA + urgency after bullets */}
             <div className="hidden lg:block">
               <GoldButton className="w-full sm:w-auto" onClick={handleCheckoutClick}>
-                COMECE AGORA POR R$ 37,00
+                COMECE AGORA POR R$ {ticketPrice},00
                 <ArrowRight className="inline ml-2" size={18} />
               </GoldButton>
               <div className="max-w-xs lg:mx-0 space-y-2 mt-2">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                  <span className="text-white/60">🔥 Ingressos vendidos à R${ticketPrice}</span>
                   <span className="text-[#d4a853] font-bold">96%</span>
                 </div>
                 <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
@@ -265,6 +269,7 @@ export default function Index() {
           handleCheckoutClick={handleCheckoutClick}
           autoridadeRef={autoridadeRef}
           ofertaRef={ofertaRef}
+          ticketPrice={ticketPrice}
         />
       </Suspense>
 

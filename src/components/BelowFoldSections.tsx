@@ -538,9 +538,10 @@ interface BelowFoldProps {
   handleCheckoutClick: () => void;
   autoridadeRef: React.RefObject<HTMLElement>;
   ofertaRef: React.RefObject<HTMLElement>;
+  ticketPrice?: string;
 }
 
-export default function BelowFoldSections({ userEstado, userUf, handleCheckoutClick, autoridadeRef, ofertaRef }: BelowFoldProps) {
+export default function BelowFoldSections({ userEstado, userUf, handleCheckoutClick, autoridadeRef, ofertaRef, ticketPrice = "37" }: BelowFoldProps) {
   const counter = useAnimatedCounter(42);
 
   return (
@@ -777,7 +778,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                 <div className="relative animate-scale-in" style={{ filter: 'drop-shadow(0 0 25px rgba(212,168,83,0.35))' }}>
                   <div className="flex items-start justify-center">
                     <span className="text-[#d4a853] text-2xl sm:text-3xl font-extrabold mt-2 sm:mt-3 mr-1">R$</span>
-                    <span className="text-9xl sm:text-[10rem] font-black text-[#d4a853] leading-none tracking-tight">37</span>
+                    <span className="text-9xl sm:text-[10rem] font-black text-[#d4a853] leading-none tracking-tight">{ticketPrice}</span>
                     <span className="text-2xl sm:text-3xl font-bold text-[#d4a853] self-end mb-6 sm:mb-8">,00</span>
                   </div>
                   <p className="text-white/40 text-xs text-center -mt-1">pagamento único</p>
@@ -790,7 +791,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
                 {/* Barra de lote promocional */}
                 <div className="w-full max-w-xs space-y-2 mt-1">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                    <span className="text-white/60">🔥 Ingressos vendidos à R${ticketPrice}</span>
                     <span className="text-emerald-400 font-bold">96%</span>
                   </div>
                   <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden">
