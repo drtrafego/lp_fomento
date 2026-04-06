@@ -142,6 +142,29 @@ serve(async (req) => {
       if (PIXEL_ID && ACCESS_TOKEN) {
         try {
           const eventTime = Math.floor(Date.now() / 1000);
+
+          // Extract first_name and last_name from customer.name
+          const nameParts = (customer_name || "").trim().split(/\s+/);
+          const firstName = nameParts[0] || "";
+          const lastName = nameParts.slice(1).join(" ") || "";
+
+          // Get country from customer address if available
+          const customerAddress = customer.address || {};
+          const customerCountry = customerAddress.country || "";
+
+          // Build user_data with all available matching parameters
+          const purchaseUserData: Record<string, any> = {};
+          if (customer_email) purchaseUserData.em = [await sha256(customer_email.toLowerCase().trim())];
+          if (customer_phone) purchaseUserData.ph = [await sha256(customer_phone.replace(/\D/g, ""))];
+          if (firstName) purchaseUserData.fn = [await sha256(firstName.toLowerCase().trim())];
+          if (lastName) purchaseUserData.ln = [await sha256(lastName.toLowerCase().trim())];
+          if (customerCountry) purchaseUserData.country = [await sha256(customerCountry.toLowerCase().substring(0, 2))];
+          if (order_id) purchaseUserData.external_id = [await sha256(order_id)];
+          if (navigator.client_ip_address || navigator.ip_address) purchaseUserData.client_ip_address = navigator.client_ip_address || navigator.ip_address;
+          if (navigator.client_user_agent || navigator.user_agent) purchaseUserData.client_user_agent = navigator.client_user_agent || navigator.user_agent;
+          if (navigator.fbp && typeof navigator.fbp === "string" && navigator.fbp.startsWith("fb.")) purchaseUserData.fbp = navigator.fbp;
+          if (navigator.fbc && typeof navigator.fbc === "string" && navigator.fbc.startsWith("fb.")) purchaseUserData.fbc = navigator.fbc;
+
           const metaPayload = {
             data: [
               {
@@ -149,14 +172,7 @@ serve(async (req) => {
                 event_time: eventTime,
                 event_id: `purchase_${order_id}_${eventTime}`,
                 action_source: "website",
-                user_data: {
-                  em: customer_email ? [await sha256(customer_email.toLowerCase().trim())] : undefined,
-                  ph: customer_phone ? [await sha256(customer_phone.replace(/\D/g, ""))] : undefined,
-                  client_ip_address: navigator.ip_address || undefined,
-                  client_user_agent: navigator.user_agent || undefined,
-                  fbp: navigator.fbp || undefined,
-                  fbc: navigator.fbc || undefined,
-                },
+                user_data: purchaseUserData,
                 custom_data: {
                   currency: currency || "BRL",
                   value: amount ? Number(amount) : 0,
@@ -167,7 +183,7 @@ serve(async (req) => {
           };
 
           const metaResp = await fetch(
-            `https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
+            `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

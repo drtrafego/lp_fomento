@@ -50,6 +50,9 @@ export function getFbCookies(): { fbp: string; fbc: string } {
   if (!fbc && utms.fbclid) {
     fbc = `fb.1.${Date.now()}.${utms.fbclid}`;
   }
+  // Validate cookie formats per Meta docs
+  if (fbp && !fbp.startsWith("fb.")) fbp = "";
+  if (fbc && !fbc.startsWith("fb.")) fbc = "";
   return { fbp, fbc };
 }
 

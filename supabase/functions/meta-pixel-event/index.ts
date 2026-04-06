@@ -85,9 +85,9 @@ serve(async (req) => {
       client_ip_address: clientIp,
       client_user_agent: user_agent || req.headers.get("user-agent"),
     };
-    if (fbp && typeof fbp === "string" && fbp.trim()) user_data.fbp = fbp;
-    if (fbc && typeof fbc === "string" && fbc.trim()) user_data.fbc = fbc;
-    if (hashed_external_id) user_data.external_id = hashed_external_id;
+    if (fbp && typeof fbp === "string" && fbp.startsWith("fb.")) user_data.fbp = fbp;
+    if (fbc && typeof fbc === "string" && fbc.startsWith("fb.")) user_data.fbc = fbc;
+    if (hashed_external_id) user_data.external_id = [hashed_external_id];
     if (hashed_em) user_data.em = [hashed_em];
     if (hashed_ph) user_data.ph = [hashed_ph];
     if (hashed_fn) user_data.fn = [hashed_fn];
@@ -121,7 +121,7 @@ serve(async (req) => {
     if (PIXEL_ID && ACCESS_TOKEN) {
       try {
         const metaResp = await fetch(
-          `https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
+          `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
