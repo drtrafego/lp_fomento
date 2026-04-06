@@ -123,8 +123,8 @@ export default function Index() {
 
   // Checkout handler with tracking
   const handleCheckoutClick = useCallback(() => {
-    window.open(buildCheckoutUrl(), "_blank");
-  }, []);
+    window.open(isTicket27 ? buildCheckoutUrl27() : buildCheckoutUrl(), "_blank");
+  }, [isTicket27]);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">

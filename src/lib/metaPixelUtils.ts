@@ -135,21 +135,27 @@ export function markSectionViewed(sectionName: string): void {
 const CHECKOUT_BASE =
   "https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_b0i73d4ti6pb7tddgqks1z";
 
-export function buildCheckoutUrl(): string {
-  const utms = getStoredUtmParams();
-  const url = new URL(CHECKOUT_BASE);
+const CHECKOUT_BASE_27 =
+  "https://pay.zouti.com.br/checkout?poi=prod_offer_70nyutmszj3bzeqq86zvf4";
 
+function appendUtms(url: URL): URL {
+  const utms = getStoredUtmParams();
   if (utms.utm_source) url.searchParams.set("utm_source", utms.utm_source);
   if (utms.utm_medium) url.searchParams.set("utm_medium", utms.utm_medium);
   if (utms.utm_campaign) url.searchParams.set("utm_campaign", utms.utm_campaign);
   if (utms.utm_content) url.searchParams.set("utm_content", utms.utm_content);
   if (utms.utm_term) url.searchParams.set("utm_term", utms.utm_term);
-
-  // Greenn src parameter: source_medium_campaign
   const src = [utms.utm_source, utms.utm_medium, utms.utm_campaign]
     .filter(Boolean)
     .join("_");
   if (src) url.searchParams.set("src", src);
+  return url;
+}
 
-  return url.toString();
+export function buildCheckoutUrl(): string {
+  return appendUtms(new URL(CHECKOUT_BASE)).toString();
+}
+
+export function buildCheckoutUrl27(): string {
+  return appendUtms(new URL(CHECKOUT_BASE_27)).toString();
 }
