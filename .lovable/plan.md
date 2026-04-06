@@ -1,27 +1,15 @@
 
 
-## Plano: Remover eventos InitiateCheckout e Purchase do Lovable
+## Plano: Criar rota /27 como cópia da landing page
 
-Como esses eventos já são disparados pela Zouti no checkout, precisamos removê-los do código do Lovable para evitar duplicidade.
+### O que será feito
 
-### Alterações
+Adicionar uma rota `/27` no React Router que renderiza o mesmo componente `Index` da página principal. Isso permite testar o "ticket 27" acessando `workshop-fomento.lovable.app/27` ou `workshop-aovivo-fomento.com.br/27`.
 
-**1. `supabase/functions/meta-pixel-event/index.ts`**
-- Remover `"Purchase"` da lista `VALID_EVENTS` (linha 10), ficando apenas `["PageView", "ViewContent"]`
-- Isso faz com que qualquer tentativa de enviar Purchase por essa Edge Function retorne erro 400
+### Alteração
 
-**2. `supabase/functions/checkout-webhook/index.ts`**
-- Remover todo o bloco de disparo Meta CAPI para Purchase (linhas ~136-195) — o webhook continua salvando os dados no banco, mas não dispara mais o evento para a Meta (a Zouti já faz isso)
+**`src/App.tsx`**
+- Adicionar uma nova `<Route path="/27" element={<Index />} />` antes da rota catch-all `*`
 
-**3. `src/hooks/useMetaPixel.ts`**
-- Remover a função `trackPurchase` e o método `sendEvent("Purchase", ...)` 
-- Remover `trackPurchase` do retorno do hook
-- O hook passa a exportar apenas `{ trackPageView, trackViewContent }`
-
-**4. Deploy** das duas Edge Functions após as alterações
-
-### O que permanece
-- `PageView` e `ViewContent` continuam sendo disparados pelo Lovable (browser + servidor CAPI)
-- O webhook continua salvando eventos de checkout no banco (`checkout_events`) para o dashboard
-- InitiateCheckout e Purchase ficam 100% sob responsabilidade da Zouti
+Nenhuma outra alteração necessária — a mesma página será servida em ambas as rotas (`/` e `/27`), funcionando em mobile, tablet e desktop.
 
