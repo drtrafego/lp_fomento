@@ -7,7 +7,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const VALID_EVENTS = ["PageView", "ViewContent", "InitiateCheckout", "Purchase"];
+const VALID_EVENTS = ["PageView", "ViewContent", "Purchase"];
 
 async function sha256(value: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -85,8 +85,8 @@ serve(async (req) => {
       client_ip_address: clientIp,
       client_user_agent: user_agent || req.headers.get("user-agent"),
     };
-    if (fbp) user_data.fbp = fbp;
-    if (fbc) user_data.fbc = fbc;
+    if (fbp && typeof fbp === "string" && fbp.trim()) user_data.fbp = fbp;
+    if (fbc && typeof fbc === "string" && fbc.trim()) user_data.fbc = fbc;
     if (hashed_external_id) user_data.external_id = hashed_external_id;
     if (hashed_em) user_data.em = [hashed_em];
     if (hashed_ph) user_data.ph = [hashed_ph];
