@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import { useLocation } from "react-router-dom";
 import { useMetaPixel } from "@/hooks/useMetaPixel";
 import { useSectionTracking } from "@/hooks/useSectionTracking";
 import { usePageAnalytics } from "@/hooks/usePageAnalytics";
-import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
+import { buildCheckoutUrl, buildCheckoutUrl27 } from "@/lib/metaPixelUtils";
 
 import { CheckCircle, Clock, Shield, ArrowRight } from "lucide-react";
 
