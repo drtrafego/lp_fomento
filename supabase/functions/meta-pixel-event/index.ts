@@ -7,7 +7,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const VALID_EVENTS = ["PageView", "ViewContent", "Purchase"];
+const VALID_EVENTS = ["PageView", "ViewContent"];
 
 async function sha256(value: string): Promise<string> {
   const encoder = new TextEncoder();
