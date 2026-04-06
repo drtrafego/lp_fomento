@@ -269,6 +269,8 @@ export default function Index() {
           handleCheckoutClick={handleCheckoutClick}
           autoridadeRef={autoridadeRef}
           ofertaRef={ofertaRef}
+          ticketPrice={ticketPrice}
+        />
         />
       </Suspense>
 
