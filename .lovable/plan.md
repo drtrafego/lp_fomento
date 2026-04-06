@@ -1,15 +1,31 @@
 
 
-## Plano: Criar rota /27 como cópia da landing page
+## Plano: Ticket 27 — Trocar preço para R$ 27,00 e link de checkout
 
-### O que será feito
+### Resumo
+Transformar a rota `/27` numa variação da landing page com preço R$ 27,00 (em vez de R$ 37,00) e link de checkout diferente, propagando UTMs.
 
-Adicionar uma rota `/27` no React Router que renderiza o mesmo componente `Index` da página principal. Isso permite testar o "ticket 27" acessando `workshop-fomento.lovable.app/27` ou `workshop-aovivo-fomento.com.br/27`.
+### Alterações
 
-### Alteração
+**1. `src/lib/metaPixelUtils.ts`**
+- Criar nova função `buildCheckoutUrl27()` que usa a base `https://pay.zouti.com.br/checkout?poi=prod_offer_70nyutmszj3bzeqq86zvf4` e propaga UTMs + `src` da mesma forma que `buildCheckoutUrl()`
 
-**`src/App.tsx`**
-- Adicionar uma nova `<Route path="/27" element={<Index />} />` antes da rota catch-all `*`
+**2. `src/pages/Index.tsx`**
+- Detectar se a rota atual é `/27` (via `useLocation()`)
+- Quando for `/27`:
+  - `handleCheckoutClick` usa `buildCheckoutUrl27()` em vez de `buildCheckoutUrl()`
+  - Trocar todos os textos de "R$ 37,00" e "R$37" para "R$ 27,00" / "R$27" na Hero (botões CTA, barra de escassez)
+- Passar props `ticketPrice="27"` e o handler correto para `BelowFoldSections`
 
-Nenhuma outra alteração necessária — a mesma página será servida em ambas as rotas (`/` e `/27`), funcionando em mobile, tablet e desktop.
+**3. `src/components/BelowFoldSections.tsx`**
+- Receber nova prop `ticketPrice` (default `"37"`)
+- Substituir todas as referências hardcoded de "37" pelo valor dinâmico:
+  - Preço grande na seção de oferta: `37` → `{ticketPrice}`
+  - Textos "R$37" na barra de escassez → `R${ticketPrice}`
+  - Botão CTA "R$ 37,00" → `R$ {ticketPrice},00`
+
+### O que não muda
+- Textos de captação (39 a 400 mil, garantia, etc.) permanecem iguais
+- Rota `/` continua com R$ 37,00 e checkout original
+- UTMs são propagados igualmente em ambas as rotas
 
