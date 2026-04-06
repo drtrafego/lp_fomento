@@ -245,7 +245,7 @@ export default function Index() {
               </GoldButton>
               <div className="max-w-xs lg:mx-0 space-y-2 mt-2">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-white/60">🔥 Ingressos vendidos à R$37</span>
+                  <span className="text-white/60">🔥 Ingressos vendidos à R${ticketPrice}</span>
                   <span className="text-[#d4a853] font-bold">96%</span>
                 </div>
                 <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
