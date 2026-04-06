@@ -89,6 +89,9 @@ const GoldButton = ({ children, className = "", showGuarantee = true, onClick }:
 );
 
 export default function Index() {
+  const location = useLocation();
+  const isTicket27 = location.pathname === "/27";
+  const ticketPrice = isTicket27 ? "27" : "37";
   const countdown = useCountdown();
   
   const { estado: userEstado, uf: userUf } = useUserState();
