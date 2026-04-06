@@ -271,7 +271,6 @@ export default function Index() {
           ofertaRef={ofertaRef}
           ticketPrice={ticketPrice}
         />
-        />
       </Suspense>
 
       {/* ─── FIXED BOTTOM BAR — GLASSMORPHISM ─── */}
