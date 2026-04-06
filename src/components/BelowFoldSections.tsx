@@ -538,9 +538,10 @@ interface BelowFoldProps {
   handleCheckoutClick: () => void;
   autoridadeRef: React.RefObject<HTMLElement>;
   ofertaRef: React.RefObject<HTMLElement>;
+  ticketPrice?: string;
 }
 
-export default function BelowFoldSections({ userEstado, userUf, handleCheckoutClick, autoridadeRef, ofertaRef }: BelowFoldProps) {
+export default function BelowFoldSections({ userEstado, userUf, handleCheckoutClick, autoridadeRef, ofertaRef, ticketPrice = "37" }: BelowFoldProps) {
   const counter = useAnimatedCounter(42);
 
   return (
