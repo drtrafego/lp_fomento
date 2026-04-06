@@ -198,11 +198,5 @@ export function useMetaPixel() {
     [sendEvent]
   );
 
-  const trackPurchase = useCallback(
-    (userData: Record<string, any> = {}, purchaseData: Record<string, any> = {}) =>
-      sendEvent("Purchase", userData, purchaseData),
-    [sendEvent]
-  );
-
-  return { trackPageView, trackViewContent, trackPurchase };
+  return { trackPageView, trackViewContent };
 }
