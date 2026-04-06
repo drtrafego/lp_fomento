@@ -1,0 +1,1 @@
+ALTER TABLE public.checkout_events ADD CONSTRAINT checkout_events_order_id_event_type_key UNIQUE (order_id, event_type);
