@@ -133,6 +133,61 @@ serve(async (req) => {
       );
     }
 
+    // Fire Meta CAPI for InitiateCheckout on payment-pending events (pix_generated, boleto_generated, awaiting_payment)
+    const isInitiateCheckout = ["pix_generated", "boleto_generated", "awaiting_payment"].includes(event_type);
+    if (isInitiateCheckout) {
+      const PIXEL_ID = Deno.env.get("META_PIXEL_ID");
+      const ACCESS_TOKEN = Deno.env.get("META_ACCESS_TOKEN");
+      const navigator = body.navigator || {};
+
+      if (PIXEL_ID && ACCESS_TOKEN) {
+        try {
+          const eventTime = Math.floor(Date.now() / 1000);
+          const metaPayload = {
+            data: [
+              {
+                event_name: "InitiateCheckout",
+                event_time: eventTime,
+                event_id: `initcheckout_${order_id}_${eventTime}`,
+                action_source: "website",
+                user_data: {
+                  em: customer_email ? [await sha256(customer_email.toLowerCase().trim())] : undefined,
+                  ph: customer_phone ? [await sha256(customer_phone.replace(/\D/g, ""))] : undefined,
+                  fn: customer_name ? [await sha256(customer_name.split(" ")[0].toLowerCase().trim())] : undefined,
+                  ln: customer_name && customer_name.split(" ").length > 1
+                    ? [await sha256(customer_name.split(" ").slice(-1)[0].toLowerCase().trim())]
+                    : undefined,
+                  client_ip_address: navigator.ip_address || undefined,
+                  client_user_agent: navigator.user_agent || undefined,
+                  fbp: navigator.fbp || undefined,
+                  fbc: navigator.fbc || undefined,
+                  external_id: navigator.external_id ? [await sha256(navigator.external_id)] : undefined,
+                },
+                custom_data: {
+                  currency: currency || "BRL",
+                  value: amount ? Number(amount) : 0,
+                  content_type: "product",
+                },
+              },
+            ],
+          };
+
+          const metaResp = await fetch(
+            `https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(metaPayload),
+            }
+          );
+          const metaResult = await metaResp.json();
+          console.log("Meta CAPI InitiateCheckout response:", JSON.stringify(metaResult));
+        } catch (e) {
+          console.error("Meta CAPI InitiateCheckout error:", e);
+        }
+      }
+    }
+
     // Fire Meta CAPI for purchase events
     if (event_type === "purchase") {
       const PIXEL_ID = Deno.env.get("META_PIXEL_ID");
