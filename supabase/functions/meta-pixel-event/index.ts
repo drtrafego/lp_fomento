@@ -121,7 +121,7 @@ serve(async (req) => {
     if (PIXEL_ID && ACCESS_TOKEN) {
       try {
         const metaResp = await fetch(
-          `https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
+          `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
