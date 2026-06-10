@@ -7,7 +7,17 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const VALID_EVENTS = ["PageView", "ViewContent"];
+const VALID_EVENTS = [
+  "PageView",
+  "ViewContent",
+  "Lead",
+  "InitiateCheckout",
+  "Purchase",
+  "Contact",
+  "CompleteRegistration",
+  "AddToCart",
+  "Search",
+];
 
 async function sha256(value: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -56,6 +66,8 @@ serve(async (req) => {
       phone,
       first_name,
       last_name,
+      // Validação no Events Manager (Test Events)
+      test_event_code,
     } = body;
 
     if (!event_name || !VALID_EVENTS.includes(event_name)) {
@@ -99,7 +111,7 @@ serve(async (req) => {
 
     // Build Meta CAPI payload
     const eventTime = Math.floor(Date.now() / 1000);
-    const metaPayload = {
+    const metaPayload: Record<string, any> = {
       data: [
         {
           event_name,
@@ -112,6 +124,7 @@ serve(async (req) => {
         },
       ],
     };
+    if (test_event_code) metaPayload.test_event_code = test_event_code;
 
     // Send to Meta CAPI
     const PIXEL_ID = Deno.env.get("META_PIXEL_ID");
