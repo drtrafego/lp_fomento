@@ -12,6 +12,7 @@ const WorkshopMovimento = lazy(() => import("./pages/WorkshopMovimento.tsx"));
 const WorkshopClassico = lazy(() => import("./pages/WorkshopClassico.tsx"));
 const DiagnosticoMovimento = lazy(() => import("./pages/DiagnosticoMovimento.tsx"));
 const DiagnosticoClassico = lazy(() => import("./pages/DiagnosticoClassico.tsx"));
+const Quiz = lazy(() => import("./pages/Quiz.tsx"));
 
 const pageFallback = <div className="min-h-screen bg-[#0a1628]" />;
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/workshop-classico" element={<Suspense fallback={pageFallback}><WorkshopClassico /></Suspense>} />
           <Route path="/diagnostico-movimento" element={<Suspense fallback={pageFallback}><DiagnosticoMovimento /></Suspense>} />
           <Route path="/diagnostico-classico" element={<Suspense fallback={pageFallback}><DiagnosticoClassico /></Suspense>} />
+          <Route path="/quiz" element={<Suspense fallback={pageFallback}><Quiz /></Suspense>} />
           <Route path="/dashboard" element={<Suspense fallback={pageFallback}><Dashboard /></Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
