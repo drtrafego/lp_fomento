@@ -12,6 +12,21 @@ import {
 
 const PIXEL_ID = "1649493576054636";
 
+// Le o test_event_code da URL (?test_event_code=...) e persiste na sessao.
+// Permite validar os eventos no Events Manager > Test Events.
+function getTestEventCode(): string | undefined {
+  try {
+    const fromUrl = new URLSearchParams(window.location.search).get("test_event_code");
+    if (fromUrl) {
+      sessionStorage.setItem("meta_test_event_code", fromUrl);
+      return fromUrl;
+    }
+    return sessionStorage.getItem("meta_test_event_code") || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 // Envia o evento para o tracking server side no Vercel (/api/track).
 async function postTrack(body: Record<string, unknown>): Promise<void> {
   await fetch("/api/track", {
@@ -90,6 +105,7 @@ export function useMetaPixel() {
         utm_term: utms.utm_term || undefined,
         fbclid: utms.fbclid || undefined,
         custom_data: {},
+        test_event_code: getTestEventCode(),
       }).catch(console.error);
     }
   }, []);
@@ -182,6 +198,7 @@ export function useMetaPixel() {
           phone: userData.phone,
           first_name: userData.first_name,
           last_name: userData.last_name,
+          test_event_code: getTestEventCode(),
         });
       } catch (e) {
         console.error("Meta pixel event error:", e);
