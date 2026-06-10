@@ -1,5 +1,4 @@
 import { useEffect, useCallback, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import {
   getExternalId,
   generateEventId,
@@ -12,6 +11,16 @@ import {
 } from "@/lib/metaPixelUtils";
 
 const PIXEL_ID = "1649493576054636";
+
+// Envia o evento para o tracking server side no Vercel (/api/track).
+async function postTrack(body: Record<string, unknown>): Promise<void> {
+  await fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    keepalive: true,
+  });
+}
 
 declare global {
   interface Window {
@@ -60,29 +69,27 @@ export function useMetaPixel() {
         window.fbq("track", "PageView", {}, { eventID: eventId });
       }
 
-      supabase.functions.invoke("meta-pixel-event", {
-        body: {
-          event_name: "PageView",
-          event_id: eventId,
-          page_url: clientInfo.page_url,
-          page_title: clientInfo.page_title,
-          referrer: clientInfo.referrer,
-          user_agent: clientInfo.user_agent,
-          external_id: externalId,
-          fbp: fbp || undefined,
-          fbc: fbc || undefined,
-          country: location.country || undefined,
-          state: location.state || undefined,
-          city: location.city || undefined,
-          zip_code: location.zip_code || undefined,
-          utm_source: utms.utm_source || undefined,
-          utm_medium: utms.utm_medium || undefined,
-          utm_campaign: utms.utm_campaign || undefined,
-          utm_content: utms.utm_content || undefined,
-          utm_term: utms.utm_term || undefined,
-          fbclid: utms.fbclid || undefined,
-          custom_data: {},
-        },
+      postTrack({
+        event_name: "PageView",
+        event_id: eventId,
+        page_url: clientInfo.page_url,
+        page_title: clientInfo.page_title,
+        referrer: clientInfo.referrer,
+        user_agent: clientInfo.user_agent,
+        external_id: externalId,
+        fbp: fbp || undefined,
+        fbc: fbc || undefined,
+        country: location.country || undefined,
+        state: location.state || undefined,
+        city: location.city || undefined,
+        zip_code: location.zip_code || undefined,
+        utm_source: utms.utm_source || undefined,
+        utm_medium: utms.utm_medium || undefined,
+        utm_campaign: utms.utm_campaign || undefined,
+        utm_content: utms.utm_content || undefined,
+        utm_term: utms.utm_term || undefined,
+        fbclid: utms.fbclid || undefined,
+        custom_data: {},
       }).catch(console.error);
     }
   }, []);
@@ -103,10 +110,10 @@ export function useMetaPixel() {
       firePageViewIfReady();
     } else {
       const fetchLocation = () => {
-        supabase.functions
-          .invoke("get-user-location")
-          .then(({ data }) => {
-            if (data) {
+        fetch("/api/location")
+          .then((r) => r.json())
+          .then((data) => {
+            if (data && data.country) {
               locationRef.current = data;
               saveLocationData(data);
               initAdvancedMatching(data);
@@ -147,36 +154,34 @@ export function useMetaPixel() {
         window.fbq("track", eventName, customData, { eventID: eventId });
       }
 
-      // 2. Send to server-side CAPI via edge function
+      // 2. Send to server-side CAPI via Vercel function (/api/track)
       try {
-        await supabase.functions.invoke("meta-pixel-event", {
-          body: {
-            event_name: eventName,
-            event_id: eventId,
-            page_url: clientInfo.page_url,
-            page_title: clientInfo.page_title,
-            referrer: clientInfo.referrer,
-            user_agent: clientInfo.user_agent,
-            external_id: externalId,
-            fbp: fbp || undefined,
-            fbc: fbc || undefined,
-            country: location.country || undefined,
-            state: location.state || undefined,
-            city: location.city || undefined,
-            zip_code: location.zip_code || undefined,
-            utm_source: utms.utm_source || undefined,
-            utm_medium: utms.utm_medium || undefined,
-            utm_campaign: utms.utm_campaign || undefined,
-            utm_content: utms.utm_content || undefined,
-            utm_term: utms.utm_term || undefined,
-            fbclid: utms.fbclid || undefined,
-            custom_data: customData,
-            // PII (if provided)
-            email: userData.email,
-            phone: userData.phone,
-            first_name: userData.first_name,
-            last_name: userData.last_name,
-          },
+        await postTrack({
+          event_name: eventName,
+          event_id: eventId,
+          page_url: clientInfo.page_url,
+          page_title: clientInfo.page_title,
+          referrer: clientInfo.referrer,
+          user_agent: clientInfo.user_agent,
+          external_id: externalId,
+          fbp: fbp || undefined,
+          fbc: fbc || undefined,
+          country: location.country || undefined,
+          state: location.state || undefined,
+          city: location.city || undefined,
+          zip_code: location.zip_code || undefined,
+          utm_source: utms.utm_source || undefined,
+          utm_medium: utms.utm_medium || undefined,
+          utm_campaign: utms.utm_campaign || undefined,
+          utm_content: utms.utm_content || undefined,
+          utm_term: utms.utm_term || undefined,
+          fbclid: utms.fbclid || undefined,
+          custom_data: customData,
+          // PII (if provided)
+          email: userData.email,
+          phone: userData.phone,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
         });
       } catch (e) {
         console.error("Meta pixel event error:", e);
