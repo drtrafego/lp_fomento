@@ -8,6 +8,12 @@ import NotFound from "./pages/NotFound.tsx";
 import { lazy, Suspense } from "react";
 
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const WorkshopMovimento = lazy(() => import("./pages/WorkshopMovimento.tsx"));
+const WorkshopClassico = lazy(() => import("./pages/WorkshopClassico.tsx"));
+const DiagnosticoMovimento = lazy(() => import("./pages/DiagnosticoMovimento.tsx"));
+const DiagnosticoClassico = lazy(() => import("./pages/DiagnosticoClassico.tsx"));
+
+const pageFallback = <div className="min-h-screen bg-[#0a1628]" />;
 
 const queryClient = new QueryClient();
 
@@ -20,7 +26,11 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/27" element={<Index />} />
-          <Route path="/dashboard" element={<Suspense fallback={<div className="min-h-screen bg-[#0a1628]" />}><Dashboard /></Suspense>} />
+          <Route path="/workshop-movimento" element={<Suspense fallback={pageFallback}><WorkshopMovimento /></Suspense>} />
+          <Route path="/workshop-classico" element={<Suspense fallback={pageFallback}><WorkshopClassico /></Suspense>} />
+          <Route path="/diagnostico-movimento" element={<Suspense fallback={pageFallback}><DiagnosticoMovimento /></Suspense>} />
+          <Route path="/diagnostico-classico" element={<Suspense fallback={pageFallback}><DiagnosticoClassico /></Suspense>} />
+          <Route path="/dashboard" element={<Suspense fallback={pageFallback}><Dashboard /></Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

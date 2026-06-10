@@ -198,5 +198,17 @@ export function useMetaPixel() {
     [sendEvent]
   );
 
-  return { trackPageView, trackViewContent };
+  const trackLead = useCallback(
+    (customData: Record<string, any> = {}, userData: Record<string, any> = {}) =>
+      sendEvent("Lead", userData, customData),
+    [sendEvent]
+  );
+
+  const trackInitiateCheckout = useCallback(
+    (customData: Record<string, any> = {}, userData: Record<string, any> = {}) =>
+      sendEvent("InitiateCheckout", userData, customData),
+    [sendEvent]
+  );
+
+  return { trackPageView, trackViewContent, trackLead, trackInitiateCheckout };
 }
