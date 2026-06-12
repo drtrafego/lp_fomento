@@ -133,7 +133,7 @@ export function markSectionViewed(sectionName: string): void {
 
 // ─── Checkout URL Builder ───
 const CHECKOUT_BASE =
-  "https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_b0i73d4ti6pb7tddgqks1z";
+  "https://pay.zouti.com.br/checkout?poi=prod_offer_b0i73d4ti6pb7tddgqks1z";
 
 const CHECKOUT_BASE_27 =
   "https://pay.zouti.com.br/checkout?poi=prod_offer_70nyutmszj3bzeqq86zvf4";
