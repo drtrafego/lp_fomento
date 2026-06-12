@@ -33,6 +33,10 @@
     --sidebar-border: 216 30% 20%;
     --sidebar-ring: 40 55% 58%;
   }
+  .theme {
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  }
 }
 
 @layer base {
@@ -141,3 +145,73 @@
   100% { background-position: -200% 0; }
 }
 
+/* ─── Tokens de design da LP Dunas (/dunas) ─── */
+:root {
+  --color-void: #060d1a;
+  --color-deep: #0a1628;
+  --color-surface-1: #0f1f3d;
+  --color-surface-2: #162847;
+  --color-surface-3: #1e3358;
+
+  --color-gold-dim: #8a6830;
+  --color-gold-muted: #b88a3f;
+  --color-gold: #d4a853;
+  --color-gold-bright: #e8c070;
+  --color-gold-light: #f5d98a;
+  --color-gold-halo: #d4a85318;
+
+  --color-text-primary: #f0e6d0;
+  --color-text-secondary: #a89880;
+  --color-text-muted: #6b7280;
+  --color-text-inverse: #060d1a;
+
+  --color-accent-teal: #2dd4bf;
+
+  --gradient-flow: linear-gradient(135deg, #d4a853 0%, #e8c070 40%, #d4a853 70%, #b88a3f 100%);
+  --gradient-hero-bg: radial-gradient(ellipse 80% 60% at 50% 0%, #162847 0%, #060d1a 70%);
+  --gradient-surface: linear-gradient(180deg, #162847 0%, #0f1f3d 100%);
+  --gradient-cta: linear-gradient(135deg, #d4a853 0%, #f5d98a 50%, #d4a853 100%);
+  --gradient-glow-h: radial-gradient(ellipse 40% 30% at 50% 50%, #d4a85340 0%, transparent 70%);
+}
+
+/* Tipografia da LP Dunas */
+.font-serif-dunas {
+  font-family: "Instrument Serif", Georgia, serif;
+}
+.font-sans-dunas {
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+/* Número herói (Instrument Serif italic com glow dourado) */
+.dunas-hero-number {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  color: var(--color-gold-light);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 40px #d4a85340, 0 0 80px #d4a85320;
+}
+
+/* Marquee compatível com Tailwind v3 (usado nos depoimentos /dunas) */
+@keyframes dunas-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--dunas-gap, 1.5rem))); }
+}
+.dunas-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--dunas-gap, 1.5rem);
+  animation: dunas-marquee var(--dunas-duration, 60s) linear infinite;
+}
+.dunas-marquee-wrap:hover .dunas-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Linha dourada que se desenha (como funciona) */
+.dunas-draw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dunas-marquee-track { animation: none; }
+}

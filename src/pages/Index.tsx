@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useMetaPixel } from "@/hooks/useMetaPixel";
 import { useSectionTracking } from "@/hooks/useSectionTracking";
 import { usePageAnalytics } from "@/hooks/usePageAnalytics";
+import { getWorkshopDate, useCountdown } from "@/hooks/useWorkshopBits";
 import { buildCheckoutUrl, buildCheckoutUrl27 } from "@/lib/metaPixelUtils";
 
 import { CheckCircle, Clock, Shield, ArrowRight } from "lucide-react";
@@ -38,39 +39,6 @@ function useUserState() {
   return { estado, uf };
 }
 
-function getWorkshopDate() {
-  return new Date(2026, 3, 9, 20, 0, 0); // 09/04/2026 às 20h
-}
-
-function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  useEffect(() => {
-    const target = getWorkshopDate();
-    const tick = () => {
-      const diff = target.getTime() - Date.now();
-      if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      setTimeLeft({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-    tick();
-    let rafId: number;
-    let lastSecond = -1;
-    const loop = () => {
-      const sec = Math.floor(Date.now() / 1000);
-      if (sec !== lastSecond) { lastSecond = sec; tick(); }
-      rafId = requestAnimationFrame(loop);
-    };
-    rafId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
-  return timeLeft;
-}
-
-
 const GoldButton = ({ children, className = "", showGuarantee = true, onClick }: { children: React.ReactNode; className?: string; showGuarantee?: boolean; onClick?: () => void }) => (
   <div className="flex flex-col items-center gap-2">
     <button
@@ -93,7 +61,9 @@ export default function Index() {
   const isTicket27 = location.pathname === "/27";
   const ticketPrice = isTicket27 ? "27" : "37";
   const countdown = useCountdown();
-  
+  const workshopDate = getWorkshopDate();
+  const dateLabel = `${String(workshopDate.getDate()).padStart(2, "0")}/${String(workshopDate.getMonth() + 1).padStart(2, "0")}/${String(workshopDate.getFullYear()).slice(2)}`;
+
   const { estado: userEstado, uf: userUf } = useUserState();
   const { trackPageView } = useMetaPixel();
   usePageAnalytics();
@@ -192,7 +162,7 @@ export default function Index() {
                   <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
                     <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                     <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" />
-                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia 09/04/26 às 20h` : `Quinta-feira dia 09/04/26 às 20h`}</span>
+                    <span>{isTomorrow ? `Amanhã · Quinta-feira dia ${dateLabel} às 20h` : `Quinta-feira dia ${dateLabel} às 20h`}</span>
                   </div>
                 );
               })()}

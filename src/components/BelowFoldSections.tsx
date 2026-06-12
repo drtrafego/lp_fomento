@@ -20,6 +20,12 @@ import autoridadeImg from "@/assets/pedro-palco.webp";
 import pedroZoomInline from "@/assets/pedro-zoom-inline.webp";
 import { ScrollTypewriter, useSequentialBulletProgress } from "@/components/ScrollTypewriter";
 import { throttle } from "@/lib/throttle";
+import { getWorkshopDate } from "@/hooks/useWorkshopBits";
+
+// Data do workshop derivada da fonte única (useWorkshopBits).
+const workshopDate = getWorkshopDate();
+const dateShort = `${String(workshopDate.getDate()).padStart(2, "0")}/${String(workshopDate.getMonth() + 1).padStart(2, "0")}`;
+const dateLabel = `${dateShort}/${String(workshopDate.getFullYear()).slice(2)}`;
 
 const VideoTestimonials = lazy(() => import("@/components/VideoTestimonials").then(m => ({ default: m.VideoTestimonials })));
 
@@ -35,7 +41,7 @@ const faqItems = [
   { q: "Qual é a Taxa de Juros?", a: "Não é empréstimo, portanto você não pagará nenhum centavo de juros. Os programas de incentivo não cobram juros nem exigem a devolução do valor liberado." },
   { q: "É apenas para empresas grandes?", a: "Não. Existem diversos programas de incentivo para micro e pequenas empresas. Ou até mesmo para ideias que ainda nem se tornaram negócios." },
   { q: "Existe dinheiro de graça para financiar minha empresa ou ideia?", a: "Existem mais de 40 Programas de Incentivo para todo tipo de ideia e negócio. Diversos destes não cobram juros e nem exigem devolução do valor liberado." },
-  { q: "Quando será o Workshop?", a: "Quinta-feira dia 09/04 às 20h, AO VIVO no ZOOM. Você receberá o acesso assim que se inscrever." },
+  { q: "Quando será o Workshop?", a: `Quinta-feira dia ${dateShort} às 20h, AO VIVO no ZOOM. Você receberá o acesso assim que se inscrever.` },
   { q: "O Workshop ficará gravado?", a: "Sim, você terá a possibilidade de obter a gravação." },
   { q: "E se eu não gostar, posso pedir reembolso?", a: "Sim. Você pode assistir o workshop, baixar os materiais, e se mesmo assim achar que não valeu a pena, tem 30 dias de garantia total para solicitar 100% do valor pago." },
 ];
@@ -738,7 +744,7 @@ export default function BelowFoldSections({ userEstado, userUf, handleCheckoutCl
             <div className="flex items-center gap-2.5 text-sm sm:text-base text-white/50">
               <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
               <img src={zoomIcon} alt="Zoom" className="w-6 h-6 rounded-full object-cover" loading="lazy" />
-              <span><span>Quinta-feira dia 09/04/26 às 20h</span></span>
+              <span><span>Quinta-feira dia {dateLabel} às 20h</span></span>
             </div>
           </div>
           <div className="bg-[#0f1d32] border-2 border-[#d4a853]/30 rounded-3xl overflow-hidden">

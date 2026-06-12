@@ -1,0 +1,11 @@
+export { CredibilidadeBar } from "./CredibilidadeBar";
+export { ProblemaSection } from "./ProblemaSection";
+export { SolucaoSection } from "./SolucaoSection";
+export { BulletsSection } from "./BulletsSection";
+export { ComoFuncionaSection } from "./ComoFuncionaSection";
+export { ProvaSection } from "./ProvaSection";
+export { OfertaSection } from "./OfertaSection";
+export { FaqSection } from "./FaqSection";
+export { CtaFinalSection } from "./CtaFinalSection";
+export { EventoBar } from "./EventoBar";
+export { CtaButton } from "./CtaButton";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Data do workshop (mantida em sincronia com a página principal)
 export function getWorkshopDate() {
-  return new Date(2026, 3, 9, 20, 0, 0); // 09/04/2026 às 20h
+  return new Date(2026, 5, 18, 20, 0, 0); // 18/06/2026 às 20h
 }
 
 // Detecta o estado/UF do visitante (geo IP) sem bloquear o LCP.
