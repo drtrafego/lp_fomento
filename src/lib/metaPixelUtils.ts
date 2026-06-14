@@ -145,6 +145,13 @@ function appendUtms(url: URL): URL {
   if (utms.utm_campaign) url.searchParams.set("utm_campaign", utms.utm_campaign);
   if (utms.utm_content) url.searchParams.set("utm_content", utms.utm_content);
   if (utms.utm_term) url.searchParams.set("utm_term", utms.utm_term);
+  // Propaga o identificador de clique do anuncio para o checkout (dominio externo).
+  // Sem isso o fbc/fbclid se perde na troca de dominio e a plataforma dispara o
+  // Purchase sem fbc, fazendo a Meta nao atribuir a venda ao anuncio (subreporte).
+  const { fbc, fbp } = getFbCookies();
+  if (utms.fbclid) url.searchParams.set("fbclid", utms.fbclid);
+  if (fbc) url.searchParams.set("fbc", fbc);
+  if (fbp) url.searchParams.set("fbp", fbp);
   const src = [utms.utm_source, utms.utm_medium, utms.utm_campaign]
     .filter(Boolean)
     .join("_");
