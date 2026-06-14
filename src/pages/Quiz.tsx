@@ -85,9 +85,14 @@ export default function Quiz() {
   );
 
   const handleResultCta = useCallback(() => {
-    trackInitiateCheckout({ content_name: "Workshop", value: 37, currency: "BRL" });
+    // Reaproveita o lead ja capturado (nome, email, whatsapp) para elevar o EMQ
+    // do InitiateCheckout. Sem isso o evento sai sem PII e a nota cai no Meta.
+    trackInitiateCheckout(
+      { content_name: "Workshop", value: 37, currency: "BRL" },
+      { first_name: lead.name.trim(), email: lead.email.trim(), phone: lead.whatsapp }
+    );
     window.open(buildCheckoutUrl(), "_blank");
-  }, [trackInitiateCheckout]);
+  }, [trackInitiateCheckout, lead]);
 
   const result = useMemo(() => getResult(score), [score]);
   const progress = stage === "quiz" ? ((current + 1) / quizQuestions.length) * 100 : 0;
