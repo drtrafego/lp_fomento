@@ -6,6 +6,7 @@ import { useSectionTracking } from "@/hooks/useSectionTracking";
 import { usePageAnalytics } from "@/hooks/usePageAnalytics";
 import { useUserState, getWorkshopDate } from "@/hooks/useWorkshopBits";
 import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
+import CheckoutLeadModal from "@/components/CheckoutLeadModal";
 
 import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.webp";
 import pedroHeroImg from "@/assets/pedro-hero.webp";
@@ -17,11 +18,12 @@ const BelowFoldSections = lazy(() => import("@/components/BelowFoldSections"));
 // Hero limpo, tipografia e grid editorial. Miolo de copy reaproveitado.
 export default function WorkshopClassico() {
   const { estado: userEstado, uf: userUf } = useUserState();
-  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
   const heroRef = useRef<HTMLElement>(null);
   const [showBottomBar, setShowBottomBar] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
@@ -42,9 +44,8 @@ export default function WorkshopClassico() {
   }, []);
 
   const handleCheckoutClick = useCallback(() => {
-    trackInitiateCheckout({ content_name: "Workshop", value: 37, currency: "BRL" });
-    window.open(buildCheckoutUrl(), "_blank");
-  }, [trackInitiateCheckout]);
+    setCheckoutOpen(true);
+  }, []);
 
   const workshop = getWorkshopDate();
   const dateLabel = `${String(workshop.getDate()).padStart(2, "0")}/${String(workshop.getMonth() + 1).padStart(2, "0")}/${String(workshop.getFullYear()).slice(2)}`;
@@ -146,6 +147,15 @@ export default function WorkshopClassico() {
         </div>
       </div>
       <div className="h-16" />
+
+      <CheckoutLeadModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        checkoutUrl={buildCheckoutUrl()}
+        contentName="Workshop"
+        value={37}
+        currency="BRL"
+      />
     </div>
   );
 }

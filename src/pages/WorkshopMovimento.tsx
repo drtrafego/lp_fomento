@@ -12,6 +12,7 @@ import { useUserState, useCountdown, getWorkshopDate } from "@/hooks/useWorkshop
 import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
 import { ParticleField } from "@/components/cinematic/ParticleField";
 import { CountUp } from "@/components/cinematic/CountUp";
+import CheckoutLeadModal from "@/components/CheckoutLeadModal";
 
 import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.webp";
 import pedroHeroImg from "@/assets/pedro-hero.webp";
@@ -24,12 +25,13 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export default function WorkshopMovimento() {
   useLenis(true);
   const { estado: userEstado, uf: userUf } = useUserState();
-  const { trackPageView, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView } = useMetaPixel();
   usePageAnalytics();
 
   const root = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [showBottomBar, setShowBottomBar] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
@@ -50,9 +52,8 @@ export default function WorkshopMovimento() {
   }, []);
 
   const handleCheckoutClick = useCallback(() => {
-    trackInitiateCheckout({ content_name: "Workshop", value: 37, currency: "BRL" });
-    window.open(buildCheckoutUrl(), "_blank");
-  }, [trackInitiateCheckout]);
+    setCheckoutOpen(true);
+  }, []);
 
   useGSAP(
     () => {
@@ -186,6 +187,15 @@ export default function WorkshopMovimento() {
         </div>
       </div>
       <div className="h-16" />
+
+      <CheckoutLeadModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        checkoutUrl={buildCheckoutUrl()}
+        contentName="Workshop"
+        value={37}
+        currency="BRL"
+      />
     </div>
   );
 }

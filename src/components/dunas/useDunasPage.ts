@@ -20,20 +20,21 @@ function buildQuizUrl(): string {
 // container e o handler de CTA.
 export function useDunasPage() {
   useLenis(true);
-  const { trackPageView, trackLead, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView } = useMetaPixel();
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     trackPageView();
   }, [trackPageView]);
 
+  // O CTA das /dunas apenas navega para o /quiz (que captura o lead e dispara
+  // Lead + InitiateCheckout COM PII, com EMQ alto). Disparar esses eventos aqui,
+  // sem nenhum dado da pessoa, so rebaixava a nota de correspondencia no Meta.
   const handleCta = useCallback(
-    (local: string) => {
-      trackLead({ content_name: "Diagnostico", content_category: "Dunas Capital" });
-      trackInitiateCheckout({ content_name: "Diagnostico Dunas", content_category: local });
+    (_local: string) => {
       window.location.href = buildQuizUrl();
     },
-    [trackLead, trackInitiateCheckout],
+    [],
   );
 
   useGSAP(
