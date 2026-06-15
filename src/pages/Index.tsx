@@ -5,7 +5,6 @@ import { useSectionTracking } from "@/hooks/useSectionTracking";
 import { usePageAnalytics } from "@/hooks/usePageAnalytics";
 import { getWorkshopDate, useCountdown } from "@/hooks/useWorkshopBits";
 import { buildCheckoutUrl, buildCheckoutUrl27 } from "@/lib/metaPixelUtils";
-import CheckoutLeadModal from "@/components/CheckoutLeadModal";
 
 import { CheckCircle, Clock, Shield, ArrowRight } from "lucide-react";
 
@@ -71,7 +70,6 @@ export default function Index() {
 
   const heroRef = useRef<HTMLElement>(null);
   const [showBottomBar, setShowBottomBar] = useState(false);
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const el = heroRef.current;
@@ -93,19 +91,14 @@ export default function Index() {
     trackPageView();
   }, [trackPageView]);
 
-  // Abre o modal de captura; o InitiateCheckout (com PII) e o checkout saem de la
+  // A Zouti (API de Conversoes) e a dona do InitiateCheckout e do Purchase.
+  // O site so abre o checkout; nao dispara IC pra nao duplicar com a Zouti.
   const handleCheckoutClick = useCallback(() => {
-    setCheckoutOpen(true);
-  }, []);
+    window.open(isTicket27 ? buildCheckoutUrl27() : buildCheckoutUrl(), "_blank");
+  }, [isTicket27]);
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white overflow-x-hidden">
-      <CheckoutLeadModal
-        open={checkoutOpen}
-        onClose={() => setCheckoutOpen(false)}
-        checkoutUrl={isTicket27 ? buildCheckoutUrl27() : buildCheckoutUrl()}
-        value={isTicket27 ? 27 : 37}
-      />
       {/* ─── 2. HERO ─── */}
       <section ref={heroRef} data-section="Hero" className="relative bg-[#0a1628] pt-8 pb-10 md:pt-12 md:pb-24 px-4">
         {/* Mobile top headline */}

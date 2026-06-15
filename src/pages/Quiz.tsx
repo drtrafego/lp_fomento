@@ -20,7 +20,7 @@ const BG = "hsl(222 47% 6%)";
 type Stage = "intro" | "quiz" | "loading" | "lead" | "result";
 
 export default function Quiz() {
-  const { trackPageView, trackLead, trackInitiateCheckout } = useMetaPixel();
+  const { trackPageView, trackLead } = useMetaPixel();
   usePageAnalytics();
 
   const [stage, setStage] = useState<Stage>("intro");
@@ -85,14 +85,11 @@ export default function Quiz() {
   );
 
   const handleResultCta = useCallback(() => {
-    // Reaproveita o lead ja capturado (nome, email, whatsapp) para elevar o EMQ
-    // do InitiateCheckout. Sem isso o evento sai sem PII e a nota cai no Meta.
-    trackInitiateCheckout(
-      { content_name: "Workshop", value: 37, currency: "BRL" },
-      { first_name: lead.name.trim(), email: lead.email.trim(), phone: lead.whatsapp }
-    );
+    // A Zouti (API de Conversoes) dispara o InitiateCheckout e o Purchase.
+    // Aqui so abrimos o checkout pra nao duplicar o IC. O Lead ja foi enviado
+    // com PII na etapa de captura (submitLead).
     window.open(buildCheckoutUrl(), "_blank");
-  }, [trackInitiateCheckout, lead]);
+  }, []);
 
   const result = useMemo(() => getResult(score), [score]);
   const progress = stage === "quiz" ? ((current + 1) / quizQuestions.length) * 100 : 0;

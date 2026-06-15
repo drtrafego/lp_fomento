@@ -12,7 +12,6 @@ import { useUserState, useCountdown, getWorkshopDate } from "@/hooks/useWorkshop
 import { buildCheckoutUrl } from "@/lib/metaPixelUtils";
 import { ParticleField } from "@/components/cinematic/ParticleField";
 import { CountUp } from "@/components/cinematic/CountUp";
-import CheckoutLeadModal from "@/components/CheckoutLeadModal";
 
 import pedroPalcoDesktop from "@/assets/pedro-palco-desktop.webp";
 import pedroHeroImg from "@/assets/pedro-hero.webp";
@@ -31,7 +30,6 @@ export default function WorkshopMovimento() {
   const root = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [showBottomBar, setShowBottomBar] = useState(false);
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const autoridadeRef = useSectionTracking({ sectionName: "Autoridade" });
   const ofertaRef = useSectionTracking({ sectionName: "Oferta" });
@@ -51,8 +49,10 @@ export default function WorkshopMovimento() {
     return () => observer.disconnect();
   }, []);
 
+  // A Zouti (API de Conversoes) e a dona do InitiateCheckout e do Purchase.
+  // O site so abre o checkout; nao dispara IC pra nao duplicar com a Zouti.
   const handleCheckoutClick = useCallback(() => {
-    setCheckoutOpen(true);
+    window.open(buildCheckoutUrl(), "_blank");
   }, []);
 
   useGSAP(
@@ -187,15 +187,6 @@ export default function WorkshopMovimento() {
         </div>
       </div>
       <div className="h-16" />
-
-      <CheckoutLeadModal
-        open={checkoutOpen}
-        onClose={() => setCheckoutOpen(false)}
-        checkoutUrl={buildCheckoutUrl()}
-        contentName="Workshop"
-        value={37}
-        currency="BRL"
-      />
     </div>
   );
 }
